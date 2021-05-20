@@ -1,23 +1,16 @@
 <?php
 
+use App\Http\Controllers\Admin\DocumentController;
+use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\TeamController;
+use App\Http\Controllers\UploadController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return Inertia::render('Site/Home', [
@@ -28,12 +21,13 @@ Route::get('/', function () {
 Route::get('/news', [\App\Http\Controllers\Site\NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{news:slug}', [\App\Http\Controllers\Site\NewsController::class, 'show'])->name('news.show');
 
-Route::get('/events', function () {
-    return Inertia::render('Site/');
-})->name('events');
+Route::get('/events', [\App\Http\Controllers\Site\EventController::class, 'index'])->name('events.index');
+Route::get('/events/{event:slug}', [\App\Http\Controllers\Site\EventController::class, 'show'])->name('events.show');
 
 Route::get('/documents', function () {
-    return Inertia::render('Site/');
+    return Inertia::render('Site/Documents', [
+        'documents' => \App\Models\Document::all()
+    ]);
 })->name('documents');
 
 Route::get('/teams', [\App\Http\Controllers\Site\TeamController::class, 'index'])->name('teams');
@@ -64,7 +58,7 @@ Route::get('/association', function () {
 })->name('association');
 
 //admin
-Route::middleware(['auth:sanctum', 'verified'])
+Route::middleware(['auth:sanctum', 'verified', 'role:admin'])
     ->prefix('admin')
     ->name('admin:')
     ->group(function () {
@@ -80,12 +74,25 @@ Route::middleware(['auth:sanctum', 'verified'])
     Route::resource('news', NewsController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
 
     //events
-    Route::get('events', [UsersController::class, 'index'])->name('events.index');
+    Route::resource('events', EventController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
+
+    //locations
+    Route::resource('locations', LocationController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
 
     //teams
     Route::resource('teams', TeamController::class)->only('index', 'create', 'store', 'edit', 'update');
+
+    //files
+    Route::resource('documents', DocumentController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
 
     //pages
     Route::resource('pages', PageController::class)->only('index', 'edit', 'update');
 
 });
+
+//Filepond
+Route::post('process', [UploadController::class, 'store']);
+Route::delete('revert', [UploadController::class, 'destroy']);
+
+//jetstream routes
+require_once __DIR__ . '/jetstream.php';

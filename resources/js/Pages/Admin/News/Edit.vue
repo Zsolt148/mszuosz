@@ -1,7 +1,7 @@
 <template>
     <admin-layout>
         <template #header>
-            Hírek szerkesztése
+            Hír szerkesztése
         </template>
 
         <h1 class="mb-8 font-bold text-3xl">
@@ -11,7 +11,7 @@
         </h1>
 
         <div class="bg-white rounded-md shadow overflow-hidden">
-            <form @submit.prevent="store">
+            <form @submit.prevent="update">
                 <div class="p-8 flex flex-col">
                     <div class="my-5 w-full flex flex-row space-x-4">
                         <div class="w-1/2">
@@ -53,6 +53,9 @@
                     <jet-button>
                         Mentés
                     </jet-button>
+                    <jet-danger-button @click="deleteNews">
+                        Törlés
+                    </jet-danger-button>
                 </div>
             </form>
         </div>
@@ -66,6 +69,7 @@ import JetInput from "@/Jetstream/Input";
 import JetInputError from "@/Jetstream/InputError";
 import JetLabel from "@/Jetstream/Label";
 import Editor from '@tinymce/tinymce-vue';
+import JetDangerButton from '@/Jetstream/DangerButton'
 
 export default {
     components: {
@@ -75,6 +79,7 @@ export default {
         JetInputError,
         JetLabel,
         Editor,
+        JetDangerButton
     },
     props: {
         news: Object,
@@ -90,8 +95,13 @@ export default {
         };
     },
     methods: {
-        store() {
+        update() {
             this.form.put(this.route('admin:news.update', this.news.id))
+        },
+        deleteNews() {
+            if (confirm('Are you sure you want to delete this news?')) {
+                this.$inertia.delete(this.route('admin:news.destroy', this.news.id))
+            }
         },
     },
     computed: {

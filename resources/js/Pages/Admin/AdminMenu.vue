@@ -16,9 +16,19 @@
                 <div :class="isUrl('admin/events*') ? 'font-bold' : 'group-hover:text-blue-900'">Versenyek</div>
             </inertia-link>
 
+            <inertia-link class="flex items-center px-6 py-2 text-gray-700 hover:text-blue-500" :class="isUrl('admin/locations*') ? 'bg-gradient-to-r from-white to-blue-100 border-r-4 border-blue-500 border-r-4 border-blue-500 text-blue-500' : ''" :href="route('admin:locations.index')">
+                <icon name="location-arrow" class="w-5 h-5 mr-4" />
+                <div :class="isUrl('admin/locations*') ? 'font-bold' : 'group-hover:text-blue-900'">Helyszínek</div>
+            </inertia-link>
+
             <inertia-link class="flex items-center px-6 py-2 text-gray-700 hover:text-blue-500" :class="isUrl('admin/teams*') ? 'bg-gradient-to-r from-white to-blue-100 border-r-4 border-blue-500 border-r-4 border-blue-500 text-blue-500' : ''" :href="route('admin:teams.index')">
                 <icon name="users-cog" class="w-5 h-5 mr-4" />
                 <div :class="isUrl('admin/teams*') ? 'font-bold' : 'group-hover:text-blue-900'">Egyesületek</div>
+            </inertia-link>
+
+            <inertia-link class="flex items-center px-6 py-2 text-gray-700 hover:text-blue-500" :class="isUrl('admin/documents*') ? 'bg-gradient-to-r from-white to-blue-100 border-r-4 border-blue-500 border-r-4 border-blue-500 text-blue-500' : ''" :href="route('admin:documents.index')">
+                <icon name="folder" class="w-5 h-5 mr-4" />
+                <div :class="isUrl('admin/documents*') ? 'font-bold' : 'group-hover:text-blue-900'">Dokumentumok</div>
             </inertia-link>
 
             <inertia-link class="flex items-center px-6 py-2 text-gray-700 hover:text-blue-500" :class="isUrl('admin/pages*') ? 'bg-gradient-to-r from-white to-blue-100 border-r-4 border-blue-500 border-r-4 border-blue-500 text-blue-500' : ''" :href="route('admin:pages.index')">

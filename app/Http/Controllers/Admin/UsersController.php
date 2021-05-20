@@ -82,6 +82,6 @@ class UsersController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('users.index')->with('success', 'User successfully deleted');
+        return redirect()->route('admin:users.index')->with('success', 'Felhasználó sikeresn törölve');
     }
 }

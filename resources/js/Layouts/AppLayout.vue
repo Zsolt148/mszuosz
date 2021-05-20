@@ -21,7 +21,7 @@
                                 <jet-nav-link :href="route('news.index')" :active="route().current('news*')">
                                     Hírek
                                 </jet-nav-link>
-                                <jet-nav-link :href="route('events')" :active="route().current('events')">
+                                <jet-nav-link :href="route('events.index')" :active="route().current('events*')">
                                     Versenyek
                                 </jet-nav-link>
                                 <jet-nav-link :href="route('documents')" :active="route().current('documents')">
@@ -89,10 +89,10 @@
                         <jet-responsive-nav-link :href="route('home')" :active="route().current('home')">
                             Kezdőlap
                         </jet-responsive-nav-link>
-                        <jet-responsive-nav-link :href="route('news.index')" :active="route().current('news')">
+                        <jet-responsive-nav-link :href="route('news.index')" :active="route().current('news*')">
                             Hírek
                         </jet-responsive-nav-link>
-                        <jet-responsive-nav-link :href="route('events')" :active="route().current('events')">
+                        <jet-responsive-nav-link :href="route('events.index')" :active="route().current('events*')">
                             Versenyek
                         </jet-responsive-nav-link>
                         <jet-responsive-nav-link :href="route('documents')" :active="route().current('documents')">

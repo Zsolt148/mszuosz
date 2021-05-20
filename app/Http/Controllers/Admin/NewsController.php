@@ -73,7 +73,7 @@ class NewsController extends Controller
         $news->body = $request->input('body');
         $news->save();
 
-        return redirect()->route('admin:news.index')->with('success', 'Hír');
+        return redirect()->route('admin:news.index')->with('success', 'Hír sikeresen létrehozva');
     }
 
     /**
@@ -131,6 +131,8 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
-        //
+        $news->delete();
+
+        return redirect()->route('admin:news.index')->with('success', 'Hír sikeresn törölve');
     }
 }

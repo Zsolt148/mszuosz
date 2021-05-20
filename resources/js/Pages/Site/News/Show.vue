@@ -24,15 +24,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-ol {
-    list-style: decimal;
-    margin-left: 2em;
-}
-
-ul {
-    list-style: disc;
-    margin-left: 2em;
-}
-</style>

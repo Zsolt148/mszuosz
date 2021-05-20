@@ -10,7 +10,7 @@
                             </inertia-link>
                         </div>
                         <div class="flex flex-row items-center">
-                            <p class="font-semibold text-gray-500">{{ data.created_at }}</p>
+                            <p class="font-semibold text-gray-700">{{ data.created_at }}</p>
                         </div>
                     </div>
                     <div class="py-2">
