@@ -5,11 +5,15 @@
         </template>
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="mb-6 flex w-full justify-between items-center">
-                <input class="relative w-full px-4 py-1 rounded-md mr-2" autocomplete="off" type="text"
+                <input class="relative w-4/5 px-4 py-1 border-gray-300 rounded-md mr-2" autocomplete="off" type="text"
                        name="search" placeholder="Keresés…" v-model="params.search"/>
-                <jet-button @click="reset">
+                <select name="year" id="year" v-model="params.year" class="block rounded-md border-gray-300 py-1 w-1/5 focus:outline-none mr-2">
+                    <option value="null" selected>Év</option>
+                    <option v-for="year in years" :key="year" :value="year">{{year}}</option>
+                </select>
+                <jet-secondary-button @click="reset">
                     Visszaállítás
-                </jet-button>
+                </jet-secondary-button>
             </div>
 
             <pagination class="my-5" :links="events.links"/>
@@ -36,6 +40,15 @@
                             </span>
                         </th>
                         <th class="px-6 pt-6 pb-4">
+                            <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('location')">
+                                Helyszín
+                                <icon v-if="params.field === 'location' && params.direction === 'asc'" name="cheveron-up"
+                                      class="w-4 h-4"></icon>
+                                <icon v-if="params.field === 'location' && params.direction === 'desc'"
+                                      name="cheveron-down" class="w-4 h-4"></icon>
+                            </span>
+                        </th>
+                        <th class="px-6 pt-6 pb-4">
                             <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('category')">
                                 Kategória
                                 <icon v-if="params.field === 'category' && params.direction === 'asc'" name="cheveron-up"
@@ -45,12 +58,13 @@
                             </span>
                         </th>
                         <th class="px-6 pt-6 pb-4">
-                            <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('location')">
-                                Helyszín
-                                <icon v-if="params.field === 'location' && params.direction === 'asc'" name="cheveron-up"
-                                      class="w-4 h-4"></icon>
-                                <icon v-if="params.field === 'location' && params.direction === 'desc'"
-                                      name="cheveron-down" class="w-4 h-4"></icon>
+                            <span class="inline-flex w-full justify-between">
+                                Versenykiírás
+                            </span>
+                        </th>
+                        <th class="px-6 pt-6 pb-4">
+                            <span class="inline-flex w-full justify-between">
+                                Jegyzőkönyv
                             </span>
                         </th>
                     </tr>
@@ -67,14 +81,16 @@
                         </td>
                         <td class="border-t">
                             <inertia-link class="px-6 py-4 flex items-center focus:text-indigo-500" :href="route('events.show', event.slug)" tabindex="-1">
-                                {{ event.category }}
+                                <img class="mr-2" :src="'https://www.countryflags.io/' + event.location.code + '/flat/24.png'"> {{ event.location.country }}
                             </inertia-link>
                         </td>
                         <td class="border-t">
                             <inertia-link class="px-6 py-4 flex items-center focus:text-indigo-500" :href="route('events.show', event.slug)" tabindex="-1">
-                                {{ event.location.city }}
+                                {{ event.category }}
                             </inertia-link>
                         </td>
+                        <td class="border-t"></td>
+                        <td class="border-t"></td>
                         <td class="border-t w-px">
                             <inertia-link class="px-4 flex items-center" :href="route('events.show', event.slug)" tabindex="-1">
                                 <icon name="cheveron-right" class="block w-6 h-6 fill-gray-400" />
@@ -82,7 +98,7 @@
                         </td>
                     </tr>
                     <tr v-if="events.data.length === 0">
-                        <td class="border-t px-6 py-4" colspan="4">
+                        <td class="border-t px-6 py-4" colspan="7">
                             Nincs egyetlen verseny sem
                         </td>
                     </tr>
@@ -100,22 +116,26 @@ import pickBy from "lodash/pickBy";
 import Pagination from "@/Shared/Pagination";
 import JetButton from "@/Jetstream/Button";
 import Icon from '@/Shared/Icon';
+import JetSecondaryButton from "@/Jetstream/SecondaryButton";
 
 export default {
     components: {
         AppLayout,
         Pagination,
         JetButton,
+        JetSecondaryButton,
         Icon,
     },
     props: {
         filters: Object,
         events: Object,
+        years: Array,
     },
     data() {
         return {
             params: {
                 search: this.filters.search,
+                year: this.filters.year,
                 field: this.filters.field,
                 direction: this.filters.direction,
             },
@@ -127,7 +147,7 @@ export default {
             this.params.direction = this.params.direction === 'asc' ? 'desc' : 'asc';
         },
         reset() {
-            this.params.search = '';
+            this.$inertia.get(this.route('events.index'));
         }
     },
     watch: {

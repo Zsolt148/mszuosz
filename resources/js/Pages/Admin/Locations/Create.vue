@@ -12,37 +12,40 @@
 
         <div class="bg-white rounded-md shadow overflow-hidden">
             <form @submit.prevent="store">
-                <div class="p-8 flex flex-col">
-                    <div class="w-full flex flex-row space-x-4">
-                        <div class="w-1/2">
+                <div class="p-8">
+                    <div class="w-full flex flex-col sm:flex-row sm:space-x-4">
+                        <div class="w-full sm:w-1/3">
                             <jet-label for="name" value="Uszoda neve" />
                             <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="off" />
                             <jet-input-error :message="form.errors.name" class="mt-2" />
                         </div>
 
-                        <div class="w-1/2">
+                        <div class="w-full sm:w-1/3">
+                            <jet-label for="country" value="Ország" />
+                            <jet-input id="country" type="text" class="mt-1 block w-full" v-model="form.country" autocomplete="off" />
+                            <jet-input-error :message="form.errors.country" class="mt-2" />
+                        </div>
+
+                        <div class="w-full sm:w-1/3">
+                            <jet-label for="code" value="Ország kód"/>
+                            <select name="code" id="code" v-model="form.code" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                                <option value="null" selected>Válassz</option>
+                                <option v-for="(name, key) in countries" :key="key" :value="key">{{key}} - {{name}}</option>
+                            </select>
+                            <jet-input-error :message="form.errors.code" class="mt-2" />
+                        </div>
+                    </div>
+                    <div class="w-full flex flex-col sm:flex-row sm:space-x-4 mt-3">
+                        <div class="w-full sm:w-1/2">
                             <jet-label for="city" value="Város" />
                             <jet-input id="city" type="text" class="mt-1 block w-full" v-model="form.city" autocomplete="off" />
                             <jet-input-error :message="form.errors.city" class="mt-2" />
                         </div>
-                    </div>
-                    <div class="w-full flex flex-row space-x-4 mt-5">
-                        <div class="w-1/3">
+
+                        <div class="w-full sm:w-1/2">
                             <jet-label for="address" value="Uszoda címe" />
                             <jet-input id="address" type="text" class="mt-1 block w-full" v-model="form.address" autocomplete="off" />
                             <jet-input-error :message="form.errors.address" class="mt-2" />
-                        </div>
-
-                        <div class="w-1/3">
-                            <jet-label for="timing" value="Időmérés" />
-                            <jet-input id="timing" type="text" class="mt-1 block w-full" v-model="form.timing" autocomplete="off"/>
-                            <jet-input-error :message="form.errors.timing" class="mt-2" />
-                        </div>
-
-                        <div class="w-1/3">
-                            <jet-label for="pool" value="Medence" />
-                            <jet-input id="pool" type="text" class="mt-1 block w-full" v-model="form.pool" autocomplete="off"/>
-                            <jet-input-error :message="form.errors.pool" class="mt-2" />
                         </div>
                     </div>
                 </div>
@@ -72,15 +75,18 @@ export default {
         JetInputError,
         JetLabel,
     },
+    props: {
+        countries: Array,
+    },
     data() {
         return {
             form: this.$inertia.form({
                 _method: 'POST',
                 name: null,
+                country: null,
+                code: null,
                 city: null,
                 address: null,
-                timing: null,
-                pool: null,
             }),
         };
     },

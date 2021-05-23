@@ -24,6 +24,8 @@ class EventRequest extends FormRequest
     public function rules()
     {
         return [
+            'is_visible' => ['nullable'],
+            'location_id' => ['required', 'integer'],
             'start_at' => ['required', 'date'],
             'end_at' => ['required', 'date', 'after_or_equal:start_at'],
             'name' => ['required'],
@@ -32,7 +34,8 @@ class EventRequest extends FormRequest
             'email' => ['nullable', 'email'],
             'site' => ['nullable'],
             'category' => ['required'],
-            'location_id' => ['nullable', 'integer'],
+            'timing' => ['required'],
+            'pool' => ['required'],
         ];
     }
 }

@@ -10,8 +10,8 @@ class UploadController extends Controller
     {
         if($request->hasFile('files')) {
             $files = $request->file('files');
-            $filename = uniqid() . '.' . $files->getClientOriginalExtension();
-            $path = $files->storeAs('files/tmp', $filename, 'public');
+            //$filename = uniqid() . '.' . $files->getClientOriginalExtension();
+            $path = $files->store('files/tmp', 'public');
 
             return $path;
         }else {
@@ -21,7 +21,6 @@ class UploadController extends Controller
 
     public function destroy(Request $request)
     {
-        //TODO delete tmp daily
         dd($request->all());
     }
 }

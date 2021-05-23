@@ -19,5 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('teams', function () {
-   return \App\Models\Team::all(['name','SA','webpage','address'])->toJson();
+   return \App\Models\Team::all(['name','SA','webpage','address'])->toArray(); //TODO teams api
 });

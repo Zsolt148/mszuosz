@@ -13,21 +13,51 @@
         <div class="bg-white rounded-md shadow overflow-hidden">
             <form @submit.prevent="store" enctype="multipart/form-data">
                 <div class="p-8 flex flex-col">
-                    <div class="w-full">
+                    <div class="mb-5">
+                        <jet-label for="is_visible">
+                            <div class="flex items-center text-xl">
+                                <jet-checkbox name="is_visible" id="is_visible" v-model:checked="form.is_visible" />
+
+                                <div class="ml-2">
+                                    Látható
+                                </div>
+                            </div>
+                        </jet-label>
+                    </div>
+
+                    <div class="mb-5 w-full">
                         <jet-label for="name" value="Név" />
                         <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="off" />
                         <jet-input-error :message="form.errors.name" class="mt-2" />
                     </div>
 
+                    <div class="mb-5 space-x-4 flex flex-row">
+                        <div class="w-1/2">
+                            <jet-label for="date" value="Dátum" />
+                            <jet-input id="date" type="date" class="mt-1 block w-full" v-model="form.date" autocomplete="off" />
+                            <jet-input-error :message="form.errors.date" class="mt-2" />
+                        </div>
+
+                        <div class="w-1/2">
+                            <jet-label for="type" value="Típus"/>
+                            <select name="type" id="location_id" v-model="form.type" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                                <option value="null" selected>Válassz</option>
+                                <option v-for="(type, key) in types" :key="key" :value="key">{{type}}</option>
+                            </select>
+                            <jet-input-error :message="form.errors.type" class="mt-2" />
+                        </div>
+                    </div>
+
                     <div class="w-full mt-5">
+                        <jet-label for="type" value="Fájlok"/>
                         <file-pond
                             name="files"
                             ref="pond"
-                            v-bind:allow-multiple="false"
+                            v-bind:allow-multiple="true"
                             accepted-file-types="application/pdf"
                             v-on:init="handleFilePondInit"
                             v-bind:required="true"
-                            max-files="1"
+                            max-files="5"
                         />
                     </div>
                 </div>
@@ -47,6 +77,7 @@ import JetButton from "@/Jetstream/Button";
 import JetInput from "@/Jetstream/Input";
 import JetInputError from "@/Jetstream/InputError";
 import JetLabel from "@/Jetstream/Label";
+import JetCheckbox from "@/Jetstream/Checkbox";
 
 //Filepond
 import vueFilePond, { setOptions } from 'vue-filepond';
@@ -64,7 +95,10 @@ export default {
                 },
                 process: {
                     url: '/process',
-                    onload: (response) => this.form.file = response,
+                    onload: (response) => {
+                        console.log(response);
+                        this.tmp.push(response);
+                    }
                 },
                 revert: '/revert',
             }
@@ -76,19 +110,28 @@ export default {
         JetInput,
         JetInputError,
         JetLabel,
+        JetCheckbox,
         FilePond
+    },
+    props: {
+        types: Object,
     },
     data() {
         return {
+            tmp: [],
             form: this.$inertia.form({
                 _method: 'POST',
                 name: null,
-                file: null,
+                date: null,
+                type: null,
+                is_visible: null,
+                files: null,
             }),
         };
     },
     methods: {
         store() {
+            this.form.files = this.tmp;
             this.form.post(this.route('admin:documents.store'))
         },
         // FilePond instance methods are available on `this.$refs.pond`

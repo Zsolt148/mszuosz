@@ -6,7 +6,11 @@
 
         <div>
             <div class="mb-6 flex w-full justify-between items-center">
-                <input class="relative w-full px-4 py-1 rounded-md mr-2" autocomplete="off" type="text" name="search" placeholder="Keresés…" v-model="params.search"/>
+                <input class="relative w-4/5 px-4 py-1 rounded-md mr-2" autocomplete="off" type="text" name="search" placeholder="Keresés…" v-model="params.search"/>
+                <select name="year" id="year" v-model="params.year" class="block rounded-md border py-1 w-1/5 focus:outline-none mr-2">
+                    <option value="null" selected>Év</option>
+                    <option v-for="year in years" :key="year" :value="year">{{year}}</option>
+                </select>
                 <jet-button @click="reset">
                     Visszaállítás
                 </jet-button>
@@ -25,13 +29,6 @@
                             </span>
                         </th>
                         <th class="px-6 pt-6 pb-4">
-                            <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('slug')">
-                                URL
-                                <icon v-if="params.field === 'slug' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
-                                <icon v-if="params.field === 'slug' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
-                            </span>
-                        </th>
-                        <th class="px-6 pt-6 pb-4">
                             <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('date')">
                                 Dátum
                                 <icon v-if="params.field === 'date' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
@@ -39,10 +36,24 @@
                             </span>
                         </th>
                         <th class="px-6 pt-6 pb-4">
+                            <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('location')">
+                                Helyszín
+                                <icon v-if="params.field === 'location' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
+                                <icon v-if="params.field === 'location' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
+                            </span>
+                        </th>
+                        <th class="px-6 pt-6 pb-4">
                             <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('category')">
                                 Kategória
                                 <icon v-if="params.field === 'category' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
                                 <icon v-if="params.field === 'category' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
+                            </span>
+                        </th>
+                        <th class="px-6 pt-6 pb-4">
+                            <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('is_visible')">
+                                Látható
+                                <icon v-if="params.field === 'is_visible' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
+                                <icon v-if="params.field === 'is_visible' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
                             </span>
                         </th>
                         <th class="px-6 pt-6 pb-4">
@@ -61,17 +72,22 @@
                         </td>
                         <td class="border-t">
                             <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:events.edit', event.id)" tabindex="-1">
-                                {{ event.slug }}
-                            </inertia-link>
-                        </td>
-                        <td class="border-t">
-                            <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:events.edit', event.id)" tabindex="-1">
                                 {{ event.period }}
                             </inertia-link>
                         </td>
                         <td class="border-t">
                             <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:events.edit', event.id)" tabindex="-1">
+                                <img class="mr-2" :src="'https://www.countryflags.io/' + event.location.code + '/flat/24.png'"> {{ event.location.country }}
+                            </inertia-link>
+                        </td>
+                        <td class="border-t">
+                            <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:events.edit', event.id)" tabindex="-1">
                                 {{ event.category }}
+                            </inertia-link>
+                        </td>
+                        <td class="border-t">
+                            <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:documents.edit', event.id)" tabindex="-1">
+                                <span v-if="event.is_visible" class="text-green-600">Igen</span><span v-else class="text-red-600">Nem</span>
                             </inertia-link>
                         </td>
                         <td class="border-t">
@@ -86,7 +102,7 @@
                         </td>
                     </tr>
                     <tr v-if="events.data.length === 0">
-                        <td class="border-t px-6 py-2" colspan="4">No events found.</td>
+                        <td class="border-t px-6 py-2" colspan="4">Nem található verseny.</td>
                     </tr>
                 </table>
             </div>
@@ -113,11 +129,13 @@ export default {
     props: {
         filters: Object,
         events: Object,
+        years: Array,
     },
     data() {
         return {
             params: {
                 search: this.filters.search,
+                year: this.filters.year,
                 field: this.filters.field,
                 direction: this.filters.direction,
             },
@@ -129,7 +147,7 @@ export default {
             this.params.direction = this.params.direction === 'asc' ? 'desc' : 'asc';
         },
         reset() {
-            this.params.search = '';
+            this.$inertia.get(this.route('admin:events.index'));
         }
     },
     watch: {

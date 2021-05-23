@@ -454,7 +454,7 @@ class TeamSeeder extends Seeder
             [
                 'name' => 'Vidám Vidrakölykök SE',
                 'SA' => '90',
-                'address' => 'Budapest 1042 József Attila utca 72',
+                'address' => '1042 Budapest, József Attila utca 72',
                 'webpage' => 'www.uszasoktatas.hu',
             ],
             [

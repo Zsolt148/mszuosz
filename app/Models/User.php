@@ -25,6 +25,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'role',
         'password',
     ];
 
@@ -56,10 +57,11 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
+        'role_val'
     ];
 
     const ROLES = [
-      'user' => 'User',
+      'user' => 'Felhasználó',
       'admin' => 'Admin',
     ];
 
@@ -71,6 +73,11 @@ class User extends Authenticatable
     public function scopeWhereRole($query, $role)
     {
         return $query->where('role', $role);
+    }
+
+    public function getRoleValAttribute()
+    {
+        return self::ROLES[$this->role];
     }
 
     public function scopeFilter($query, array $filters)

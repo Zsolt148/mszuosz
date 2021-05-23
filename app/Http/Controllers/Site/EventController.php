@@ -25,10 +25,17 @@ class EventController extends Controller
         ]);
 
         $query = Event::query()
+            ->visible()
             ->with('location');
 
         if($search = request('search')) {
             $query->where('name', 'LIKE', '%'.$search.'%');
+        }
+
+        if($year = request('year')) {
+            if($year != 'null') {
+                $query->whereYear('start_at', $year);
+            }
         }
 
         if(request()->has(['field', 'direction'])) {
@@ -43,9 +50,14 @@ class EventController extends Controller
             $query->orderByDesc('id');
         }
 
+        $years = Event::all()->pluck('start_at')->map(function ($date) {
+            return $date->format('Y');
+        })->unique()->toArray();
+
         return Inertia::render('Site/Events/Index', [
-            'filters' => request()->all(['search', 'field', 'direction']),
-            'events' => $query->paginate(10)->withQueryString()
+            'filters' => request()->all(['search', 'field', 'direction', 'year']),
+            'events' => $query->paginate(10)->withQueryString(),
+            'years' => $years,
         ]);
     }
 

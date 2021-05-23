@@ -18,12 +18,16 @@
                   </div>
                   <div v-html="content.body" class="w-full mt-10 text-base font-medium text-gray-700 sm:md:w-3/3 mb-8leading-relaxed" />
                   <div class="flex flex-row space-x-2 mt-12">
-                      <button class="flex items-center px-6 py-2 mt-auto font-semibold text-white transition duration-500 ease-in-out transform bg-blue-500 rounded-lg hover:bg-gray-800 hover:to-black focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2">
-                          Hírek
-                      </button>
-                      <button class="flex items-center px-6 py-2 mt-auto font-semibold text-white transition duration-500 ease-in-out transform bg-black rounded-lg hover:bg-blue-500 hover:to-black focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2">
-                          Ranglisták
-                      </button>
+                      <inertia-link :href="route('news.index')">
+                          <button class="flex items-center px-6 py-2 mt-auto font-semibold text-white transition duration-500 ease-in-out transform bg-blue-500 rounded-lg hover:bg-gray-800 hover:to-black focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2">
+                              Hírek
+                          </button>
+                      </inertia-link>
+                      <inertia-link :href="route('ranks')">
+                          <button class="flex items-center px-6 py-2 mt-auto font-semibold text-white transition duration-500 ease-in-out transform bg-black rounded-lg hover:bg-blue-500 hover:to-black focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2">
+                              Ranglisták
+                          </button>
+                      </inertia-link>
                   </div>
               </div>
           </div>

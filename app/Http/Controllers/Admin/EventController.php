@@ -25,12 +25,19 @@ class EventController extends Controller
             'field' => ['in:name,slug,date,category,created_at'],
         ]);
 
-        $query = Event::query();
+        $query = Event::query()
+            ->with('location');
 
         if($search = request('search')) {
             $query->where('name', 'LIKE', '%'.$search.'%')
                 ->orWhere('slug', 'LIKE', '%'.$search.'%')
                 ->orWhere('category', 'LIKE', '%'.$search.'%');
+        }
+
+        if($year = request('year')) {
+            if($year != 'null') {
+                $query->whereYear('start_at', $year);
+            }
         }
 
         if(request()->has(['field', 'direction'])) {
@@ -43,9 +50,14 @@ class EventController extends Controller
             $query->latest();
         }
 
+        $years = Event::all()->pluck('start_at')->map(function ($date) {
+           return $date->format('Y');
+        })->unique()->toArray();
+
         return Inertia::render('Admin/Events/Index', [
-            'filters' => request()->all(['search', 'field', 'direction']),
-            'events' => $query->paginate()->withQueryString()
+            'filters' => request()->all(['search', 'field', 'direction', 'year']),
+            'events' => $query->paginate()->withQueryString(),
+            'years' => $years,
         ]);
     }
 
@@ -57,7 +69,7 @@ class EventController extends Controller
     public function create()
     {
         return Inertia::render('Admin/Events/Create', [
-            'categories' => Event::CATS,
+            'constants' => ['cats' => Event::CATS, 'pools' => Event::POOLS, 'timings' => Event::TIMINGS],
             'locations' => Location::all()
         ]);
     }
@@ -79,17 +91,6 @@ class EventController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Event $event)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Event  $event
@@ -98,9 +99,9 @@ class EventController extends Controller
     public function edit(Event $event)
     {
         return Inertia::render('Admin/Events/Edit', [
+            'constants' => ['cats' => Event::CATS, 'pools' => Event::POOLS, 'timings' => Event::TIMINGS],
+            'locations' => Location::all(),
             'event' => $event,
-            'categories' => Event::CATS,
-            'locations' => Location::all()
         ]);
     }
 

@@ -37,7 +37,7 @@
                         </th>
                         <th class="px-6 pt-6 pb-4">
                             <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('address')">
-                                Cím
+                                Székhely
                                 <icon v-if="params.field === 'address' && params.direction === 'asc'" name="cheveron-up"
                                       class="w-4 h-4"></icon>
                                 <icon v-if="params.field === 'address' && params.direction === 'desc'"
@@ -62,10 +62,10 @@
                             <span class="px-6 py-4 flex items-center">{{team.SA}}</span>
                         </td>
                         <td class="border-t">
-                            <span class="px-6 py-4 flex items-center">{{team.address}}</span>
+                            <span class="px-6 py-4 flex items-center">{{ city(team.address) }}</span>
                         </td>
                         <td class="border-t">
-                            <span class="px-6 py-4 flex items-center">{{team.webpage}}</span>
+                            <span class="px-6 py-4 flex items-center"><a class="text-blue-500" target="_blank" :href="team.webpage">{{team.webpage}}</a></span>
                         </td>
                     </tr>
                     <tr v-if="teams.data.length === 0">
@@ -115,7 +115,14 @@ export default {
         },
         reset() {
             this.params.search = '';
-        }
+        },
+        city(address) {
+            if(address && address != '-') {
+                return address.split(' ')[1].replace(',','');
+            }else {
+                return '-';
+            }
+        },
     },
     watch: {
         params: {

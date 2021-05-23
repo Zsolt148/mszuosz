@@ -25,6 +25,13 @@
                             </span>
                         </th>
                         <th class="px-6 pt-6 pb-4">
+                            <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('short')">
+                                Rövidítés
+                                <icon v-if="params.field === 'short' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
+                                <icon v-if="params.field === 'short' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
+                            </span>
+                        </th>
+                        <th class="px-6 pt-6 pb-4">
                             <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('sa')">
                                 SA
                                 <icon v-if="params.field === 'sa' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
@@ -57,6 +64,11 @@
                         <td class="border-t">
                             <inertia-link class="px-6 py-2 flex items-center focus:text-indigo-500" :href="route('admin:teams.edit', team.id)">
                                 {{ team.name }}
+                            </inertia-link>
+                        </td>
+                        <td class="border-t">
+                            <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:teams.edit', team.id)" tabindex="-1">
+                                {{ team.short }}
                             </inertia-link>
                         </td>
                         <td class="border-t">

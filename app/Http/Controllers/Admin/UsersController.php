@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\UsersRequest;
 use Illuminate\Support\Facades\Request;
 use App\Models\User;
 use Inertia\Inertia;
@@ -49,7 +50,8 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         return Inertia::render('Admin/Users/Edit', [
-           'editUser' => $user,
+            'editUser' => $user,
+            'roles' => User::ROLES,
         ]);
     }
 
@@ -60,16 +62,11 @@ class UsersController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UsersRequest $request, User $user)
     {
-        request()->validate([
-            'name' => ['required'],
-            'email' => ['required'],
-        ]);
+        $user->update($request->all());
 
-        $user->update(request()->all(['name', 'email']));
-
-        return redirect()->back()->with('success', 'User successfully updated');
+        return redirect()->back()->with('success', 'Felhasználó sikeresn frissítve');
     }
 
     /**

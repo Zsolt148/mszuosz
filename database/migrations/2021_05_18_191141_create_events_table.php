@@ -15,6 +15,7 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('location_id');
             $table->date('start_at');
             $table->date('end_at');
             $table->string('name');
@@ -22,9 +23,11 @@ class CreateEventsTable extends Migration
             $table->longText('body')->nullable();
             $table->string('site')->nullable();
             $table->string('email')->nullable();
-            $table->text('files')->nullable();
             $table->enum('category', ['OB', 'VB', 'EB', 'RV', 'HV', 'FV', 'SZV']);
-            $table->foreignId('location_id')->nullable();
+            $table->enum('pool', ['25', '33', '50', 'Nyíltvizi']);
+            $table->enum('timing', ['Kézi', 'Gépi']);
+            $table->boolean('is_visible')->default(0);
+            $table->text('files')->nullable();
             $table->timestamps();
         });
     }

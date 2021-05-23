@@ -1,8 +1,14 @@
 <?php
 
 // Admin routes
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DocumentController;
+use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\LocationController;
+use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\TeamController;
+use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -10,7 +16,22 @@ Route::get('/', function () {
 })->name('dashboard');
 
 //users
-Route::get('users', [UsersController::class, 'index'])->name('users');
-Route::get('users/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
-Route::put('users/{user}/update', [UsersController::class, 'update'])->name('users.update');
-Route::delete('users/{user}/destroy', [UsersController::class, 'destroy'])->name('users.destroy');
+Route::resource('users', UsersController::class)->only('index', 'edit', 'update', 'destroy');
+
+//news
+Route::resource('news', NewsController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
+
+//events
+Route::resource('events', EventController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
+
+//locations
+Route::resource('locations', LocationController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
+
+//teams
+Route::resource('teams', TeamController::class)->only('index', 'create', 'store', 'edit', 'update');
+
+//files
+Route::resource('documents', DocumentController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
+
+//pages
+Route::resource('pages', PageController::class)->only('index', 'edit', 'update');

@@ -19,7 +19,7 @@
                     <tr class="text-left font-bold">
                         <th class="px-6 pt-6 pb-4">
                             <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('name')">
-                                Name
+                                Név
                                 <icon v-if="params.field === 'name' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
                                 <icon v-if="params.field === 'name' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
                             </span>
@@ -33,14 +33,14 @@
                         </th>
                         <th class="px-6 pt-6 pb-4">
                             <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('role')">
-                                Role
+                                Jogosultság
                                 <icon v-if="params.field === 'role' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
                                 <icon v-if="params.field === 'role' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
                             </span>
                         </th>
                         <th class="px-6 pt-6 pb-4">
                             <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('created_at')">
-                                Created at
+                                Létrehozva
                                 <icon v-if="params.field === 'created_at' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
                                 <icon v-if="params.field === 'created_at' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
                             </span>
@@ -59,7 +59,7 @@
                         </td>
                         <td class="border-t">
                             <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:users.edit', user.id)" tabindex="-1">
-                                {{ user.role }}
+                                {{ user.role_val }}
                             </inertia-link>
                         </td>
                         <td class="border-t">

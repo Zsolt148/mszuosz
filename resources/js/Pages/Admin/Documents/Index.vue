@@ -25,10 +25,24 @@
                             </span>
                         </th>
                         <th class="px-6 pt-6 pb-4">
-                            <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('file')">
-                                Fájl
-                                <icon v-if="params.field === 'slug' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
-                                <icon v-if="params.field === 'slug' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
+                            <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('type')">
+                                Típus
+                                <icon v-if="params.field === 'type' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
+                                <icon v-if="params.field === 'type' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
+                            </span>
+                        </th>
+                        <th class="px-6 pt-6 pb-4">
+                            <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('date')">
+                                Dátum
+                                <icon v-if="params.field === 'date' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
+                                <icon v-if="params.field === 'date' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
+                            </span>
+                        </th>
+                        <th class="px-6 pt-6 pb-4">
+                            <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('is_visible')">
+                                Látható
+                                <icon v-if="params.field === 'is_visible' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
+                                <icon v-if="params.field === 'is_visible' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
                             </span>
                         </th>
                         <th class="px-6 pt-6 pb-4">
@@ -47,7 +61,17 @@
                         </td>
                         <td class="border-t">
                             <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:documents.edit', doc.id)" tabindex="-1">
-                                {{ doc.filename }}
+                                {{ doc.type_val }}
+                            </inertia-link>
+                        </td>
+                        <td class="border-t">
+                            <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:documents.edit', doc.id)" tabindex="-1">
+                                {{ doc.date_val }}
+                            </inertia-link>
+                        </td>
+                        <td class="border-t">
+                            <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:documents.edit', doc.id)" tabindex="-1">
+                                <span v-if="doc.is_visible" class="text-green-600">Igen</span><span v-else class="text-red-600">Nem</span>
                             </inertia-link>
                         </td>
                         <td class="border-t">
@@ -62,7 +86,7 @@
                         </td>
                     </tr>
                     <tr v-if="documents.data.length === 0">
-                        <td class="border-t px-6 py-2" colspan="4">No documents found.</td>
+                        <td class="border-t px-6 py-2" colspan="4">Nem található dokumentum.</td>
                     </tr>
                 </table>
             </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\TeamRequest;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,7 +19,7 @@ class TeamController extends Controller
     {
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:name,sa,address,webpage,created_at'],
+            'field' => ['in:name,short,sa,address,webpage,created_at'],
         ]);
 
         $query = Team::query();
@@ -55,29 +56,11 @@ class TeamController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TeamRequest $request)
     {
-        request()->validate([
-            'name' => ['required'],
-            'sa' => ['required'],
-            'address' => ['required'],
-            'webpage' => ['nullable'],
-        ]);
+        Team::create($request->all());
 
-        Team::create(request()->all(['name', 'sa', 'address', 'webpage']));
-
-        return redirect()->route('admin:teams.index')->with('success', 'Team successfully created');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Team  $team
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Team $team)
-    {
-        //
+        return redirect()->route('admin:teams.index')->with('success', 'Egyesület sikeresen létrehozva');
     }
 
     /**
@@ -100,18 +83,11 @@ class TeamController extends Controller
      * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Team $team)
+    public function update(TeamRequest $request, Team $team)
     {
-        request()->validate([
-            'name' => ['required'],
-            'sa' => ['required'],
-            'address' => ['required'],
-            'webpage' => ['nullable'],
-        ]);
+        $team->update($request->all());
 
-        $team->update(request()->all(['name', 'sa', 'address', 'webpage']));
-
-        return redirect()->back()->with('success', 'Team successfully updated');
+        return redirect()->back()->with('success', 'Egyesület sikeresen frissítve');
     }
 
     /**

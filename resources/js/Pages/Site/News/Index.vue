@@ -2,15 +2,20 @@
     <app-layout>
         <div class="max-w-5xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 gap-6 my-6 px-4 md:px-6 lg:px-8">
-                <div v-for="data in news.data" :key="data.id" class="mx-auto px-4 py-4 bg-white shadow-md rounded-lg w-full">
+                <div v-for="data in news.data" :key="data.id" class="mx-auto px-4 py-2 bg-white shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out rounded-lg w-full">
                     <div class="py-2 flex flex-row items-center justify-between">
                         <div class="flex flex-row items-center">
-                            <inertia-link class="text-2xl flex text-blue-500 focus:text-blue-800" :href="route('news.show', data.slug)">
+                            <inertia-link class="text-2xl flex text-blue-500 focus:text-blue-800 hover:underline" :href="route('news.show', data.slug)">
                                 {{ data.name }}
                             </inertia-link>
                         </div>
                         <div class="flex flex-row items-center">
-                            <p class="font-semibold text-gray-700">{{ data.created_at }}</p>
+                            <span v-if="data.type == 'important'" class="text-red-500 mr-2">Fontos</span>
+                            <span v-else-if="data.type == 'highlighted'" class="text-blue-500 mr-2">Kiemelt</span>
+                            <p class="font-semibold text-gray-600 flex flex-row">
+                                <icon name="calendar" class="w-4 h-4 mt-1 mr-2" />
+                                <span>{{data.date_val}}</span>
+                            </p>
                         </div>
                     </div>
                     <div class="py-2">
@@ -20,7 +25,7 @@
                     </div>
                     <div>
                         <div class="py-2 flex flex-row items-center">
-                            <inertia-link class="flex text-blue-400" :href="route('news.show', data.slug)">
+                            <inertia-link class="flex text-blue-400 hover:underline" :href="route('news.show', data.slug)">
                                 Tovább
                                 <icon name="cheveron-right" class="w-5 h-5"></icon>
                             </inertia-link>

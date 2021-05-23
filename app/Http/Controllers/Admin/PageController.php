@@ -38,38 +38,6 @@ class PageController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Page  $page
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Page $page)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Page  $page
@@ -91,24 +59,14 @@ class PageController extends Controller
      */
     public function update(Request $request, Page $page)
     {
-        request()->validate([
+        $request->validate([
             'name' => ['required'],
             'body' => ['required'],
         ]);
 
-        $page->update(request()->all(['name', 'body']));
+        $page->update($request->all(['name', 'body']));
 
-        return redirect()->back()->with('success', 'Page successfully updated');
+        return redirect()->back()->with('success', 'Oldal sikeresen frissítve');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Page  $page
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Page $page)
-    {
-        //
-    }
 }

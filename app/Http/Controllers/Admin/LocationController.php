@@ -19,7 +19,7 @@ class LocationController extends Controller
     {
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:name,city,address,pool,created_at'],
+            'field' => ['in:name,country,city,address,created_at'],
         ]);
 
         $query = Location::query();
@@ -48,7 +48,7 @@ class LocationController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Locations/Create');
+        return Inertia::render('Admin/Locations/Create', ['countries' => config('countries.eu')]);
     }
 
     /**
@@ -67,17 +67,6 @@ class LocationController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Location  $location
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Location $location)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Location  $location
@@ -86,7 +75,8 @@ class LocationController extends Controller
     public function edit(Location $location)
     {
         return Inertia::render('Admin/Locations/Edit', [
-           'location' => $location,
+            'location' => $location,
+            'countries' => config('countries.eu'),
         ]);
     }
 
@@ -112,6 +102,10 @@ class LocationController extends Controller
      */
     public function destroy(Location $location)
     {
+        if($location->events()->exists()) {
+            return back()->with('error', 'A helyszín nem törölhető mert van hozzárendelt verseny!');
+        }
+
         $location->delete();
 
         return redirect()->route('admin:locations.index')->with('success', 'Helyszín sikeresen törölve');

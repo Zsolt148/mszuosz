@@ -18,7 +18,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $query = News::query()->latest();
+        $query = News::query()->visible()->orderByDesc('date');
 
         return Inertia::render('Site/News/Index', [
             'news' => $query->paginate(10)

@@ -16,8 +16,10 @@ class CreateDocumentsTable extends Migration
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            //$table->enum('type', ['Sablon']);
-            $table->text('file');
+            $table->date('date');
+            $table->string('type');
+            $table->boolean('is_visible')->default(0);
+            $table->text('files');
             $table->timestamps();
         });
     }

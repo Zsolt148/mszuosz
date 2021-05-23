@@ -25,6 +25,13 @@
                             </span>
                         </th>
                         <th class="px-6 pt-6 pb-4">
+                            <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('country')">
+                                Ország
+                                <icon v-if="params.field === 'country' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
+                                <icon v-if="params.field === 'country' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
+                            </span>
+                        </th>
+                        <th class="px-6 pt-6 pb-4">
                             <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('city')">
                                 Város
                                 <icon v-if="params.field === 'city' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
@@ -36,13 +43,6 @@
                                 Cím
                                 <icon v-if="params.field === 'address' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
                                 <icon v-if="params.field === 'address' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
-                            </span>
-                        </th>
-                        <th class="px-6 pt-6 pb-4">
-                            <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('pool')">
-                                Medence
-                                <icon v-if="params.field === 'pool' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
-                                <icon v-if="params.field === 'pool' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
                             </span>
                         </th>
                         <th class="px-6 pt-6 pb-4">
@@ -61,17 +61,17 @@
                         </td>
                         <td class="border-t">
                             <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:locations.edit', location.id)" tabindex="-1">
+                                <img class="mr-2" :src="'https://www.countryflags.io/' + location.code + '/flat/24.png'"> {{ location.country }}
+                            </inertia-link>
+                        </td>
+                        <td class="border-t">
+                            <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:locations.edit', location.id)" tabindex="-1">
                                 {{ location.city }}
                             </inertia-link>
                         </td>
                         <td class="border-t">
                             <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:locations.edit', location.id)" tabindex="-1">
                                 {{ location.address }}
-                            </inertia-link>
-                        </td>
-                        <td class="border-t">
-                            <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:locations.edit', location.id)" tabindex="-1">
-                                {{ location.pool }} M
                             </inertia-link>
                         </td>
                         <td class="border-t">

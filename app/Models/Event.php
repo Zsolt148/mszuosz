@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,8 +16,9 @@ class Event extends Model
     protected $appends = ['period'];
 
     protected $casts = [
-      'start_at' => 'date:Y-m-d',
-      'end_at' => 'date:Y-m-d',
+        'start_at' => 'date:Y-m-d',
+        'end_at' => 'date:Y-m-d',
+        'is_visible' => 'boolean',
     ];
 
     const CATS = [
@@ -29,9 +31,25 @@ class Event extends Model
       'SZV' => 'Szabadidős verseny',
     ];
 
+    const POOLS = [
+        '25',
+        '33',
+        '50',
+        'Nyíltvíz',
+    ];
+
+    const TIMINGS = [
+        'Kézi',
+        'Gépi',
+    ];
+
     public function location()
     {
         return $this->belongsTo(Location::class, 'location_id');
+    }
+
+    public function scopeVisible(Builder $query) {
+        return $query->where('is_visible', true);
     }
 
     public function getCreatedAtAttribute($date)

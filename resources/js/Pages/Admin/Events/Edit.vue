@@ -13,7 +13,19 @@
         <div class="bg-white rounded-md shadow overflow-hidden">
             <form @submit.prevent="update">
                 <div class="p-8 flex flex-col">
-                    <div class="my-5 w-full flex flex-row space-x-4">
+                    <div class="mb-5">
+                        <jet-label for="is_visible">
+                            <div class="flex items-center text-xl">
+                                <jet-checkbox name="is_visible" id="is_visible" v-model:checked="form.is_visible" />
+
+                                <div class="ml-2">
+                                    Látható
+                                </div>
+                            </div>
+                        </jet-label>
+                    </div>
+
+                    <div class="w-full flex flex-row space-x-4">
                         <div class="w-1/2">
                             <jet-label for="name" value="Név" />
                             <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="off" />
@@ -26,47 +38,63 @@
                             <jet-input-error :message="form.errors.slug" class="mt-2" />
                         </div>
                     </div>
-                    <div class="w-full flex flex-row space-x-4 mt-5">
-                        <div class="w-1/2">
+
+                    <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
+                        <div class="w-full sm:w-1/3">
                             <jet-label for="start_at" value="Kezdőnap" />
                             <jet-input id="start_at" type="date" class="mt-1 block w-full" v-model="form.start_at" autocomplete="off" />
                             <jet-input-error :message="form.errors.start_at" class="mt-2" />
                         </div>
 
-                        <div class="w-1/2">
+                        <div class="w-full sm:w-1/3">
                             <jet-label for="end_at" value="Végnap" />
                             <jet-input id="end_at" type="date" class="mt-1 block w-full" v-model="form.end_at" autocomplete="off"/>
                             <jet-input-error :message="form.errors.end_at" class="mt-2" />
                         </div>
-                    </div>
-                    <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
-                        <div class="w-full sm:w-1/4">
-                            <jet-label for="email" value="Email" />
-                            <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" autocomplete="off" />
-                            <jet-input-error :message="form.errors.email" class="mt-2" />
-                        </div>
-                        <div class="w-full sm:w-1/4">
-                            <jet-label for="site" value="Weboldal" />
-                            <jet-input id="site" type="text" class="mt-1 block w-full" v-model="form.site" autocomplete="off" />
-                            <jet-input-error :message="form.errors.site" class="mt-2" />
-                        </div>
-                        <div class="w-full sm:w-1/4">
-                            <jet-label for="category" value="Kategória"/>
-                            <select name="category" id="category" v-model="form.category" class="block mt-1 w-full rounded-md shadow-md focus:outline-none">
-                                <option value="">Válassz</option>
-                                <option v-for="(category, key) in categories" :key="key" :value="key">{{key}} - {{category}}</option>
-                            </select>
-                            <jet-input-error :message="form.errors.category" class="mt-2" />
-                        </div>
-                        <div class="w-full sm:w-1/4">
+
+                        <div class="w-full sm:w-1/3">
                             <jet-label for="location_id" value="Helyszín"/>
-                            <select name="location_id" id="location_id" v-model="form.location_id" class="block mt-1 w-full rounded-md shadow-md focus:outline-none">
-                                <option value="" selected>Válassz</option>
-                                <option v-for="location in locations" :key="location.id" :value="location.id">{{location.name}}</option>
+                            <select name="location_id" id="location_id" v-model="form.location_id" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                                <option v-for="location in locations" :key="location.id" :value="location.id">{{location.country}} - {{location.name}}</option>
                             </select>
                             <jet-input-error :message="form.errors.location_id" class="mt-2" />
                         </div>
                     </div>
+
+                    <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
+                        <div class="w-full sm:w-1/5">
+                            <jet-label for="category" value="Kategória"/>
+                            <select name="category" id="category" v-model="form.category" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                                <option v-for="(category, key) in constants.cats" :key="key" :value="key">{{key}} - {{category}}</option>
+                            </select>
+                            <jet-input-error :message="form.errors.category" class="mt-2" />
+                        </div>
+                        <div class="w-full sm:w-1/5">
+                            <jet-label for="pool" value="Medence"/>
+                            <select name="pool" id="pool" v-model="form.pool" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                                <option v-for="pool in constants.pools" :key="pool" :value="pool">{{pool}}</option>
+                            </select>
+                            <jet-input-error :message="form.errors.pool" class="mt-2" />
+                        </div>
+                        <div class="w-full sm:w-1/5">
+                            <jet-label for="timing" value="Időmérés"/>
+                            <select name="timing" id="timing" v-model="form.timing" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                                <option v-for="timing in constants.timings" :key="timing" :value="timing">{{timing}}</option>
+                            </select>
+                            <jet-input-error :message="form.errors.timing" class="mt-2" />
+                        </div>
+                        <div class="w-full sm:w-1/5">
+                            <jet-label for="email" value="Email" />
+                            <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" autocomplete="off" />
+                            <jet-input-error :message="form.errors.email" class="mt-2" />
+                        </div>
+                        <div class="w-full sm:w-1/5">
+                            <jet-label for="site" value="Weboldal" />
+                            <jet-input id="site" type="text" class="mt-1 block w-full" v-model="form.site" autocomplete="off" />
+                            <jet-input-error :message="form.errors.site" class="mt-2" />
+                        </div>
+                    </div>
+
                     <div class="mt-4">
                         <jet-label for="body" value="Leírás" />
                         <editor
@@ -96,12 +124,31 @@
                     <jet-button>
                         Mentés
                     </jet-button>
-                    <jet-danger-button @click="deleteEvent">
+                    <jet-danger-button @click="confirmModalShow = true">
                         Törlés
                     </jet-danger-button>
                 </div>
             </form>
         </div>
+        <jet-confirmation-modal :show="confirmModalShow" @close="confirmModalShow = false">
+            <template #title>
+                Verseny törlése
+            </template>
+
+            <template #content>
+                Biztosan törölni szeretnéd a versenyt ?
+            </template>
+
+            <template #footer>
+                <jet-secondary-button @click.native="confirmModalShow = false">
+                    Mégse
+                </jet-secondary-button>
+
+                <jet-danger-button class="ml-2" @click.native="deleteEvent">
+                    Törlés
+                </jet-danger-button>
+            </template>
+        </jet-confirmation-modal>
     </admin-layout>
 </template>
 
@@ -113,6 +160,9 @@ import JetInputError from "@/Jetstream/InputError";
 import JetLabel from "@/Jetstream/Label";
 import Editor from '@tinymce/tinymce-vue';
 import JetDangerButton from '@/Jetstream/DangerButton'
+import JetConfirmationModal from "@/Jetstream/ConfirmationModal";
+import JetSecondaryButton from "@/Jetstream/SecondaryButton";
+import JetCheckbox from "@/Jetstream/Checkbox";
 
 export default {
     components: {
@@ -122,15 +172,19 @@ export default {
         JetInputError,
         JetLabel,
         Editor,
-        JetDangerButton
+        JetDangerButton,
+        JetConfirmationModal,
+        JetSecondaryButton,
+        JetCheckbox,
     },
     props: {
+        constants: Object,
         event: Object,
         locations: Object,
-        categories: Array,
     },
     data() {
         return {
+            confirmModalShow: false,
             form: this.$inertia.form({
                 _method: 'POST',
                 name: this.event.name,
@@ -140,8 +194,11 @@ export default {
                 email: this.event.email,
                 site: this.event.site,
                 category: this.event.category,
+                pool: this.event.pool,
+                timing: this.event.timing,
                 location_id: this.event.location_id,
                 body: this.event.body,
+                is_visible: this.event.is_visible ? true : false,
             }),
         };
     },
@@ -150,9 +207,7 @@ export default {
             this.form.put(this.route('admin:events.update', this.event.id))
         },
         deleteEvent() {
-            if (confirm('Are you sure you want to delete this event?')) {
-                this.$inertia.delete(this.route('admin:events.destroy', this.event.id))
-            }
+            this.$inertia.delete(this.route('admin:events.destroy', this.event.id))
         },
     },
     computed: {

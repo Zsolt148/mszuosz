@@ -21,7 +21,7 @@ class DocumentController extends Controller
     {
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:name,file,created_at'],
+            'field' => ['in:name,type,date,created_at'],
         ]);
 
         $query = Document::query();
@@ -49,7 +49,7 @@ class DocumentController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Documents/Create');
+        return Inertia::render('Admin/Documents/Create', ['types' => Document::TYPES]);
     }
 
     /**
@@ -60,33 +60,23 @@ class DocumentController extends Controller
      */
     public function store(DocumentRequest $request)
     {
+        $files = array();
         $name = $request->input('name');
-        $tmp = $request->input('file');
-        $arr = explode('/', $tmp);
-        $uid = array_pop($arr);
-
-        $path = 'files/' . Str::slug($name) . '-' . $uid;
-
-        Storage::disk('public')->move($tmp, $path);
+        foreach($request->input('files') as $tmp) {
+            $arr = explode('/', $tmp);
+            $uid = array_pop($arr);
+            $path = 'files/' . Str::slug($name) . '-' . $uid;
+            Storage::disk('public')->move($tmp, $path);
+            $files[] = $path;
+        }
 
         $doc = new Document();
-        $doc->name = $name;
-        $doc->file = $path;
+        $doc->fill($request->all('name', 'date', 'type', 'is_visible'));
+        $doc->files = $files;
         $doc->save();
 
         return redirect()->route('admin:documents.index')->with('success', 'Dokumentum sikeresen létrehozva');
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Document  $document
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Document $document)
-    {
-        //
     }
 
     /**
@@ -98,7 +88,8 @@ class DocumentController extends Controller
     public function edit(Document $document)
     {
         return Inertia::render('Admin/Documents/Edit', [
-            'document' => $document
+            'document' => $document,
+            'types' => Document::TYPES
         ]);
     }
 
@@ -111,20 +102,26 @@ class DocumentController extends Controller
      */
     public function update(DocumentRequest $request, Document $document)
     {
-        if(Storage::disk('public')->exists($document->file)) {
+        $files = array();
+        $name = $request->input('name');
 
-            $document->name = $name = $request->input('name');
-            $path = 'files/' . Str::slug($name) . '-' . uniqid() . '.pdf';
-            Storage::disk('public')->move($document->file, $path);
-
-            $document->file = $path;
-            $document->save();
-
-            return redirect()->route('admin:documents.index')->with('success', 'Dokumentum sikeresen módosítva');
-        }else {
-            return redirect()->back()->withErrors(['file' => 'A dokumentum nem létezik']);
+        foreach($request->input('files') as $tmp) {
+            $arr = explode('.', $tmp);
+            $ext = array_pop($arr);
+            $path = 'files/' . Str::slug($name) . '-' . uniqid() . '.' . $ext;
+            if(Storage::disk('public')->exists($tmp)) {
+                Storage::disk('public')->move($tmp, $path);
+                $files[] = $path;
+            }else {
+                return redirect()->back()->with('error', 'A dokumentum nem található a szerveren');
+            }
         }
 
+        $document->fill($request->all('name', 'date', 'type', 'is_visible'));
+        $document->files = $files;
+        $document->save();
+
+        return redirect()->route('admin:documents.index')->with('success', 'Dokumentum sikeresen módosítva');
     }
 
     /**
@@ -135,8 +132,10 @@ class DocumentController extends Controller
      */
     public function destroy(Document $document)
     {
-        if(Storage::disk('public')->exists($document->file)) {
-            Storage::disk('public')->delete($document->file);
+        foreach($document->files as $file) {
+            if(Storage::disk('public')->exists($file)) {
+                Storage::disk('public')->delete($file);
+            }
         }
 
         $document->delete();

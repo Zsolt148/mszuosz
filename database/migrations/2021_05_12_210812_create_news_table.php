@@ -18,6 +18,10 @@ class CreateNewsTable extends Migration
             $table->foreignId('user_id');
             $table->string('name');
             $table->string('slug');
+            $table->string('type');
+            $table->date('date');
+            $table->boolean('is_visible')->default(0);
+            $table->text('files')->nullable();
             $table->longText('body')->nullable();
             $table->timestamps();
         });

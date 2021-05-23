@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\NewsRequest;
 use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -20,7 +22,7 @@ class NewsController extends Controller
     {
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:name,slug,created_at'],
+            'field' => ['in:name,type,is_visible,date,created_at'],
         ]);
 
         $query = News::query();
@@ -33,7 +35,7 @@ class NewsController extends Controller
         if(request()->has(['field', 'direction'])) {
             $query->orderBy(request('field'), request('direction'));
         }else {
-            $query->latest();
+            $query->orderByDesc('date');
         }
 
         return Inertia::render('Admin/News/Index', [
@@ -49,7 +51,10 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/News/Create');
+        return Inertia::render('Admin/News/Create', [
+            'types' => News::TYPES,
+            'files' => Storage::disk('public')->files('files'),
+        ]);
     }
 
     /**
@@ -58,33 +63,15 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewsRequest $request)
     {
-        request()->validate([
-           'name' => ['required'],
-           'slug' => ['required'],
-           'body' => ['required'],
-        ]);
-
         $news = new News();
+        $news->fill($request->all());
         $news->user()->associate(Auth::user());
-        $news->name = $request->input('name');
         $news->slug = Str::slug($request->input('slug'));
-        $news->body = $request->input('body');
         $news->save();
 
         return redirect()->route('admin:news.index')->with('success', 'Hír sikeresen létrehozva');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
-     */
-    public function show(News $news)
-    {
-        //
     }
 
     /**
@@ -96,7 +83,8 @@ class NewsController extends Controller
     public function edit(News $news)
     {
         return Inertia::render('Admin/News/Edit', [
-           'news' => $news,
+            'news' => $news,
+            'types' => News::TYPES
         ]);
     }
 
@@ -107,17 +95,10 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(NewsRequest $request, News $news)
     {
-        request()->validate([
-            'name' => ['required'],
-            'slug' => ['required'],
-            'body' => ['required'],
-        ]);
-
-        $news->name = $request->input('name');
+        $news->fill($request->all());
         $news->slug = Str::slug($request->input('slug'));
-        $news->body = $request->input('body');
         $news->save();
 
         return redirect()->back()->with('success', 'Hír sikeresen frissítve');

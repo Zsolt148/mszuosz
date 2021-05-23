@@ -7,10 +7,17 @@
         </template>
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="bg-white shadow-md p-5 rounded-md">
-                <div class="mb-5 text-2xl">
-                    {{ content.name }}
+                <div class="mb-5 flex justify-between">
+                    <div class="text-2xl">{{ content.name }}</div>
+                    <div class="flex mt-2 text-gray-600">
+                        <icon name="calendar" class="w-4 h-4 mt-1 mr-2" />
+                        <span>{{content.period}}</span>
+                    </div>
                 </div>
                 <div class="flex flex-col sm:flex-row sm:space-x-6 text-gray-600 w-full">
+                    <div class="flex">
+                        <img class="mr-2" :src="'https://www.countryflags.io/' + content.location.code + '/flat/24.png'"> {{ content.location.country }}
+                    </div>
                     <div class="flex">
                         <icon name="location-arrow" class="w-4 h-4 mt-1 mr-2" />
                         <span>{{content.location.city}}, {{content.location.name}} <span v-if="content.location.address">- {{content.location.address}}</span></span>
@@ -21,7 +28,7 @@
                     </div>
                     <div class="flex">
                         <icon name="pool" class="w-5 h-5 mt-1 mr-2" />
-                        <span>{{content.location.pool}} M - {{content.location.timing}}</span>
+                        <span>{{content.pool}} M - {{content.timing}} időmérés</span>
                     </div>
                 </div>
                 <div class="mt-10 mb-5" v-html="content.body"/>

@@ -13,7 +13,18 @@
         <div class="bg-white rounded-md shadow overflow-hidden">
             <form @submit.prevent="update">
                 <div class="p-8 flex flex-col">
-                    <div class="my-5 w-full flex flex-row space-x-4">
+                    <div class="mb-5">
+                        <jet-label for="is_visible">
+                            <div class="flex items-center text-xl">
+                                <jet-checkbox name="is_visible" id="is_visible" v-model:checked="form.is_visible" />
+
+                                <div class="ml-2">
+                                    Látható
+                                </div>
+                            </div>
+                        </jet-label>
+                    </div>
+                    <div class="mb-5 w-full flex flex-row space-x-4">
                         <div class="w-1/2">
                             <jet-label for="name" value="Cím" />
                             <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="off" />
@@ -24,6 +35,21 @@
                             <jet-label for="slug" value="URL" />
                             <jet-input id="slug" type="text" class="mt-1 block w-full bg-gray-200" v-model="form.slug" autocomplete="off" aria-readonly="true" disabled="disabled" />
                             <jet-input-error :message="form.errors.slug" class="mt-2" />
+                        </div>
+                    </div>
+                    <div class="mb-5 flex flex-row space-x-4">
+                        <div class="w-1/2">
+                            <jet-label for="date" value="Dátum" />
+                            <jet-input id="date" type="date" class="mt-1 block w-full" v-model="form.date" autocomplete="off" />
+                            <jet-input-error :message="form.errors.date" class="mt-2" />
+                        </div>
+
+                        <div class="w-1/2">
+                            <jet-label for="type" value="Típus"/>
+                            <select name="type" id="type" v-model="form.type" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                                <option v-for="(type, key) in types" :key="key" :value="key" >{{type}}</option>
+                            </select>
+                            <jet-input-error :message="form.errors.type" class="mt-2" />
                         </div>
                     </div>
                     <div>
@@ -43,6 +69,7 @@
                              'undo redo | styleselect fontsizeselect | bold italic underline| alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor | table link | print preview'
                            }"
                         />
+                        <jet-input-error :message="form.errors.body" class="mt-2" />
                     </div>
                     <div v-if="form.body" class="my-8">
                         <div class="mb-3 text-2xl">Előnézet:</div>
@@ -53,12 +80,31 @@
                     <jet-button>
                         Mentés
                     </jet-button>
-                    <jet-danger-button @click="deleteNews">
+                    <jet-danger-button @click="confirmModalShow = true">
                         Törlés
                     </jet-danger-button>
                 </div>
             </form>
         </div>
+        <jet-confirmation-modal :show="confirmModalShow" @close="confirmModalShow = false">
+            <template #title>
+                Hír törlése
+            </template>
+
+            <template #content>
+                Biztosan törölni szeretnéd a hírt ?
+            </template>
+
+            <template #footer>
+                <jet-secondary-button @click.native="confirmModalShow = false">
+                    Mégse
+                </jet-secondary-button>
+
+                <jet-danger-button class="ml-2" @click.native="deleteNews">
+                    Törlés
+                </jet-danger-button>
+            </template>
+        </jet-confirmation-modal>
     </admin-layout>
 </template>
 
@@ -70,6 +116,9 @@ import JetInputError from "@/Jetstream/InputError";
 import JetLabel from "@/Jetstream/Label";
 import Editor from '@tinymce/tinymce-vue';
 import JetDangerButton from '@/Jetstream/DangerButton'
+import JetCheckbox from "@/Jetstream/Checkbox";
+import JetConfirmationModal from "@/Jetstream/ConfirmationModal";
+import JetSecondaryButton from "@/Jetstream/SecondaryButton";
 
 export default {
     components: {
@@ -79,17 +128,25 @@ export default {
         JetInputError,
         JetLabel,
         Editor,
-        JetDangerButton
+        JetDangerButton,
+        JetCheckbox,
+        JetConfirmationModal,
+        JetSecondaryButton,
     },
     props: {
         news: Object,
+        types: Object,
     },
     data() {
         return {
+            confirmModalShow: false,
             form: this.$inertia.form({
                 _method: 'POST',
                 name: this.news.name,
                 slug: this.news.slug,
+                type: this.news.type,
+                date: this.news.date,
+                is_visible: this.news.is_visible ? true : false,
                 body: this.news.body,
             }),
         };
@@ -99,9 +156,7 @@ export default {
             this.form.put(this.route('admin:news.update', this.news.id))
         },
         deleteNews() {
-            if (confirm('Are you sure you want to delete this news?')) {
-                this.$inertia.delete(this.route('admin:news.destroy', this.news.id))
-            }
+            this.$inertia.delete(this.route('admin:news.destroy', this.news.id))
         },
     },
     computed: {

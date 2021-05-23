@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LocationRequest extends FormRequest
+class TeamRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,13 @@ class LocationRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
-            'country' => ['required', 'string'],
-            'city' => ['required', 'string'],
-            'code' => ['required', 'string'],
-            'address' => ['nullable', 'string'],
+            'name' => ['required'],
+            'short' => ['nullable'],
+            'sa' => ['required'],
+            'address' => ['required'],
+            'webpage' => ['nullable'],
+            'contact_name' => ['nullable'],
+            'contact_email' => ['nullable', 'email'],
         ];
     }
 }

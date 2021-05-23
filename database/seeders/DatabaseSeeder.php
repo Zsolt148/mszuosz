@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,9 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(10)->create();
+        if (App::environment('local')) {
+            // The environment is local
+            User::factory(10)->create();
+        }
 
-        //$this->call(PageSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(PageSeeder::class);
         $this->call(TeamSeeder::class);
     }
 }

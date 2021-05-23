@@ -13,6 +13,18 @@
         <div class="bg-white rounded-md shadow overflow-hidden">
             <form @submit.prevent="store">
                 <div class="p-8 flex flex-col">
+                    <div class="mb-5">
+                        <jet-label for="is_visible">
+                            <div class="flex items-center text-xl">
+                                <jet-checkbox name="is_visible" id="is_visible" v-model:checked="form.is_visible" />
+
+                                <div class="ml-2">
+                                    Látható
+                                </div>
+                            </div>
+                        </jet-label>
+                    </div>
+
                     <div class="w-full flex flex-row space-x-4">
                         <div class="w-1/2">
                             <jet-label for="name" value="Név" />
@@ -26,45 +38,64 @@
                             <jet-input-error :message="form.errors.slug" class="mt-2" />
                         </div>
                     </div>
-                    <div class="w-full flex flex-row space-x-4 mt-5">
-                        <div class="w-1/2">
+
+                    <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
+                        <div class="w-full sm:w-1/3">
                             <jet-label for="start_at" value="Kezdőnap" />
                             <jet-input id="start_at" type="date" class="mt-1 block w-full" v-model="form.start_at" autocomplete="off" />
                             <jet-input-error :message="form.errors.start_at" class="mt-2" />
                         </div>
 
-                        <div class="w-1/2">
+                        <div class="w-full sm:w-1/3">
                             <jet-label for="end_at" value="Végnap" />
                             <jet-input id="end_at" type="date" class="mt-1 block w-full" v-model="form.end_at" autocomplete="off"/>
                             <jet-input-error :message="form.errors.end_at" class="mt-2" />
                         </div>
+
+                        <div class="w-full sm:w-1/3">
+                            <jet-label for="location_id" value="Helyszín"/>
+                            <select name="location_id" id="location_id" v-model="form.location_id" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                                <option value="null" selected>Válassz</option>
+                                <option v-for="location in locations" :key="location.id" :value="location.id">{{location.country}} - {{location.name}}</option>
+                            </select>
+                            <jet-input-error :message="form.errors.location_id" class="mt-2" />
+                        </div>
                     </div>
+
                     <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
-                        <div class="w-full sm:w-1/4">
+                        <div class="w-full sm:w-1/5">
+                            <jet-label for="category" value="Kategória"/>
+                            <select name="category" id="category" v-model="form.category" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                                <option value="null" selected>Válassz</option>
+                                <option v-for="(category, key) in constants.cats" :key="key" :value="key">{{key}} - {{category}}</option>
+                            </select>
+                            <jet-input-error :message="form.errors.category" class="mt-2" />
+                        </div>
+                        <div class="w-full sm:w-1/5">
+                            <jet-label for="pool" value="Medence"/>
+                            <select name="pool" id="pool" v-model="form.pool" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                                <option value="null" selected>Válassz</option>
+                                <option v-for="pool in constants.pools" :key="pool" :value="pool">{{pool}}</option>
+                            </select>
+                            <jet-input-error :message="form.errors.pool" class="mt-2" />
+                        </div>
+                        <div class="w-full sm:w-1/5">
+                            <jet-label for="timing" value="Időmérés"/>
+                            <select name="timing" id="timing" v-model="form.timing" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                                <option value="null" selected>Válassz</option>
+                                <option v-for="timing in constants.timings" :key="timing" :value="timing">{{timing}}</option>
+                            </select>
+                            <jet-input-error :message="form.errors.timing" class="mt-2" />
+                        </div>
+                        <div class="w-full sm:w-1/5">
                             <jet-label for="email" value="Email" />
                             <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" autocomplete="off" />
                             <jet-input-error :message="form.errors.email" class="mt-2" />
                         </div>
-                        <div class="w-full sm:w-1/4">
+                        <div class="w-full sm:w-1/5">
                             <jet-label for="site" value="Weboldal" />
                             <jet-input id="site" type="text" class="mt-1 block w-full" v-model="form.site" autocomplete="off" />
                             <jet-input-error :message="form.errors.site" class="mt-2" />
-                        </div>
-                        <div class="w-full sm:w-1/4">
-                            <jet-label for="category" value="Kategória"/>
-                            <select name="category" id="category" v-model="form.category" class="block mt-1 w-full rounded-md shadow-md border focus:outline-none">
-                                <option value="null" selected>Válassz</option>
-                                <option v-for="(category, key) in categories" :key="key" :value="key">{{key}} - {{category}}</option>
-                            </select>
-                            <jet-input-error :message="form.errors.category" class="mt-2" />
-                        </div>
-                        <div class="w-full sm:w-1/4">
-                            <jet-label for="location_id" value="Helyszín"/>
-                            <select name="location_id" id="location_id" v-model="form.location_id" class="block mt-1 w-full rounded-md shadow-md border focus:outline-none">
-                                <option value="null" selected>Válassz</option>
-                                <option v-for="location in locations" :key="location.id" :value="location.id">{{location.name}}</option>
-                            </select>
-                            <jet-input-error :message="form.errors.location_id" class="mt-2" />
                         </div>
                     </div>
 
@@ -110,6 +141,7 @@ import JetInput from "@/Jetstream/Input";
 import JetInputError from "@/Jetstream/InputError";
 import JetLabel from "@/Jetstream/Label";
 import Editor from '@tinymce/tinymce-vue';
+import JetCheckbox from "@/Jetstream/Checkbox";
 
 export default {
     components: {
@@ -119,9 +151,10 @@ export default {
         JetInputError,
         JetLabel,
         Editor,
+        JetCheckbox,
     },
     props: {
-        categories: Array,
+        constants: Object,
         locations: Object,
     },
     data() {
@@ -135,8 +168,11 @@ export default {
                 email: null,
                 site: null,
                 category: null,
+                timing: null,
+                pool: null,
                 location_id: null,
                 body: null,
+                is_visible: null,
             }),
         };
     },

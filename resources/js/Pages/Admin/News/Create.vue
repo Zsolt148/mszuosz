@@ -13,7 +13,18 @@
         <div class="bg-white rounded-md shadow overflow-hidden">
             <form @submit.prevent="store">
                 <div class="p-8 flex flex-col">
-                    <div class="my-5 w-full flex flex-row space-x-4">
+                    <div class="mb-5">
+                        <jet-label for="is_visible">
+                            <div class="flex items-center text-xl">
+                                <jet-checkbox name="is_visible" id="is_visible" v-model:checked="form.is_visible" />
+
+                                <div class="ml-2">
+                                    Látható
+                                </div>
+                            </div>
+                        </jet-label>
+                    </div>
+                    <div class="mb-5 flex flex-row space-x-4">
                         <div class="w-1/2">
                             <jet-label for="name" value="Cím" />
                             <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="off" />
@@ -26,7 +37,23 @@
                             <jet-input-error :message="form.errors.slug" class="mt-2" />
                         </div>
                     </div>
-                    <div>
+                    <div class="mb-5 flex flex-row space-x-4">
+                        <div class="w-1/2">
+                            <jet-label for="date" value="Dátum" />
+                            <jet-input id="date" type="date" class="mt-1 block w-full" v-model="form.date" autocomplete="off" />
+                            <jet-input-error :message="form.errors.date" class="mt-2" />
+                        </div>
+
+                        <div class="w-1/2">
+                            <jet-label for="type" value="Típus"/>
+                            <select name="type" id="location_id" v-model="form.type" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                                <option value="null" selected>Válassz</option>
+                                <option v-for="(type, key) in types" :key="key" :value="key">{{type}}</option>
+                            </select>
+                            <jet-input-error :message="form.errors.type" class="mt-2" />
+                        </div>
+                    </div>
+                    <div class="my-5">
                         <editor
                             v-model="form.body"
                             id="body"
@@ -39,10 +66,12 @@
                              plugins: [
                                'link table lists print preview'
                              ],
+                             link_list: links,
                              toolbar:
                              'undo redo | styleselect fontsizeselect | bold italic underline| alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor | table link | print preview'
                            }"
                         />
+                        <jet-input-error :message="form.errors.body" class="mt-2" />
                     </div>
                     <div v-if="form.body" class="my-8">
                         <div class="mb-3 text-2xl">Előnézet:</div>
@@ -66,6 +95,7 @@ import JetInput from "@/Jetstream/Input";
 import JetInputError from "@/Jetstream/InputError";
 import JetLabel from "@/Jetstream/Label";
 import Editor from '@tinymce/tinymce-vue';
+import JetCheckbox from "@/Jetstream/Checkbox";
 
 export default {
     components: {
@@ -75,13 +105,32 @@ export default {
         JetInputError,
         JetLabel,
         Editor,
+        JetCheckbox,
+    },
+    props: {
+        types: Object,
+        files: Object,
+    },
+    mounted() {
+        var links = [];
+        this.files.forEach(function (v) {
+            links.push({
+                title: v.split('/')[1],
+                value: window.location.origin + '/' + v
+            });
+        });
+        this.links = links;
     },
     data() {
         return {
+            links: [],
             form: this.$inertia.form({
                 _method: 'POST',
                 name: null,
                 slug: null,
+                type: null,
+                date: null,
+                is_visible: null,
                 body: null,
             }),
         };
