@@ -65,9 +65,9 @@ class DocumentController extends Controller
         foreach($request->input('files') as $tmp) {
             $arr = explode('/', $tmp);
             $uid = array_pop($arr);
-            $path = 'files/' . Str::slug($name) . '-' . $uid;
-            Storage::disk('public')->move($tmp, $path);
-            $files[] = $path;
+            $filename = Str::slug($name) . '-' . $uid;
+            Storage::disk('public')->move($tmp, 'documents/' . $filename);
+            $files[] = $filename;
         }
 
         $doc = new Document();
@@ -105,20 +105,23 @@ class DocumentController extends Controller
         $files = array();
         $name = $request->input('name');
 
-        foreach($request->input('files') as $tmp) {
-            $arr = explode('.', $tmp);
-            $ext = array_pop($arr);
-            $path = 'files/' . Str::slug($name) . '-' . uniqid() . '.' . $ext;
-            if(Storage::disk('public')->exists($tmp)) {
-                Storage::disk('public')->move($tmp, $path);
-                $files[] = $path;
-            }else {
-                return redirect()->back()->with('error', 'A dokumentum nem található a szerveren');
+        if($name != $document->name) {
+            foreach($request->input('files') as $tmp) {
+                $arr = explode('.', $tmp);
+                $ext = array_pop($arr);
+                $path = 'files/' . Str::slug($name) . '-' . uniqid() . '.' . $ext;
+                if(Storage::disk('public')->exists($tmp)) {
+                    Storage::disk('public')->move($tmp, $path);
+                    $files[] = $path;
+                }else {
+                    return redirect()->back()->with('error', 'A dokumentum nem található a szerveren');
+                }
             }
+
+            $document->files = $files;
         }
 
         $document->fill($request->all('name', 'date', 'type', 'is_visible'));
-        $document->files = $files;
         $document->save();
 
         return redirect()->route('admin:documents.index')->with('success', 'Dokumentum sikeresen módosítva');

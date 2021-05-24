@@ -176,5 +176,7 @@ return [
         'timing' => 'Időmérés',
         'pool' => 'Medence',
         'files' => 'Fájlok',
+        'race_info' => 'Versenykiírás',
+        'report' => 'Jegyzőkönyv',
     ],
 ];

@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 
 class UploadController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request, $name)
     {
-        if($request->hasFile('files')) {
-            $files = $request->file('files');
+        if($request->hasFile($name)) {
+            $file = $request->file($name);
             //$filename = uniqid() . '.' . $files->getClientOriginalExtension();
-            $path = $files->store('files/tmp', 'public');
+            $path = $file->store('tmp', 'public');
 
-            return $path;
+            return ['name' => $file->getClientOriginalName(), 'value' => $path];
         }else {
             return null;
         }

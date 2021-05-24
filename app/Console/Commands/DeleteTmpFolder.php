@@ -38,7 +38,7 @@ class DeleteTmpFolder extends Command
      */
     public function handle()
     {
-        Storage::disk('public')->deleteDirectory('files/tmp');
+        Storage::disk('public')->deleteDirectory('tmp');
 
         $this->info('Tmp folder has been deleted');
     }

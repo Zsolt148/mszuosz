@@ -99,6 +99,47 @@
                         </div>
                     </div>
 
+                    <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
+                        <div class="w-full sm:w-1/2">
+                            <jet-label for="race_info" value="Versenykiírás"/>
+                            <file-pond
+                                name="race_info"
+                                ref="pond"
+                                :required="false"
+                                :allow-multiple="false"
+                                accepted-file-types="application/pdf"
+                                max-files="1"
+                                v-bind:server="raceInfoServer"
+                            />
+                        </div>
+
+                        <div class="w-full sm:w-1/2">
+                            <jet-label for="report" value="Jegyzőkönyv"/>
+                            <file-pond
+                                name="report"
+                                ref="pond"
+                                :required="false"
+                                :allow-multiple="false"
+                                accepted-file-types="application/pdf"
+                                max-files="1"
+                                v-bind:server="reportServer"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="w-full mt-5">
+                        <jet-label for="files" value="Fájlok"/>
+                        <file-pond
+                            name="files"
+                            ref="pond"
+                            :required="false"
+                            v-bind:allow-multiple="true"
+                            accepted-file-types="application/pdf"
+                            max-files="5"
+                            v-bind:server="filesServer"
+                        />
+                    </div>
+
                     <div class="mt-5">
                         <jet-label for="body" value="Leírás" />
                         <editor
@@ -143,6 +184,13 @@ import JetLabel from "@/Jetstream/Label";
 import Editor from '@tinymce/tinymce-vue';
 import JetCheckbox from "@/Jetstream/Checkbox";
 
+//Filepond
+import vueFilePond, { setOptions } from 'vue-filepond';
+import "filepond/dist/filepond.min.css";
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+
+const FilePond = vueFilePond(FilePondPluginFileValidateType);
+
 export default {
     components: {
         AdminLayout,
@@ -152,6 +200,7 @@ export default {
         JetLabel,
         Editor,
         JetCheckbox,
+        FilePond
     },
     props: {
         constants: Object,
@@ -159,6 +208,40 @@ export default {
     },
     data() {
         return {
+            raceInfoServer: {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                process: {
+                    url: '/process/race_info',
+                    onload: (resp) => {
+                        this.form.race_info = JSON.parse(resp)['value'];
+                    },
+                },
+            },
+            reportServer: {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                process: {
+                    url: '/process/report',
+                    onload: (resp) => {
+                        this.form.report = JSON.parse(resp)['value'];
+                    },
+                },
+            },
+            filesServer: {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                process: {
+                    url: '/process/files',
+                    onload: (resp) => {
+                        this.tmp.push(JSON.parse(resp)['value']);
+                    },
+                },
+            },
+            tmp: [],
             form: this.$inertia.form({
                 _method: 'POST',
                 name: null,
@@ -172,28 +255,42 @@ export default {
                 pool: null,
                 location_id: null,
                 body: null,
-                is_visible: null,
+                is_visible: false,
+                race_info: null,
+                report:null,
+                files:null,
             }),
         };
     },
     methods: {
         store() {
+            this.form.files = this.tmp;
             this.form.post(this.route('admin:events.store'))
         },
+        slug(string) {
+            if(string == null) return '';
+            return string.toString().toLowerCase()
+                .replace(/\s+/g, '-')           // Replace spaces with -
+                .replace(/^-+/, '')             // Trim - from start of text
+                .replace(/&/g, `-and-`)         // & to and
+                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+                .replace(/-+$/, '');
+        }
     },
     computed: {
-      name() {
+        name() {
           return this.form.name;
-      }
+        },
+        start_at() {
+            return this.form.start_at;
+        }
     },
     watch: {
         name() {
-            this.form.slug = this.form.name.toString().toLowerCase()
-                .replace(/\s+/g, '-')           // Replace spaces with -
-                .replace(/^-+/, '')            // Trim - from start of text
-                .replace(/&/g, `-and-`)         // & to and
-                .replace(/\-\-+/g, '-')                                 // Replace multiple - with single -
-                .replace(/-+$/, '');
+            this.form.slug = this.slug(this.form.start_at) + '-' + this.slug(this.form.name);
+        },
+        start_at() {
+            this.form.slug = this.slug(this.form.start_at) + '-' + this.slug(this.form.name);
         }
     }
 }

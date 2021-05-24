@@ -95,6 +95,17 @@
                         </div>
                     </div>
 
+                    <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
+                        <div class="w-full sm:w-1/2">
+                            <jet-label for="race_info" value="Versenykiírás"/>
+                            <a class="text-blue-600 underline mr-3" target="_blank" :href="route('home') + '/events/' + form.slug + '/' + form.race_info">{{form.race_info}}</a>
+                        </div>
+                        <div class="w-full sm:w-1/2">
+                            <jet-label for="report" value="Jegyzőkönyv"/>
+                            <a class="text-blue-600 underline mr-3" target="_blank" :href="route('home') + '/events/' + form.slug + '/' + form.report">{{form.report}}</a>
+                        </div>
+                    </div>
+
                     <div class="mt-4">
                         <jet-label for="body" value="Leírás" />
                         <editor
@@ -199,6 +210,9 @@ export default {
                 location_id: this.event.location_id,
                 body: this.event.body,
                 is_visible: this.event.is_visible ? true : false,
+                race_info: this.event.race_info,
+                report:this.event.report,
+                files:this.event.files,
             }),
         };
     },
@@ -209,20 +223,30 @@ export default {
         deleteEvent() {
             this.$inertia.delete(this.route('admin:events.destroy', this.event.id))
         },
+        slug(string) {
+            if(string == null) return '';
+            return string.toString().toLowerCase()
+                .replace(/\s+/g, '-')           // Replace spaces with -
+                .replace(/^-+/, '')            // Trim - from start of text
+                .replace(/&/g, `-and-`)         // & to and
+                .replace(/\-\-+/g, '-')                                 // Replace multiple - with single -
+                .replace(/-+$/, '');
+        }
     },
     computed: {
         name() {
             return this.form.name;
+        },
+        start_at() {
+            return this.form.start_at;
         }
     },
     watch: {
         name() {
-            this.form.slug = this.form.name.toString().toLowerCase()
-                .replace(/\s+/g, '-')           // Replace spaces with -
-                .replace(/^-+/, '')             // Trim - from start of text
-                .replace(/&/g, `-and-`)         // & to and
-                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-                .replace(/-+$/, '');
+            this.form.slug = this.slug(this.form.start_at) + '-' + this.slug(this.form.name);
+        },
+        start_at() {
+            this.form.slug = this.slug(this.form.start_at) + '-' + this.slug(this.form.name);
         }
     }
 }

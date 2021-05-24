@@ -8,11 +8,13 @@ use App\Models\Event;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class EventController extends Controller
 {
+    protected $path = 'events/';
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +24,7 @@ class EventController extends Controller
     {
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:name,slug,date,category,created_at'],
+            'field' => ['in:name,slug,date,category,is_visible,created_at'],
         ]);
 
         $query = Event::query()
@@ -83,8 +85,38 @@ class EventController extends Controller
     public function store(EventRequest $request)
     {
         $event = new Event();
-        $event->fill($request->except('slug'));
-        $event->slug = Str::slug($request->input('slug'));
+        $event->fill($request->except('slug', 'race_info', 'report', 'files'));
+
+        $slug = Str::slug($request->input('slug'));
+        $event->slug = $slug;
+        $folder = $this->path . $slug . '/';
+
+        Storage::disk('public')->makeDirectory($folder);
+
+        if($tmp = $request->input('race_info')) {
+            $race_info = 'versenykiiras-' . uniqid() . '.pdf';
+            $path = $folder . $race_info;
+            Storage::disk('public')->move($tmp, $path);
+
+            $event->race_info = $race_info;
+        }
+
+        if($tmp = $request->input('report')) {
+            $report = 'jegyzokonyv-' . uniqid() . '.pdf';
+            $path = $folder . $report;
+            Storage::disk('public')->move($tmp, $path);
+
+            $event->report = $report;
+        }
+
+        //TODO files
+        if($files = $request->input('files')) {
+            foreach($files as $tmp) {
+
+                //Storage::disk('public')->move($tmp);
+            }
+        }
+
         $event->save();
 
         return redirect()->route('admin:events.index')->with('success', 'Verseny sikeresen létrehozva');

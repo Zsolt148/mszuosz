@@ -36,10 +36,8 @@
                             </span>
                         </th>
                         <th class="px-6 pt-6 pb-4">
-                            <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('location')">
+                            <span class="inline-flex w-full justify-between">
                                 Helyszín
-                                <icon v-if="params.field === 'location' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
-                                <icon v-if="params.field === 'location' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
                             </span>
                         </th>
                         <th class="px-6 pt-6 pb-4">
@@ -77,7 +75,7 @@
                         </td>
                         <td class="border-t">
                             <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:events.edit', event.id)" tabindex="-1">
-                                <img class="mr-2" :src="'https://www.countryflags.io/' + event.location.code + '/flat/24.png'"> {{ event.location.country }}
+                                <img class="mr-2" :src="'https://www.countryflags.io/' + event.location.code + '/flat/24.png'"> {{ event.location.city }}
                             </inertia-link>
                         </td>
                         <td class="border-t">

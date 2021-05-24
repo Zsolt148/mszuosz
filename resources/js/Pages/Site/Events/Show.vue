@@ -14,7 +14,7 @@
                         <span>{{content.period}}</span>
                     </div>
                 </div>
-                <div class="flex flex-col sm:flex-row sm:space-x-6 text-gray-600 w-full">
+                <div class="flex flex-col sm:flex-row sm:space-x-6 text-gray-600 w-full mb-5">
                     <div class="flex">
                         <img class="mr-2" :src="'https://www.countryflags.io/' + content.location.code + '/flat/24.png'"> {{ content.location.country }}
                     </div>
@@ -29,6 +29,16 @@
                     <div class="flex">
                         <icon name="pool" class="w-5 h-5 mt-1 mr-2" />
                         <span>{{content.pool}} M - {{content.timing}} időmérés</span>
+                    </div>
+                </div>
+                <div class="flex space-x-5 w-full my-8" v-if="content.report || content.race_info">
+                    <div class="items-center hover:text-blue-600 underline flex" v-if="content.race_info">
+                        <icon name="pdf" class="w-5 h-5 mr-2"></icon>
+                        <a class="mr-3" target="_blank" :href="route('home') + '/events/' + content.slug + '/' + content.race_info">Versenykiírás</a>
+                    </div>
+                    <div class="items-center hover:text-blue-600 underline flex" v-if="content.report">
+                        <icon name="pdf" class="w-5 h-5 mr-2"></icon>
+                        <a class="mr-3" target="_blank" :href="route('home') + '/events/' + content.slug + '/' + content.report">Jegyzőkönyv</a>
                     </div>
                 </div>
                 <div class="mt-10 mb-5" v-html="content.body"/>

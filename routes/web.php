@@ -22,16 +22,20 @@ Route::get('/events/{event:slug}', [\App\Http\Controllers\Site\EventController::
 Route::get('/teams', [\App\Http\Controllers\Site\TeamController::class, 'index'])->name('teams');
 
 //Filepond
-Route::post('process', [UploadController::class, 'store']);
+Route::post('process/{name}', [UploadController::class, 'store']);
 Route::delete('revert', [UploadController::class, 'destroy']);
 
 //File views
-Route::get('/files/{filename}', function ($filename = '') {
-    $path = storage_path('app/public/files/' . $filename);
-    if (!File::exists($path)) {
-        abort(404);
-    }
-    return response()->file($path);
+Route::get('/documents/{path}', function ($path = '') {
+    $file = storage_path('app/public/documents/' . $path);
+    if (!File::exists($file)) abort(404);
+    return response()->file($file);
+});
+
+Route::get('/events/{path}', function ($path = '') {
+    $file = storage_path('app/public/events/' . $path);
+    if (!File::exists($file)) abort(404);
+    return response()->file($file);
 });
 
 //jetstream routes

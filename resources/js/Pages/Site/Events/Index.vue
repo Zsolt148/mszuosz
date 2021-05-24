@@ -89,12 +89,17 @@
                                 {{ event.category }}
                             </inertia-link>
                         </td>
-                        <td class="border-t"></td>
-                        <td class="border-t"></td>
-                        <td class="border-t w-px">
-                            <inertia-link class="px-4 flex items-center" :href="route('events.show', event.slug)" tabindex="-1">
-                                <icon name="cheveron-right" class="block w-6 h-6 fill-gray-400" />
-                            </inertia-link>
+                        <td class="border-t">
+                            <div class="px-6 py-4 items-center hover:text-blue-600 underline flex" v-if="event.race_info">
+                                <icon name="pdf" class="w-5 h-5 mr-2"></icon>
+                                <a target="_blank" :href="route('home') + '/events/' + event.slug + '/' + event.race_info">Versenykiírás</a>
+                            </div>
+                        </td>
+                        <td class="border-t">
+                            <div class="px-6 py-4 items-center hover:text-blue-600 underline flex" v-if="event.report">
+                                <icon name="pdf" class="w-5 h-5 mr-2"></icon>
+                                <a target="_blank" :href="route('home') + '/events/' + event.slug + '/' + event.report">Jegyzőkönyv</a>
+                            </div>
                         </td>
                     </tr>
                     <tr v-if="events.data.length === 0">

@@ -49,9 +49,9 @@
                     </div>
 
                     <div class="w-full mt-5">
-                        <jet-label for="type" value="Fájlok"/>
+                        <jet-label for="files" value="Fájlok"/>
                         <file-pond
-                            name="files"
+                            name="documents"
                             ref="pond"
                             v-bind:allow-multiple="true"
                             accepted-file-types="application/pdf"
@@ -94,13 +94,11 @@ export default {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                 },
                 process: {
-                    url: '/process',
-                    onload: (response) => {
-                        console.log(response);
-                        this.tmp.push(response);
+                    url: '/process/documents',
+                    onload: (resp) => {
+                        this.tmp.push(JSON.parse(resp)['value']);
                     }
                 },
-                revert: '/revert',
             }
         });
     },
@@ -124,7 +122,7 @@ export default {
                 name: null,
                 date: null,
                 type: null,
-                is_visible: null,
+                is_visible: false,
                 files: null,
             }),
         };

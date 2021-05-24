@@ -27,6 +27,8 @@ class CreateEventsTable extends Migration
             $table->enum('pool', ['25', '33', '50', 'Nyíltvizi']);
             $table->enum('timing', ['Kézi', 'Gépi']);
             $table->boolean('is_visible')->default(0);
+            $table->text('race_info')->nullable();
+            $table->text('report')->nullable();
             $table->text('files')->nullable();
             $table->timestamps();
         });

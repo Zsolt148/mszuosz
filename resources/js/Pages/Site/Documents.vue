@@ -5,7 +5,7 @@
         </template>
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="mb-5" v-for="(document, name) in documents" :key="document.id">
-                <div class="text-xl">{{types[name]}}</div>
+                <div class="text-2xl mb-2">{{types[name]}}</div>
                 <div class="bg-white rounded-md shadow overflow-x-auto">
                     <table class="table-auto whitespace-nowrap w-full">
                         <tr class="rounded-lg font-bold border-b text-center">
@@ -18,7 +18,7 @@
                             <td class="px-6 py-4">{{doc.name}}</td>
                             <td class="px-6 py-4 flex justify-center items-center hover:text-blue-600 underline">
                                 <icon name="pdf" class="w-5 h-5 mr-2"></icon>
-                                <a class="mr-3" v-for="(file, key) in doc.files" :key="key" target="_blank" :href="route('home') + '/' + file">
+                                <a class="mr-3" v-for="(file, key) in doc.files" :key="key" target="_blank" :href="route('home') + '/documents/' + file">
                                     {{doc.name}}<span v-if="doc.files.length != 1">&nbsp;{{key+1}}</span>.pdf
                                 </a>
                             </td>

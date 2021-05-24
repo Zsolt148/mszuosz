@@ -17,7 +17,6 @@
                         <jet-label for="is_visible">
                             <div class="flex items-center text-xl">
                                 <jet-checkbox name="is_visible" id="is_visible" v-model:checked="form.is_visible" />
-
                                 <div class="ml-2">
                                     Látható
                                 </div>
@@ -50,7 +49,7 @@
                     <div class="w-full mt-5">
                         <jet-label for="file" value="Fájlok" />
                         <input type="hidden" v-model="form.files">
-                        <a class="text-blue-600 underline mr-3" v-for="(file, key) in form.files" :key="key" target="_blank" :href="route('home') + '/' + file">{{form.name}} {{key+1}}.pdf</a>
+                        <a class="text-blue-600 underline mr-3" v-for="(file, key) in form.files" :key="key" target="_blank" :href="route('home') + '/documents/' + file">{{form.name}} {{key+1}}.pdf</a>
                         <jet-input-error :message="form.errors.file" class="mt-2" />
                     </div>
                 </div>

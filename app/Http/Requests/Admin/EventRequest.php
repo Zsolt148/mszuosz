@@ -36,6 +36,9 @@ class EventRequest extends FormRequest
             'category' => ['required'],
             'timing' => ['required'],
             'pool' => ['required'],
+            'files' => ['nullable'],
+            'file_info' => ['nullable'],
+            'report' => ['nullable'],
         ];
     }
 }
