@@ -150,5 +150,31 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'name' => 'Név',
+        'email' => 'Email',
+        'role' => 'Jogosultság',
+        'short' => 'Rövidítés',
+        'sa' => 'SA',
+        'address' => 'Cím',
+        'webpage' => 'Weboldal',
+        'contact_name' => 'Kapcsolattartó neve',
+        'contact_email' => 'Kapcsolattartó email címe',
+        'slug' => 'URL',
+        'type' => 'Típus', //news / document
+        'date' => 'Dátum',
+        'is_visible' => 'Látható',
+        'body' => 'Szöveg',
+        'country' => 'Ország',
+        'city' => 'Város',
+        'code' => 'Kód',
+        'location_id' => 'Helyszín',
+        'start_at' => 'Kezdőnap',
+        'end_at' => 'Végnap',
+        'site' => 'Weboldal',
+        'category' => 'Kategória',
+        'timing' => 'Időmérés',
+        'pool' => 'Medence',
+        'files' => 'Fájlok',
+    ],
 ];

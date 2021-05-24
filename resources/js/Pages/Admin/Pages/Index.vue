@@ -6,9 +6,9 @@
 
         <div>
             <div class="mb-6 flex w-full justify-between items-center">
-                <input class="relative w-full px-4 py-1 rounded-md mr-2" autocomplete="off" type="text" name="search" placeholder="Search…" v-model="params.search"/>
+                <input class="relative w-full px-4 py-1 rounded-md border-gray-300 mr-2" autocomplete="off" type="text" name="search" placeholder="Keresés…" v-model="params.search"/>
                 <jet-button @click="$emit('reset')">
-                    Reset
+                    Visszaállítás
                 </jet-button>
             </div>
 
@@ -24,7 +24,7 @@
                         </th>
                         <th class="px-6 pt-6 pb-4">
                             <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('slug')">
-                                URL Slug
+                                URL
                                 <icon v-if="params.field === 'slug' && params.direction === 'asc'" name="cheveron-up" class="w-4 h-4"></icon>
                                 <icon v-if="params.field === 'slug' && params.direction === 'desc'" name="cheveron-down" class="w-4 h-4"></icon>
                             </span>
@@ -108,7 +108,7 @@ export default {
         params: {
             handler: throttle(function () {
                 let params = pickBy(this.params);
-                this.$inertia.get(this.route('admin:pages'), params, { replace: true, preserveState: true });
+                this.$inertia.get(this.route('admin:pages.index'), params, { replace: true, preserveState: true });
             }, 150),
             deep: true,
         },

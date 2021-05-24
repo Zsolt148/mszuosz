@@ -43,6 +43,7 @@
                              'undo redo | styleselect fontsizeselect | bold italic underline| alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor | table link | print preview'
                            }"
                         />
+                        <jet-input-error :message="form.errors.body" class="mt-2" />
                     </div>
                     <div v-if="form.body" class="my-8">
                         <div class="mb-3 text-2xl">Előnézet:</div>

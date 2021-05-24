@@ -6,7 +6,7 @@
 
         <div>
             <div class="mb-6 flex w-full justify-between items-center">
-                <input class="relative w-full px-4 py-1 rounded-md mr-2" autocomplete="off" type="text" name="search" placeholder="Keresés…" v-model="params.search"/>
+                <input class="relative w-full px-4 py-1 rounded-md border-gray-300 mr-2" autocomplete="off" type="text" name="search" placeholder="Keresés…" v-model="params.search"/>
                 <jet-button @click="reset">
                     Visszaállítás
                 </jet-button>

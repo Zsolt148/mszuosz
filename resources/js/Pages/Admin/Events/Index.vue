@@ -6,8 +6,8 @@
 
         <div>
             <div class="mb-6 flex w-full justify-between items-center">
-                <input class="relative w-4/5 px-4 py-1 rounded-md mr-2" autocomplete="off" type="text" name="search" placeholder="Keresés…" v-model="params.search"/>
-                <select name="year" id="year" v-model="params.year" class="block rounded-md border py-1 w-1/5 focus:outline-none mr-2">
+                <input class="relative w-4/5 px-4 py-1 rounded-md border-gray-300 mr-2" autocomplete="off" type="text" name="search" placeholder="Keresés…" v-model="params.search"/>
+                <select name="year" id="year" v-model="params.year" class="block rounded-md border-gray-300 py-1 w-1/5 focus:outline-none mr-2">
                     <option value="null" selected>Év</option>
                     <option v-for="year in years" :key="year" :value="year">{{year}}</option>
                 </select>
