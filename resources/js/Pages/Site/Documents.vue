@@ -4,7 +4,7 @@
             Dokumentumok
         </template>
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <div class="mb-5" v-for="(document, name) in documents" :key="document.id">
+            <div class="mb-6" v-for="(document, name) in documents" :key="document.id">
                 <div class="text-2xl mb-2">{{types[name]}}</div>
                 <div class="bg-white rounded-md shadow overflow-x-auto">
                     <table class="table-auto whitespace-nowrap w-full">

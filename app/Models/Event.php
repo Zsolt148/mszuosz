@@ -19,6 +19,7 @@ class Event extends Model
         'start_at' => 'date:Y-m-d',
         'end_at' => 'date:Y-m-d',
         'is_visible' => 'boolean',
+        'files' => 'array',
     ];
 
     const CATS = [
@@ -50,6 +51,15 @@ class Event extends Model
 
     public function scopeVisible(Builder $query) {
         return $query->where('is_visible', true);
+    }
+
+    public function scopeNotVisible(Builder $query) {
+        return $query->where('is_visible', false);
+    }
+
+    public function isVisible()
+    {
+        return $this->is_visible;
     }
 
     public function getCreatedAtAttribute($date)

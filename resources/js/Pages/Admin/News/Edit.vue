@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mb-5">
-                        <div class="w-full sm:w-1/2">
+                        <div class="w-full">
                             <jet-label for="tags" value="Címkék"/>
                             <VueMultiselect
                                 name="tags"

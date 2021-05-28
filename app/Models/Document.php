@@ -20,6 +20,7 @@ class Document extends Model
     protected $appends = ['filename', 'type_val', 'date_val'];
 
     const TYPES = [
+        'default'   => 'Általános',
         'template'  => 'Sablon',
         'rule'      => 'Szabályzat',
         'report'    => 'Jegyzőkönyv',
@@ -32,6 +33,10 @@ class Document extends Model
 
     public function scopeVisible(Builder $query) {
         return $query->where('is_visible', true);
+    }
+
+    public function scopeNotVisible(Builder $query) {
+        return $query->where('is_visible', false);
     }
 
     public function getTypeValAttribute()

@@ -44,6 +44,10 @@ class NewsController extends Controller
      */
     public function show(News $news)
     {
+        if(!$news->isVisible()) {
+            abort(403);
+        }
+
         return Inertia::render('Site/News/Show', [
            'content' => $news->with('tags')->firstWhere('id', $news->id)
         ]);

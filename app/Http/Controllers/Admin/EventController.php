@@ -191,7 +191,6 @@ class EventController extends Controller
                 Storage::disk('public')->move($tmppath, $folder . $uid);
                 $newFilesArray[$file['name']] = $uid;
             }
-
             $event->files = is_array($event->files) ? array_merge($event->files, $newFilesArray) : $newFilesArray;
         }
 
@@ -208,7 +207,9 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        $event->delete(); //
+        Storage::disk('public')->deleteDirectory($this->path . $event->slug);
+
+        $event->delete();
 
         return redirect()->route('admin:events.index')->with('success', 'Verseny sikeresn törölve');
     }
@@ -222,7 +223,7 @@ class EventController extends Controller
         }
 
         if($field == 'files') {
-            $files = json_decode($event->files, true);
+            $files = $event->files;
             if(($key = array_search($file, $files)) !== false) {
                 unset($files[$key]);
             }

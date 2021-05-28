@@ -202,7 +202,7 @@
             </template>
 
             <template #content>
-                Biztosan törölni szeretnéd a versenyt ?
+                Biztosan törölni szeretnéd a versenyt ? A verseny és az összes hozzá való fájl is törlésre fog kerülni!
             </template>
 
             <template #footer>
@@ -262,7 +262,7 @@ export default {
             confirmModalShow: false,
             race_info: this.event.race_info,
             report: this.event.report,
-            files: JSON.parse(this.event.files),
+            files: this.event.files,
             form: this.$inertia.form({
                 _method: 'POST',
                 name: this.event.name,
@@ -279,7 +279,7 @@ export default {
                 is_visible: this.event.is_visible ? true : false,
                 race_info: this.event.race_info,
                 report: this.event.report,
-                files: JSON.parse(this.event.files),
+                files: this.event.files,
                 newFiles: null,
             }),
             raceInfoServer: {

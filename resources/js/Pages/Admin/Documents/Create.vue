@@ -54,9 +54,9 @@
                             name="documents"
                             ref="pond"
                             v-bind:allow-multiple="true"
-                            accepted-file-types="application/pdf"
-                            v-on:init="handleFilePondInit"
+                            accepted-file-types="application/*, image/*"
                             v-bind:required="true"
+                            v-bind:server="filesServer"
                             max-files="5"
                             label-idle='<p>Húzd ide a fájlokat vagy <span class="filepond--label-action" tabindex="0">Böngéssz</span></p>'
                         />
@@ -88,21 +88,6 @@ import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 const FilePond = vueFilePond(FilePondPluginFileValidateType);
 
 export default {
-    mounted() {
-        setOptions({
-            server: {
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                process: {
-                    url: '/process/documents',
-                    onload: (resp) => {
-                        this.tmp.push(JSON.parse(resp)['value']);
-                    }
-                },
-            }
-        });
-    },
     components: {
         AdminLayout,
         JetButton,
@@ -110,7 +95,7 @@ export default {
         JetInputError,
         JetLabel,
         JetCheckbox,
-        FilePond
+        FilePond,
     },
     props: {
         types: Object,
@@ -118,6 +103,17 @@ export default {
     data() {
         return {
             tmp: [],
+            filesServer: {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                process: {
+                    url: '/process/documents',
+                    onload: (resp) => {
+                        this.tmp.push(JSON.parse(resp)['value']);
+                    },
+                },
+            },
             form: this.$inertia.form({
                 _method: 'POST',
                 name: null,
@@ -132,10 +128,6 @@ export default {
         store() {
             this.form.files = this.tmp;
             this.form.post(this.route('admin:documents.store'))
-        },
-        // FilePond instance methods are available on `this.$refs.pond`
-        handleFilePondInit: function () {
-            console.log("FilePond has initialized");
         },
     },
 }

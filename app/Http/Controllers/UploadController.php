@@ -10,8 +10,8 @@ class UploadController extends Controller
     {
         if($request->hasFile($name)) {
             $file = $request->file($name);
-            //$filename = uniqid() . '.' . $files->getClientOriginalExtension();
-            $path = $file->store('tmp', 'public');
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('tmp', $filename, 'public');
 
             return ['name' => $file->getClientOriginalName(), 'value' => $path];
         }else {

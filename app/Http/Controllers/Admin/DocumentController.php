@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DocumentRequest;
 use App\Models\Document;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -49,7 +50,9 @@ class DocumentController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Documents/Create', ['types' => Document::TYPES]);
+        return Inertia::render('Admin/Documents/Create', [
+            'types' => Document::TYPES
+        ]);
     }
 
     /**

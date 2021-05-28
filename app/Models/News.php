@@ -17,7 +17,8 @@ class News extends Model
 
     protected $casts = [
         'date' => 'date:Y-m-d',
-        'is_visible' => 'boolean'
+        'is_visible' => 'boolean',
+        'files' => 'array',
     ];
 
     const TYPES = [
@@ -32,6 +33,15 @@ class News extends Model
 
     public function scopeVisible(Builder $query) {
         return $query->where('is_visible', true);
+    }
+
+    public function scopeNotVisible(Builder $query) {
+        return $query->where('is_visible', false);
+    }
+
+    public function isVisible()
+    {
+        return $this->is_visible;
     }
 
     public function getCreatedAtAttribute($date)
@@ -51,7 +61,7 @@ class News extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'new_tag', 'news_id', 'tags_id');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
 }

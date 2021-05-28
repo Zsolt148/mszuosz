@@ -11,6 +11,6 @@ class Tag extends Model
 
     public function news()
     {
-        return $this->belongsToMany(News::class, 'new_tag', 'tags_id', 'news_id');
+        return $this->morphedByMany(News::class, 'taggable');
     }
 }

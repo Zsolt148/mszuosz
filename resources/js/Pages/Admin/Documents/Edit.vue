@@ -49,7 +49,7 @@
                     <div class="w-full mt-5">
                         <jet-label for="file" value="Fájlok" />
                         <input type="hidden" v-model="form.files">
-                        <a class="text-blue-600 underline mr-3" v-for="(file, key) in form.files" :key="key" target="_blank" :href="route('home') + '/documents/' + file">{{form.name}} {{key+1}}.pdf</a>
+                        <a class="text-blue-600 underline mr-3" v-for="(file, key) in form.files" :key="key" target="_blank" :href="route('home') + '/documents/' + file">{{form.name}} {{key+1}}.{{file.split('.')[1]}}</a>
                         <jet-input-error :message="form.errors.file" class="mt-2" />
                     </div>
                 </div>

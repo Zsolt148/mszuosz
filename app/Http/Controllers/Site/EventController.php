@@ -68,6 +68,10 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
+        if(!$event->isVisible()) {
+            abort(403);
+        }
+
         return Inertia::render('Site/Events/Show', [
            'content' => $event->with('location')->firstWhere('id', $event->id)
         ]);
