@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\NewsRequest;
 use App\Models\News;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -53,7 +54,8 @@ class NewsController extends Controller
     {
         return Inertia::render('Admin/News/Create', [
             'types' => News::TYPES,
-            'files' => Storage::disk('public')->files('files'),
+            'files' => Storage::disk('public')->files('documents'),
+            'tags' => Tag::all(),
         ]);
     }
 
@@ -66,10 +68,20 @@ class NewsController extends Controller
     public function store(NewsRequest $request)
     {
         $news = new News();
-        $news->fill($request->all());
+        $news->fill($request->except('tags'));
         $news->user()->associate(Auth::user());
         $news->slug = Str::slug($request->input('slug'));
         $news->save();
+
+        $tagIds = collect();
+        foreach($request->input('tags') as $tag) {
+            $id = Tag::firstOrCreate([
+                'name' => $tag['name']
+            ])->id;
+            $tagIds->push($id);
+        }
+
+        $news->tags()->attach($tagIds);
 
         return redirect()->route('admin:news.index')->with('success', 'Hír sikeresen létrehozva');
     }
@@ -84,7 +96,10 @@ class NewsController extends Controller
     {
         return Inertia::render('Admin/News/Edit', [
             'news' => $news,
-            'types' => News::TYPES
+            'types' => News::TYPES,
+            'files' => Storage::disk('public')->files('documents'),
+            'tags' => Tag::all(),
+            'selectedTags' => $news->tags()->get(),
         ]);
     }
 
@@ -97,9 +112,19 @@ class NewsController extends Controller
      */
     public function update(NewsRequest $request, News $news)
     {
-        $news->fill($request->all());
+        $news->fill($request->except('tags'));
         $news->slug = Str::slug($request->input('slug'));
         $news->save();
+
+        $tagIds = collect();
+        foreach($request->input('tags') as $tag) {
+            $id = Tag::firstOrCreate([
+                'name' => $tag['name']
+            ])->id;
+            $tagIds->push($id);
+        }
+
+        $news->tags()->sync($tagIds);
 
         return redirect()->back()->with('success', 'Hír sikeresen frissítve');
     }
@@ -112,6 +137,8 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
+        $news->tags()->detach();
+
         $news->delete();
 
         return redirect()->route('admin:news.index')->with('success', 'Hír sikeresn törölve');

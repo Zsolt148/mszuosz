@@ -98,11 +98,66 @@
                     <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
                         <div class="w-full sm:w-1/2">
                             <jet-label for="race_info" value="Versenykiírás"/>
-                            <a class="text-blue-600 underline mr-3" target="_blank" :href="route('home') + '/events/' + form.slug + '/' + form.race_info">{{form.race_info}}</a>
+                            <div v-if="race_info">
+                                <a class="text-blue-600 underline mr-3" target="_blank" :href="route('home') + '/events/' + form.slug + '/' + race_info">{{race_info}}</a>
+                                <jet-secondary-button @click="deleteFile('race_info', race_info)">
+                                    Törlés
+                                </jet-secondary-button>
+                            </div>
+                            <file-pond
+                                v-else
+                                name="race_info"
+                                ref="pond"
+                                :required="false"
+                                :allow-multiple="false"
+                                accepted-file-types="application/pdf"
+                                max-files="1"
+                                v-bind:server="raceInfoServer"
+                                label-idle='<p>Húzd ide a fájlt vagy <span class="filepond--label-action" tabindex="0">Böngéssz</span></p>'
+                            />
                         </div>
                         <div class="w-full sm:w-1/2">
                             <jet-label for="report" value="Jegyzőkönyv"/>
-                            <a class="text-blue-600 underline mr-3" target="_blank" :href="route('home') + '/events/' + form.slug + '/' + form.report">{{form.report}}</a>
+                            <div v-if="report">
+                                <a class="text-blue-600 underline mr-3" target="_blank" :href="route('home') + '/events/' + form.slug + '/' + report">{{report}}</a>
+                                <jet-secondary-button @click="deleteFile('report', report)">
+                                    Törlés
+                                </jet-secondary-button>
+                            </div>
+                            <file-pond
+                                v-else
+                                name="report"
+                                ref="pond"
+                                :required="false"
+                                :allow-multiple="false"
+                                accepted-file-types="application/pdf"
+                                max-files="1"
+                                v-bind:server="reportServer"
+                                label-idle='<p>Húzd ide a fájlt vagy <span class="filepond--label-action" tabindex="0">Böngéssz</span></p>'
+                            />
+                        </div>
+                    </div>
+
+                    <div class="w-full mt-5">
+                        <jet-label for="files" value="Fájlok"/>
+                        <file-pond
+                            name="files"
+                            ref="pond"
+                            :required="false"
+                            v-bind:allow-multiple="true"
+                            accepted-file-types="application/*, image/*"
+                            max-files="5"
+                            v-bind:server="filesServer"
+                            label-idle='<p>Húzd ide a fájlokat vagy <span class="filepond--label-action" tabindex="0">Böngéssz</span></p>'
+                        />
+                    </div>
+
+                    <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
+                        <div v-for="(file, name) in files" :key="name">
+                            <a class="text-blue-600 underline mr-3" target="_blank" :href="route('home') + '/events/' + form.slug + '/' + file">{{name}}</a>
+                            <jet-secondary-button @click="deleteFile('files', file, name)">
+                                Törlés
+                            </jet-secondary-button>
                         </div>
                     </div>
 
@@ -175,6 +230,13 @@ import JetConfirmationModal from "@/Jetstream/ConfirmationModal";
 import JetSecondaryButton from "@/Jetstream/SecondaryButton";
 import JetCheckbox from "@/Jetstream/Checkbox";
 
+//Filepond
+import vueFilePond, { setOptions } from 'vue-filepond';
+import "filepond/dist/filepond.min.css";
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+
+const FilePond = vueFilePond(FilePondPluginFileValidateType);
+
 export default {
     components: {
         AdminLayout,
@@ -187,6 +249,7 @@ export default {
         JetConfirmationModal,
         JetSecondaryButton,
         JetCheckbox,
+        FilePond
     },
     props: {
         constants: Object,
@@ -195,7 +258,11 @@ export default {
     },
     data() {
         return {
+            tmp: [],
             confirmModalShow: false,
+            race_info: this.event.race_info,
+            report: this.event.report,
+            files: JSON.parse(this.event.files),
             form: this.$inertia.form({
                 _method: 'POST',
                 name: this.event.name,
@@ -211,25 +278,70 @@ export default {
                 body: this.event.body,
                 is_visible: this.event.is_visible ? true : false,
                 race_info: this.event.race_info,
-                report:this.event.report,
-                files:this.event.files,
+                report: this.event.report,
+                files: JSON.parse(this.event.files),
+                newFiles: null,
             }),
+            raceInfoServer: {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                process: {
+                    url: '/process/race_info',
+                    onload: (resp) => {
+                        this.form.race_info = JSON.parse(resp)['value'];
+                    },
+                },
+            },
+            reportServer: {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                process: {
+                    url: '/process/report',
+                    onload: (resp) => {
+                        this.form.report = JSON.parse(resp)['value'];
+                    },
+                },
+            },
+            filesServer: {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                process: {
+                    url: '/process/files',
+                    onload: (resp) => {
+                        this.tmp.push(JSON.parse(resp));
+                    },
+                },
+            },
         };
     },
     methods: {
         update() {
-            this.form.put(this.route('admin:events.update', this.event.id))
+            this.form.newFiles = this.tmp;
+            this.form.put(this.route('admin:events.update', this.event.id));
+            this.race_info = this.event.race_info;
+            this.report = this.event.report;
         },
         deleteEvent() {
-            this.$inertia.delete(this.route('admin:events.destroy', this.event.id))
+            this.$inertia.delete(this.route('admin:events.destroy', this.event.id));
+        },
+        deleteFile(field, name, key = null) {
+            this.$inertia.delete(this.route('admin:events.delete.file', [this.event.id, field, name]));
+            if(field == 'files') {
+                delete this.files[key];
+            }else {
+                this[field] = null;
+            }
         },
         slug(string) {
             if(string == null) return '';
             return string.toString().toLowerCase()
                 .replace(/\s+/g, '-')           // Replace spaces with -
-                .replace(/^-+/, '')            // Trim - from start of text
+                .replace(/^-+/, '')             // Trim - from start of text
                 .replace(/&/g, `-and-`)         // & to and
-                .replace(/\-\-+/g, '-')                                 // Replace multiple - with single -
+                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
                 .replace(/-+$/, '');
         }
     },

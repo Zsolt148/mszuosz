@@ -49,4 +49,9 @@ class News extends Model
         return self::TYPES[$this->type];
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'new_tag', 'news_id', 'tags_id');
+    }
+
 }

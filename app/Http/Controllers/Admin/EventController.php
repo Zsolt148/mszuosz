@@ -109,12 +109,19 @@ class EventController extends Controller
             $event->report = $report;
         }
 
-        //TODO files
         if($files = $request->input('files')) {
-            foreach($files as $tmp) {
+            $filesArray = array();
 
-                //Storage::disk('public')->move($tmp);
+            foreach($files as $file) {
+                $tmppath = $file['value'];
+                $arr = explode('/', $tmppath);
+                $uid = array_pop($arr);
+
+                Storage::disk('public')->move($tmppath, $folder . $uid);
+                $filesArray[$file['name']] = $uid;
             }
+
+            $event->files = $filesArray;
         }
 
         $event->save();
@@ -146,11 +153,51 @@ class EventController extends Controller
      */
     public function update(EventRequest $request, Event $event)
     {
-        $event->fill($request->except('slug'));
+        $event->fill($request->except('slug', 'files', 'newFiles'));
         $event->slug = Str::slug($request->input('slug'));
+
+        $folder = $this->path . $event->slug . '/';
+
+        if($tmp = $request->input('race_info')) {
+            $race_info = 'versenykiiras-' . uniqid() . '.pdf';
+            $path = $folder . $race_info;
+
+            if(Storage::disk('public')->exists($tmp)) {
+                Storage::disk('public')->move($tmp, $path);
+
+                $event->race_info = $race_info;
+            }
+        }
+
+        if($tmp = $request->input('report')) {
+            $report = 'jegyzokonyv-' . uniqid() . '.pdf';
+            $path = $folder . $report;
+
+            if(Storage::disk('public')->exists($tmp)) {
+                Storage::disk('public')->move($tmp, $path);
+
+                $event->report = $report;
+            }
+        }
+
+        if($newFiles = $request->input('newFiles')) {
+            $newFilesArray = array();
+
+            foreach($newFiles as $file) {
+                $tmppath = $file['value'];
+                $arr = explode('/', $tmppath);
+                $uid = array_pop($arr);
+
+                Storage::disk('public')->move($tmppath, $folder . $uid);
+                $newFilesArray[$file['name']] = $uid;
+            }
+
+            $event->files = is_array($event->files) ? array_merge($event->files, $newFilesArray) : $newFilesArray;
+        }
+
         $event->save();
 
-        return redirect()->back()->with('success', 'Verseny sikeresen frissítve');
+        return redirect()->route('admin:events.index')->with('success', 'Verseny sikeresen frissítve');
     }
 
     /**
@@ -161,8 +208,31 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        $event->delete();
+        $event->delete(); //
 
         return redirect()->route('admin:events.index')->with('success', 'Verseny sikeresn törölve');
+    }
+
+    public function deleteFile(Event $event, $field, $file)
+    {
+        $filepath = $this->path . $event->slug . '/' . $file;
+
+        if(Storage::disk('public')->exists($filepath)) {
+            Storage::disk('public')->delete($filepath);
+        }
+
+        if($field == 'files') {
+            $files = json_decode($event->files, true);
+            if(($key = array_search($file, $files)) !== false) {
+                unset($files[$key]);
+            }
+            $event->files = $files;
+        }else {
+            $event->{$field} = null;
+        }
+
+        $event->save();
+
+        return redirect()->back()->with('success', 'Fájl sikeresen törölve');
     }
 }

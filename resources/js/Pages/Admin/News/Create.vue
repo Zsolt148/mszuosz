@@ -24,33 +24,51 @@
                             </div>
                         </jet-label>
                     </div>
-                    <div class="mb-5 flex flex-row space-x-4">
-                        <div class="w-1/2">
+
+                    <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mb-5">
+                        <div class="w-full sm:w-1/2">
                             <jet-label for="name" value="Cím" />
                             <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="off" />
                             <jet-input-error :message="form.errors.name" class="mt-2" />
                         </div>
 
-                        <div class="w-1/2">
+                        <div class="w-full sm:w-1/2">
                             <jet-label for="slug" value="URL" />
                             <jet-input id="slug" type="text" class="mt-1 block w-full bg-gray-200" v-model="form.slug" autocomplete="off" aria-readonly="true" disabled="disabled" />
                             <jet-input-error :message="form.errors.slug" class="mt-2" />
                         </div>
                     </div>
-                    <div class="mb-5 flex flex-row space-x-4">
-                        <div class="w-1/2">
+                    <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mb-5">
+                        <div class="w-full sm:w-1/2">
                             <jet-label for="date" value="Dátum" />
                             <jet-input id="date" type="date" class="mt-1 block w-full" v-model="form.date" autocomplete="off" />
                             <jet-input-error :message="form.errors.date" class="mt-2" />
                         </div>
 
-                        <div class="w-1/2">
+                        <div class="w-full sm:w-1/2">
                             <jet-label for="type" value="Típus"/>
                             <select name="type" id="location_id" v-model="form.type" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
                                 <option value="null" selected>Válassz</option>
                                 <option v-for="(type, key) in types" :key="key" :value="key">{{type}}</option>
                             </select>
                             <jet-input-error :message="form.errors.type" class="mt-2" />
+                        </div>
+                    </div>
+                    <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mb-5">
+                        <div class="w-full sm:w-1/2">
+                            <jet-label for="tags" value="Címkék"/>
+                            <VueMultiselect
+                                name="tags"
+                                v-model="selected"
+                                :options="options"
+                                :multiple="true"
+                                :taggable="true"
+                                @tag="addTag"
+                                tag-placeholder="Címke hozzáadása"
+                                placeholder="Írj a kereséshez vagy a címke hozzáadásához"
+                                label="name"
+                                track-by="id"
+                            />
                         </div>
                     </div>
                     <div class="my-5">
@@ -96,6 +114,7 @@ import JetInputError from "@/Jetstream/InputError";
 import JetLabel from "@/Jetstream/Label";
 import Editor from '@tinymce/tinymce-vue';
 import JetCheckbox from "@/Jetstream/Checkbox";
+import VueMultiselect from 'vue-multiselect'
 
 export default {
     components: {
@@ -106,10 +125,12 @@ export default {
         JetLabel,
         Editor,
         JetCheckbox,
+        VueMultiselect,
     },
     props: {
         types: Object,
         files: Object,
+        tags: Object,
     },
     mounted() {
         var links = [];
@@ -123,6 +144,8 @@ export default {
     },
     data() {
         return {
+            selected: [],
+            options: this.tags,
             links: [],
             form: this.$inertia.form({
                 _method: 'POST',
@@ -130,34 +153,50 @@ export default {
                 slug: null,
                 type: null,
                 date: null,
-                is_visible: null,
+                is_visible: false,
                 body: null,
+                tags: null,
             }),
         };
     },
     methods: {
         store() {
+            this.form.tags = this.selected;
             this.form.post(this.route('admin:news.store'))
         },
+        slug(string) {
+            if(string == null) return '';
+            return string.toString().toLowerCase()
+                .replace(/\s+/g, '-')           // Replace spaces with -
+                .replace(/^-+/, '')             // Trim - from start of text
+                .replace(/&/g, `-and-`)         // & to and
+                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+                .replace(/-+$/, '');
+        },
+        addTag (newTag) {
+            const tag = {
+                id: (this.options.length + 1),
+                name: newTag,
+            }
+            this.options.push(tag)
+            this.selected.push(tag)
+        }
     },
     computed: {
-      name() {
+        name() {
           return this.form.name;
-      }
+        },
+        date() {
+            return this.form.date;
+        },
     },
     watch: {
         name() {
-            this.form.slug = this.form.name.toString().toLowerCase()
-                .replace(/\s+/g, '-')           // Replace spaces with -
-                .replace(/^-+/, '')            // Trim - from start of text
-                .replace(/&/g, `-and-`)         // & to and
-                .replace(/\-\-+/g, '-')                                 // Replace multiple - with single -
-                .replace(/-+$/, '');
-        }
+            this.form.slug = this.slug(this.form.date) + '-' + this.slug(this.form.name);
+        },
+        date() {
+            this.form.slug = this.slug(this.form.date) + '-' + this.slug(this.form.name);
+        },
     }
 }
 </script>
-
-<style scoped>
-
-</style>

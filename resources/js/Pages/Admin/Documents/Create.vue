@@ -58,6 +58,7 @@
                             v-on:init="handleFilePondInit"
                             v-bind:required="true"
                             max-files="5"
+                            label-idle='<p>Húzd ide a fájlokat vagy <span class="filepond--label-action" tabindex="0">Böngéssz</span></p>'
                         />
                     </div>
                 </div>

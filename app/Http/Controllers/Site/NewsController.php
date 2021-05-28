@@ -18,10 +18,21 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $query = News::query()->visible()->orderByDesc('date');
+        $query = News::query()
+            ->with('tags')
+            ->visible()
+            ->orderByDesc('date');
+
+        if($search = request('search')) {
+            $query->where('name', 'LIKE', '%'.$search.'%')
+                    ->orWhereHas('tags', function ($tag) use ($search) {
+                        $tag->where('name', 'LIKE', '%'.$search.'%');
+                    });
+        }
 
         return Inertia::render('Site/News/Index', [
-            'news' => $query->paginate(10)
+            'filters' => request()->all(['search']),
+            'news' => $query->paginate(10)->withQueryString(),
         ]);
     }
 
@@ -34,7 +45,7 @@ class NewsController extends Controller
     public function show(News $news)
     {
         return Inertia::render('Site/News/Show', [
-           'content' => $news
+           'content' => $news->with('tags')->firstWhere('id', $news->id)
         ]);
     }
 }

@@ -30,6 +30,7 @@
         "@tinymce/tinymce-vue": "^4.0.2",
         "filepond": "^4.27.1",
         "filepond-plugin-file-validate-type": "^1.2.6",
-        "vue-filepond": "^7.0.0"
+        "vue-filepond": "^7.0.0",
+        "vue-multiselect": "^3.0.0-alpha.2"
     }
 }

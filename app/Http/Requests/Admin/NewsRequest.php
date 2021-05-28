@@ -29,6 +29,7 @@ class NewsRequest extends FormRequest
             'type' => ['required'],
             'date' => ['required', 'date'],
             'is_visible' => ['nullable'],
+            'tags' => ['nullable', 'array'],
             'body' => ['required'],
         ];
     }

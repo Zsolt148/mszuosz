@@ -25,7 +25,7 @@
                         </jet-label>
                     </div>
 
-                    <div class="w-full flex flex-row space-x-4">
+                    <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
                         <div class="w-1/2">
                             <jet-label for="name" value="Név" />
                             <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="off" />
@@ -110,6 +110,7 @@
                                 accepted-file-types="application/pdf"
                                 max-files="1"
                                 v-bind:server="raceInfoServer"
+                                label-idle='<p>Húzd ide a fájlt vagy <span class="filepond--label-action" tabindex="0">Böngéssz</span></p>'
                             />
                         </div>
 
@@ -123,6 +124,7 @@
                                 accepted-file-types="application/pdf"
                                 max-files="1"
                                 v-bind:server="reportServer"
+                                label-idle='<p>Húzd ide a fájlt vagy <span class="filepond--label-action" tabindex="0">Böngéssz</span></p>'
                             />
                         </div>
                     </div>
@@ -134,9 +136,10 @@
                             ref="pond"
                             :required="false"
                             v-bind:allow-multiple="true"
-                            accepted-file-types="application/pdf"
+                            accepted-file-types="application/*, image/*"
                             max-files="5"
                             v-bind:server="filesServer"
+                            label-idle='<p>Húzd ide a fájlokat vagy <span class="filepond--label-action" tabindex="0">Böngéssz</span></p>'
                         />
                     </div>
 
@@ -237,7 +240,7 @@ export default {
                 process: {
                     url: '/process/files',
                     onload: (resp) => {
-                        this.tmp.push(JSON.parse(resp)['value']);
+                        this.tmp.push(JSON.parse(resp));
                     },
                 },
             },
@@ -275,7 +278,7 @@ export default {
                 .replace(/&/g, `-and-`)         // & to and
                 .replace(/\-\-+/g, '-')         // Replace multiple - with single -
                 .replace(/-+$/, '');
-        }
+        },
     },
     computed: {
         name() {
@@ -283,7 +286,7 @@ export default {
         },
         start_at() {
             return this.form.start_at;
-        }
+        },
     },
     watch: {
         name() {
@@ -291,7 +294,7 @@ export default {
         },
         start_at() {
             this.form.slug = this.slug(this.form.start_at) + '-' + this.slug(this.form.name);
-        }
+        },
     }
 }
 </script>

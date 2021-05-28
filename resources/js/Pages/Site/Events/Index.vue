@@ -12,7 +12,7 @@
                     <option v-for="year in years" :key="year" :value="year">{{year}}</option>
                 </select>
                 <jet-secondary-button @click="reset">
-                    Visszaállítás
+                    Törlés
                 </jet-secondary-button>
             </div>
 
@@ -81,7 +81,7 @@
                         </td>
                         <td class="border-t">
                             <inertia-link class="px-6 py-4 flex items-center focus:text-indigo-500" :href="route('events.show', event.slug)" tabindex="-1">
-                                <img class="mr-2" :src="'https://www.countryflags.io/' + event.location.code + '/flat/24.png'"> {{ event.location.country }}
+                                <img class="mr-2" :src="'https://www.countryflags.io/' + event.location.code + '/flat/24.png'"> {{ event.location.city }}
                             </inertia-link>
                         </td>
                         <td class="border-t">
@@ -90,15 +90,13 @@
                             </inertia-link>
                         </td>
                         <td class="border-t">
-                            <div class="px-6 py-4 items-center hover:text-blue-600 underline flex" v-if="event.race_info">
-                                <icon name="pdf" class="w-5 h-5 mr-2"></icon>
-                                <a target="_blank" :href="route('home') + '/events/' + event.slug + '/' + event.race_info">Versenykiírás</a>
+                            <div class="px-6 py-4 items-center hover:text-blue-600" v-if="event.race_info">
+                                <a target="_blank" :href="route('home') + '/events/' + event.slug + '/' + event.race_info"><icon name="pdf" class="w-5 h-5"></icon></a>
                             </div>
                         </td>
                         <td class="border-t">
-                            <div class="px-6 py-4 items-center hover:text-blue-600 underline flex" v-if="event.report">
-                                <icon name="pdf" class="w-5 h-5 mr-2"></icon>
-                                <a target="_blank" :href="route('home') + '/events/' + event.slug + '/' + event.report">Jegyzőkönyv</a>
+                            <div class="px-6 py-4 items-center hover:text-blue-600" v-if="event.report">
+                                <a target="_blank" :href="route('home') + '/events/' + event.slug + '/' + event.report"><icon name="pdf" class="w-5 h-5"></icon></a>
                             </div>
                         </td>
                     </tr>

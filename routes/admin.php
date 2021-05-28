@@ -22,7 +22,8 @@ Route::resource('users', UsersController::class)->only('index', 'edit', 'update'
 Route::resource('news', NewsController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
 
 //events
-Route::resource('events', EventController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
+Route::delete('events/{event}/deleteFile/field/{field}/filename/{file}', [EventController::class, 'deleteFile'])->name('events.delete.file');
+Route::resource('events', EventController::class);
 
 //locations
 Route::resource('locations', LocationController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');

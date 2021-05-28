@@ -26,14 +26,14 @@ Route::post('process/{name}', [UploadController::class, 'store']);
 Route::delete('revert', [UploadController::class, 'destroy']);
 
 //File views
-Route::get('/documents/{path}', function ($path = '') {
-    $file = storage_path('app/public/documents/' . $path);
+Route::get('/documents/{name}', function ($name = '') {
+    $file = storage_path('app/public/documents/' . $name);
     if (!File::exists($file)) abort(404);
     return response()->file($file);
 });
 
-Route::get('/events/{path}', function ($path = '') {
-    $file = storage_path('app/public/events/' . $path);
+Route::get('/events/{event}/{name}', function ($event = '', $name = '') {
+    $file = storage_path('app/public/events/' . $event . '/' . $name);
     if (!File::exists($file)) abort(404);
     return response()->file($file);
 });
