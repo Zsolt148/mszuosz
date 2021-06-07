@@ -7,9 +7,9 @@
         </template>
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="bg-white shadow-md p-5 rounded-md">
-                <div class="mb-5 flex justify-between">
+                <div class="mb-5 flex flex-col sm:flex-row justify-between">
                     <div class="text-2xl">{{ content.name }}</div>
-                    <div class="flex items-center">
+                    <div class="flex items-center mt-3 sm:mt-0">
                         <span v-if="content.type == 'important'" class="text-red-500 mr-2">Fontos</span>
                         <span v-else-if="content.type == 'highlighted'" class="text-blue-500 mr-2">Kiemelt</span>
                         <p class="flex text-gray-600 font-semibold">
@@ -23,7 +23,7 @@
                 </div>
                 <div class="flex flex-col sm:flex-row sm:space-x-6 text-gray-600 w-full">
                 </div>
-                <div class="my-5" v-html="content.body"/>
+                <article class="my-5 mx-auto prose-sm sm:prose lg:prose-lg xl:prose-xl" id="body" v-html="content.body"/>
             </div>
         </div>
     </app-layout>
@@ -43,3 +43,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+ol, ul {
+    list-style-type: inherit;
+}
+</style>

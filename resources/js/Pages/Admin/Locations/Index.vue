@@ -86,7 +86,7 @@
                         </td>
                     </tr>
                     <tr v-if="locations.data.length === 0">
-                        <td class="border-t px-6 py-2" colspan="4">No locations found.</td>
+                        <td class="border-t px-6 py-2" colspan="6">Nincs még helyszín</td>
                     </tr>
                 </table>
             </div>

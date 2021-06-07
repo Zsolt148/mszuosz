@@ -14,15 +14,15 @@
 
             <pagination class="my-5" :links="news.links"/>
 
-            <div v-for="data in news.data" :key="data.id" class="mx-auto mb-6 px-4 py-2 bg-white shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out rounded-lg w-full">
-                <div class="py-2 flex flex-row items-center justify-between">
+            <div v-for="data in news.data" :key="data.id" class="mx-auto mb-6 px-4 py-2 bg-white shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out rounded-lg w-full border-r-8" :class="data.type == 'important' ? 'border-red-500' : data.type == 'highlighted' ? 'border-blue-500' : ''">
+                <div class="py-2 flex flex-col sm:flex-row justify-between">
                     <div class="flex flex-row items-center">
                         <inertia-link class="text-2xl flex text-blue-500 focus:text-blue-800 w-full relative one" :href="route('news.show', data.slug)">
                             <span>{{ data.name }}</span>
                             <span class="absolute -bottom-1 left-0 w-0 transition-all h-0.5 bg-blue-600"></span>
                         </inertia-link>
                     </div>
-                    <div class="flex items-center">
+                    <div class="flex items-center mt-3 sm:mt-0">
                         <span v-if="data.type == 'important'" class="text-red-500 mr-2">Fontos</span>
                         <span v-else-if="data.type == 'highlighted'" class="text-blue-500 mr-2">Kiemelt</span>
                         <p class="font-semibold text-gray-600 flex">
@@ -35,7 +35,7 @@
                     <span v-for="tag in data.tags" :key="tag.id" class="text-gray-500 mr-2">#{{tag.name}}</span>
                 </div>
                 <div class="py-2">
-                    <div v-html="data.body.substring(0, 500)+'...'" />
+                    <article v-html="data.body.substring(0, 700)+'...'" />
                 </div>
                 <div>
                     <div class="py-2 flex flex-row items-center">

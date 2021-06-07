@@ -17,9 +17,9 @@
                             <td class="px-6 py-4">{{doc.date_val}}</td>
                             <td class="px-6 py-4">{{doc.name}}</td>
                             <td class="px-6 py-4 flex justify-center items-center hover:text-blue-600 underline">
-                                <icon name="pdf" class="w-5 h-5 mr-2"></icon>
+                                <icon name="empty-file" class="w-5 h-5 mr-2"></icon>
                                 <a class="mr-3" v-for="(file, key) in doc.files" :key="key" target="_blank" :href="route('home') + '/documents/' + file">
-                                    {{doc.name}}<span v-if="doc.files.length != 1">&nbsp;{{key+1}}</span>.pdf
+                                    {{doc.name}}<span v-if="doc.files.length != 1">&nbsp;{{key+1}}.</span>
                                 </a>
                             </td>
                         </tr>

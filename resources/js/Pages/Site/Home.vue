@@ -17,13 +17,13 @@
                             </button>
                         </inertia-link>
                         <p class="text-sm text-left text-gray-600 ml-6">A szövetségről <br>
-                            <a href="#" class="inline-flex items-center font-semibold text-blue-700 md:mb-2 lg:mb-0 hover:text-blue-400 ">
+                            <inertia-link :href="route('welcome')" class="inline-flex items-center font-semibold text-blue-700 md:mb-2 lg:mb-0 hover:text-blue-400 ">
                                 Részletek
                                 <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                                     <path fill="none" d="M0 0h24v24H0z"></path>
                                     <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"></path>
                                 </svg>
-                            </a>
+                            </inertia-link>
                         </p>
                     </div>
                 </div>

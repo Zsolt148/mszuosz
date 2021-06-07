@@ -91,7 +91,7 @@ class LocationController extends Controller
     {
         $location->update($request->all());
 
-        return redirect()->back()->with('success', 'Helyszín sikeresen frissítve');
+        return redirect()->route('admin:locations.index')->with('success', 'Helyszín sikeresen frissítve');
     }
 
     /**

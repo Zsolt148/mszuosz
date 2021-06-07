@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,5 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('teams', function () {
-   return \App\Models\Team::all(['name','SA','webpage','address'])->toArray(); //TODO teams api
+   return Team::all(['name', 'SA', 'short', 'address', 'webpage', 'contact_name', 'contact_email'])->toArray(); //TODO teams api
 });

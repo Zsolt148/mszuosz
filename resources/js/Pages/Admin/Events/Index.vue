@@ -100,7 +100,7 @@
                         </td>
                     </tr>
                     <tr v-if="events.data.length === 0">
-                        <td class="border-t px-6 py-2" colspan="4">Nem található verseny.</td>
+                        <td class="border-t px-6 py-2" colspan="7">Nem található verseny.</td>
                     </tr>
                 </table>
             </div>

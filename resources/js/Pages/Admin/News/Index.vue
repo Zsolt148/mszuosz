@@ -86,7 +86,7 @@
                         </td>
                     </tr>
                     <tr v-if="news.data.length === 0">
-                        <td class="border-t px-6 py-2" colspan="4">No news found.</td>
+                        <td class="border-t px-6 py-2" colspan="6">Nem található hír</td>
                     </tr>
                 </table>
             </div>

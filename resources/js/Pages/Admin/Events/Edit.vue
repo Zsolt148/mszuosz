@@ -145,7 +145,7 @@
                             ref="pond"
                             :required="false"
                             v-bind:allow-multiple="true"
-                            accepted-file-types="application/*, image/*"
+                            accepted-file-types="application/*, image/*, .xls, .xlsx, .doc, .docx"
                             max-files="5"
                             v-bind:server="filesServer"
                             label-idle='<p>Húzd ide a fájlokat vagy <span class="filepond--label-action" tabindex="0">Böngéssz</span></p>'
@@ -183,7 +183,7 @@
                     </div>
                     <div v-if="form.body" class="my-8">
                         <div class="mb-3 text-2xl">Előnézet:</div>
-                        <div v-html="form.body"></div>
+                        <article class="my-5 mx-auto prose-sm sm:prose lg:prose-lg xl:prose-xl" v-html="form.body"/>
                     </div>
                 </div>
                 <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">

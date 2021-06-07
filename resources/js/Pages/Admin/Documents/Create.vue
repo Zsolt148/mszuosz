@@ -54,7 +54,7 @@
                             name="documents"
                             ref="pond"
                             v-bind:allow-multiple="true"
-                            accepted-file-types="application/*, image/*"
+                            accepted-file-types="application/*, image/*, .xls, .xlsx, .doc, .docx"
                             v-bind:required="true"
                             v-bind:server="filesServer"
                             max-files="5"
