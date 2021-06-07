@@ -132,7 +132,7 @@ export default {
         files: Object,
         tags: Object,
     },
-    mounted() {
+    created() {
         var links = [];
         this.files.forEach(function (v) {
             links.push({

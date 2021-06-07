@@ -183,7 +183,7 @@
                     </div>
                     <div v-if="form.body" class="my-8">
                         <div class="mb-3 text-2xl">Előnézet:</div>
-                        <article class="my-5 mx-auto prose-sm sm:prose lg:prose-lg xl:prose-xl" v-html="form.body"/>
+                        <article class="my-5 mx-auto prose max-w-none" v-html="form.body"/>
                     </div>
                 </div>
                 <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">

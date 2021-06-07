@@ -43,7 +43,7 @@
                     </div>
                     <div v-for="(file, name) in content.files" :key="file"><a :href="route('home') + '/events/' + content.slug + '/' + file" class="underline hover:text-blue-600" target="_blank">{{name}}</a></div>
                 </div>
-                <article class="my-5 mx-auto prose-sm sm:prose lg:prose-lg xl:prose-xl" id="body" v-html="content.body"/>
+                <article class="my-10 mx-auto prose max-w-none" id="body" v-html="content.body"/>
             </div>
         </div>
     </app-layout>

@@ -161,7 +161,7 @@ export default {
         tags: Object,
         selectedTags: Object,
     },
-    mounted() {
+    created() {
         var links = [];
         this.files.forEach(function (v) {
             links.push({
