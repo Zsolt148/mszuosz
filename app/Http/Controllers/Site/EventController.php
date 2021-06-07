@@ -29,7 +29,8 @@ class EventController extends Controller
             ->with('location');
 
         if($search = request('search')) {
-            $query->where('name', 'LIKE', '%'.$search.'%');
+            $query->where('name', 'LIKE', '%'.$search.'%')
+                ->orWhereDate('start_at', $search);
         }
 
         if($year = request('year')) {
@@ -47,7 +48,7 @@ class EventController extends Controller
                 $query->orderBy(request('field'), request('direction'));
             }
         }else {
-            $query->orderByDesc('id');
+            $query->orderByDesc('start_at');
         }
 
         $years = Event::all()->pluck('start_at')->map(function ($date) {

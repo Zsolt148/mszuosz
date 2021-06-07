@@ -47,7 +47,7 @@
                     </div>
                     <div v-if="form.body" class="my-8">
                         <div class="mb-3 text-2xl">Előnézet:</div>
-                        <div v-html="form.body"></div>
+                        <article class="my-10 prose max-w-none" v-html="form.body"/>
                     </div>
                 </div>
                 <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between mt-2">

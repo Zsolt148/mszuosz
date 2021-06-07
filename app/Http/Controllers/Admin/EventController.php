@@ -154,9 +154,24 @@ class EventController extends Controller
     public function update(EventRequest $request, Event $event)
     {
         $event->fill($request->except('slug', 'files', 'newFiles'));
-        $event->slug = Str::slug($request->input('slug'));
+        $slug = Str::slug($request->input('slug'));
 
-        $folder = $this->path . $event->slug . '/';
+        if($event->slug != $slug) { //folder renamed
+            $oldFolder = $this->path . $event->slug . '/';
+            $folder = $this->path . $slug . '/';
+            Storage::disk('public')->makeDirectory($folder);
+
+            foreach(Storage::disk('public')->files($oldFolder) as $key => $path) {
+                $arr = explode('/', $path);
+                $filename = array_pop($arr);
+                Storage::disk('public')->move($path, $folder . $filename);
+            }
+
+            Storage::disk('public')->deleteDirectory($oldFolder);
+            $event->slug = $slug;
+        }else {
+            $folder = $this->path . $slug . '/';
+        }
 
         if($tmp = $request->input('race_info')) {
             $race_info = 'versenykiiras-' . uniqid() . '.pdf';

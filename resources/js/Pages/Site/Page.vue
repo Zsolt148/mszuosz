@@ -5,7 +5,7 @@
         </template>
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="bg-white shadow-md p-5 rounded-md">
-                <div class="my-5" v-html="content.body"/>
+                <article class="my-5 prose max-w-none" id="body" v-html="content.body"/>
             </div>
         </div>
     </app-layout>

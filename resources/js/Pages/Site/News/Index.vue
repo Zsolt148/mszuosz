@@ -17,7 +17,7 @@
             <div v-for="data in news.data" :key="data.id" class="mx-auto mb-6 px-4 py-2 bg-white shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out rounded-lg w-full border-r-8" :class="data.type == 'important' ? 'border-red-500' : data.type == 'highlighted' ? 'border-blue-500' : ''">
                 <div class="py-2 flex flex-col sm:flex-row justify-between">
                     <div class="flex flex-row items-center">
-                        <inertia-link class="text-2xl flex text-blue-500 focus:text-blue-800 w-full relative one" :href="route('news.show', data.slug)">
+                        <inertia-link class="text-2xl flex text-blue-600 focus:text-blue-800 w-full relative one" :href="route('news.show', data.slug)">
                             <span>{{ data.name }}</span>
                             <span class="absolute -bottom-1 left-0 w-0 transition-all h-0.5 bg-blue-600"></span>
                         </inertia-link>
@@ -35,7 +35,7 @@
                     <span v-for="tag in data.tags" :key="tag.id" class="text-gray-500 mr-2">#{{tag.name}}</span>
                 </div>
                 <div class="py-2">
-                    <article v-html="data.body.substring(0, 700)+'...'" />
+                    <article class="prose max-w-none" v-html="data.body.substring(0, 500)+'...'" />
                 </div>
                 <div>
                     <div class="py-2 flex flex-row items-center">
