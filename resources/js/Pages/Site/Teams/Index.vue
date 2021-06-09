@@ -7,9 +7,9 @@
             <div class="mb-6 flex w-full justify-between items-center">
                 <input class="relative w-full px-4 py-1 rounded-md border-gray-300 mr-2" autocomplete="off" type="text"
                        name="search" placeholder="Keresés…" v-model="params.search"/>
-                <jet-button @click="reset">
-                    Visszaállítás
-                </jet-button>
+                <jet-secondary-button @click="reset">
+                    Törlés
+                </jet-secondary-button>
             </div>
 
             <pagination class="my-5" :links="teams.links"/>
@@ -93,12 +93,14 @@ import pickBy from "lodash/pickBy";
 import Pagination from "@/Shared/Pagination";
 import JetButton from "@/Jetstream/Button";
 import Icon from '@/Shared/Icon';
+import JetSecondaryButton from "@/Jetstream/SecondaryButton";
 
 export default {
     components: {
         AppLayout,
         Pagination,
         JetButton,
+        JetSecondaryButton,
         Icon,
     },
     props: {
@@ -134,7 +136,7 @@ export default {
         params: {
             handler: throttle(function () {
                 let params = pickBy(this.params);
-                this.$inertia.get(this.route('teams'), params, { replace: true, preserveState: true });
+                this.$inertia.get(this.route('teams.index'), params, { replace: true, preserveState: true });
             }, 150),
             deep: true,
         },

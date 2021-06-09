@@ -56,7 +56,7 @@
                     <tr v-for="n in news.data" :key="n.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
                             <inertia-link class="px-6 py-2 flex items-center focus:text-indigo-500" :href="route('admin:news.edit', n.id)">
-                                {{ n.name }}
+                                {{ n.name.substring(0,80) }}
                             </inertia-link>
                         </td>
                         <td class="border-t">

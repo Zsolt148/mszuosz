@@ -49,7 +49,7 @@ class EventController extends Controller
                 $query->orderBy(request('field'), request('direction'));
             }
         }else {
-            $query->latest();
+            $query->orderByDesc('start_at');
         }
 
         $years = Event::all()->pluck('start_at')->map(function ($date) {

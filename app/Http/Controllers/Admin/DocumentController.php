@@ -139,8 +139,8 @@ class DocumentController extends Controller
     public function destroy(Document $document)
     {
         foreach($document->files as $file) {
-            if(Storage::disk('public')->exists($file)) {
-                Storage::disk('public')->delete($file);
+            if(Storage::disk('public')->exists('documents/' . $file)) {
+                Storage::disk('public')->delete('documents/' . $file);
             }
         }
 

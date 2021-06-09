@@ -25,19 +25,18 @@
                         </jet-label>
                     </div>
 
-                    <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mb-5">
-                        <div class="w-full sm:w-1/2">
-                            <jet-label for="name" value="Cím" />
-                            <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="off" />
-                            <jet-input-error :message="form.errors.name" class="mt-2" />
-                        </div>
-
-                        <div class="ww-full sm:w-1/2">
-                            <jet-label for="slug" value="URL" />
-                            <jet-input id="slug" type="text" class="mt-1 block w-full bg-gray-200" v-model="form.slug" autocomplete="off" aria-readonly="true" disabled="disabled" />
-                            <jet-input-error :message="form.errors.slug" class="mt-2" />
-                        </div>
+                    <div class="w-full mb-5">
+                        <jet-label for="name" value="Cím" />
+                        <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="off" />
+                        <jet-input-error :message="form.errors.name" class="mt-2" />
                     </div>
+
+                    <div class="w-full mb-5">
+                        <jet-label for="slug" value="URL" />
+                        <jet-input id="slug" type="text" class="mt-1 block w-full bg-gray-200" v-model="form.slug" autocomplete="off" aria-readonly="true" disabled="disabled" />
+                        <jet-input-error :message="form.errors.slug" class="mt-2" />
+                    </div>
+
                     <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mb-5">
                         <div class="w-full sm:w-1/2">
                             <jet-label for="date" value="Dátum" />
