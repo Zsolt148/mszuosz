@@ -56,13 +56,19 @@
                     </tr>
                     <tr v-for="team in teams.data" :key="team.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
-                            <span class="px-6 py-4 flex items-center">{{team.name}}</span>
+                            <inertia-link class="px-6 py-4 flex items-center focus:text-blue-500" :href="route('teams.show', team.id)">
+                                {{ team.name }}
+                            </inertia-link>
                         </td>
                         <td class="border-t">
-                            <span class="px-6 py-4 flex items-center">{{team.SA}}</span>
+                            <inertia-link class="px-6 py-4 flex items-center focus:text-blue-500" :href="route('teams.show', team.id)">
+                                {{ team.SA }}
+                            </inertia-link>
                         </td>
                         <td class="border-t">
-                            <span class="px-6 py-4 flex items-center">{{ city(team.address) }}</span>
+                            <inertia-link class="px-6 py-4 flex items-center focus:text-blue-500" :href="route('teams.show', team.id)">
+                                {{ city(team.address) }}
+                            </inertia-link>
                         </td>
                         <td class="border-t">
                             <span class="px-6 py-4 flex items-center"><a class="text-blue-500" target="_blank" :href="team.webpage">{{team.webpage}}</a></span>

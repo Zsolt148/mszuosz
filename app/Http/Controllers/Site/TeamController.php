@@ -33,9 +33,22 @@ class TeamController extends Controller
             $query->orderBy(request('field'), request('direction'));
         }
 
-        return Inertia::render('Site/Teams', [
+        return Inertia::render('Site/Teams/Index', [
             'filters' => request()->all(['search', 'field', 'direction']),
             'teams' => $query->paginate()->withQueryString()
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\News  $teams
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Team $team)
+    {
+        return Inertia::render('Site/Teams/Show', [
+            'content' => $team
         ]);
     }
 }

@@ -27,7 +27,7 @@
                                 <jet-nav-link :href="route('documents')" :active="route().current('documents')">
                                     Dokumentumok
                                 </jet-nav-link>
-                                <jet-nav-link :href="route('teams')" :active="route().current('teams')">
+                                <jet-nav-link :href="route('teams.index')" :active="route().current('teams*')">
                                     Egyesületek
                                 </jet-nav-link>
                                 <jet-nav-link :href="route('ranks')" :active="route().current('ranks')">
@@ -98,7 +98,7 @@
                         <jet-responsive-nav-link :href="route('documents')" :active="route().current('documents')">
                             Dokumentumok
                         </jet-responsive-nav-link>
-                        <jet-responsive-nav-link :href="route('teams')" :active="route().current('teams')">
+                        <jet-responsive-nav-link :href="route('teams.index')" :active="route().current('teams*')">
                             Egyesületek
                         </jet-responsive-nav-link>
                         <jet-responsive-nav-link :href="route('ranks')" :active="route().current('ranks')">

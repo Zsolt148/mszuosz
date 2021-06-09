@@ -70,22 +70,22 @@
                     </tr>
                     <tr v-for="event in events.data" :key="event.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
-                            <inertia-link class="px-6 py-4 flex items-center focus:text-indigo-500" :href="route('events.show', event.slug)">
+                            <inertia-link class="px-6 py-4 flex items-center focus:text-blue-500" :href="route('events.show', event.slug)">
                                 {{ event.name }}
                             </inertia-link>
                         </td>
                         <td class="border-t">
-                            <inertia-link class="px-6 py-4 flex items-center focus:text-indigo-500" :href="route('events.show', event.slug)" tabindex="-1">
+                            <inertia-link class="px-6 py-4 flex items-center focus:text-blue-500" :href="route('events.show', event.slug)" tabindex="-1">
                                 {{ event.period }}
                             </inertia-link>
                         </td>
                         <td class="border-t">
-                            <inertia-link class="px-6 py-4 flex items-center focus:text-indigo-500" :href="route('events.show', event.slug)" tabindex="-1">
+                            <inertia-link class="px-6 py-4 flex items-center focus:text-blue-500" :href="route('events.show', event.slug)" tabindex="-1">
                                 <img class="mr-2" :src="'https://www.countryflags.io/' + event.location.code + '/flat/24.png'"> {{ event.location.city }}
                             </inertia-link>
                         </td>
                         <td class="border-t">
-                            <inertia-link class="px-6 py-4 flex items-center focus:text-indigo-500" :href="route('events.show', event.slug)" tabindex="-1">
+                            <inertia-link class="px-6 py-4 flex items-center focus:text-blue-500" :href="route('events.show', event.slug)" tabindex="-1">
                                 {{ event.category }}
                             </inertia-link>
                         </td>

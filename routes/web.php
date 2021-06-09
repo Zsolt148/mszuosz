@@ -19,7 +19,8 @@ Route::get('/news/{news:slug}', [\App\Http\Controllers\Site\NewsController::clas
 
 Route::get('/events', [\App\Http\Controllers\Site\EventController::class, 'index'])->name('events.index');
 Route::get('/events/{event:slug}', [\App\Http\Controllers\Site\EventController::class, 'show'])->name('events.show');
-Route::get('/teams', [\App\Http\Controllers\Site\TeamController::class, 'index'])->name('teams');
+Route::get('/teams', [\App\Http\Controllers\Site\TeamController::class, 'index'])->name('teams.index');
+Route::get('/teams/{team}', [\App\Http\Controllers\Site\TeamController::class, 'show'])->name('teams.show');
 
 //Filepond
 Route::post('process/{name}', [UploadController::class, 'store']);

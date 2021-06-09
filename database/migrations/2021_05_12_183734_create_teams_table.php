@@ -18,8 +18,11 @@ class CreateTeamsTable extends Migration
             $table->string('name');
             $table->string('SA');
             $table->string('short')->nullable();
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->string('webpage')->nullable();
+            $table->string('president')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
             $table->string('contact_name')->nullable();
             $table->string('contact_email')->nullable();
             $table->timestamps();
