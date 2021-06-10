@@ -65,7 +65,7 @@
                     <tr v-for="event in events.data" :key="event.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
                             <inertia-link class="px-6 py-2 flex items-center focus:text-indigo-500" :href="route('admin:events.edit', event.id)">
-                                {{ event.name }}
+                                <span v-if="event.name.length >= 60">{{ event.name.substring(0, 60)+'..' }}</span><span v-else>{{ event.name }}</span>
                             </inertia-link>
                         </td>
                         <td class="border-t">

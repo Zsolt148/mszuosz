@@ -56,7 +56,7 @@
                     <tr v-for="n in news.data" :key="n.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
                             <inertia-link class="px-6 py-2 flex items-center focus:text-indigo-500" :href="route('admin:news.edit', n.id)">
-                                {{ n.name.substring(0,80) }}
+                                <span v-if="n.name.length >= 60">{{ n.name.substring(0, 60)+'..' }}</span><span v-else>{{ n.name }}</span>
                             </inertia-link>
                         </td>
                         <td class="border-t">

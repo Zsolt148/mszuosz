@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'reset' => 'Jelszavát vissza állítottuk!',
+    'reset' => 'Jelszavát sikeres beállította!',
     'sent' => 'Elküldtük a megerősítő email-t a megadott címre!',
     'throttled' => 'Kérjük várjon kicsit mielőtt újra próbálná.',
     'token' => 'A megadott vissza állírtási kód érvénytelen.',
