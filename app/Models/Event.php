@@ -36,7 +36,7 @@ class Event extends Model
         '25',
         '33',
         '50',
-        'Nyíltvíz',
+        'Nyíltvizi',
     ];
 
     const TIMINGS = [
