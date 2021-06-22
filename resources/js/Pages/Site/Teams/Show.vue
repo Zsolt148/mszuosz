@@ -17,7 +17,6 @@
                     <div v-if="content.webpage">Weboldal: <a :href="content.webpage" class="text-blue-500 underline" target="_blank">{{content.webpage}}</a></div>
                     <div v-if="content.president">Elnök: {{content.president}}</div>
                     <div v-if="content.email">Email cím: {{content.email}}</div>
-                    <div v-if="content.phone">Telefon: {{content.phone}}</div>
                     <div v-if="content.contact_name">Kapcsolattartó neve: {{content.contact_name}}</div>
                     <div v-if="content.contact_email">Kapcsolattartó email címe: {{content.contact_email}}</div>
                 </div>
