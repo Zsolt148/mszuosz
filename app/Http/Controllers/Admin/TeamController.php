@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\TeamRequest;
+use App\Imports\TeamImport;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Excel;
 
 class TeamController extends Controller
 {
@@ -64,6 +66,32 @@ class TeamController extends Controller
     }
 
     /**
+     * @return \Inertia\Response
+     */
+    public function import()
+    {
+        return Inertia::render('Admin/Teams/Import');
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'file' => ['file', 'mimes:xls,xlsx']
+        ], [], [
+            'file' => 'Fájl'
+        ]);
+
+        $import = new TeamImport();
+        Excel::import($import, $request->file('file'));
+
+        return redirect()->route('admin:teams.index')->with('success', 'Egyesület sikeresen frissítve');
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Team  $team
@@ -98,6 +126,8 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
-        //
+        $team->delete();
+
+        return redirect()->route('admin:teams.index')->with('success', 'Egyesület sikeresen törölve');
     }
 }

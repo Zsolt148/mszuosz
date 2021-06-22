@@ -1,7 +1,9 @@
 <template>
     <admin-layout>
         <template #header>
-            Egyesületek  - <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('admin:teams.create')">Új egyesület</inertia-link>
+            Egyesületek
+            - <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('admin:teams.create')">Új egyesület</inertia-link>
+            - <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('admin:teams.import')">Importálás</inertia-link>
         </template>
 
         <div>

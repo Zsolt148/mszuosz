@@ -128,7 +128,7 @@ class TeamSeeder extends Seeder
             [
                 'name' => 'Dunakanyar Szabadidősport és Kulturális Egyesület',
                 'SA' => '65',
-                'address' => '2000 Szentendre, Rózsa köz 4/2 fsz.1	',
+                'address' => '2000 Szentendre, Rózsa köz 4/2 fsz.1',
                 'webpage' => '',
             ],
             [
@@ -237,7 +237,7 @@ class TeamSeeder extends Seeder
             [
                 'name' => 'Kistarcsa VRC',
                 'SA' => '69',
-                'address' => '2143 Kistarcsa, Széchenyi u. 33	',
+                'address' => '2143 Kistarcsa, Széchenyi u. 33',
                 'webpage' => '',
             ],
             [

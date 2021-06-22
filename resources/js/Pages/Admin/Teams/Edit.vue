@@ -13,19 +13,26 @@
                 <form @submit.prevent="update">
                     <div class="p-8">
                         <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                            <div class="w-full sm:w-2/4">
-                                <jet-label for="name" value="Név" />
+                            <div class="w-full sm:w-1/2">
+                                <jet-label for="name" value="Engedélyrendszer név" />
                                 <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="off" />
                                 <jet-input-error :message="form.errors.name" class="mt-2" />
                             </div>
 
-                            <div class="w-full sm:w-1/4">
+                            <div class="w-full sm:w-1/2">
+                                <jet-label for="original_name" value="Eredeti név" />
+                                <jet-input id="original_name" type="text" class="mt-1 block w-full" v-model="form.original_name" autocomplete="off" />
+                                <jet-input-error :message="form.errors.original_name" class="mt-2" />
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                            <div class="w-full sm:w-1/2">
                                 <jet-label for="short" value="Rövidítés" />
                                 <jet-input id="short" type="text" class="mt-1 block w-full" v-model="form.short" autocomplete="off" />
                                 <jet-input-error :message="form.errors.short" class="mt-2" />
                             </div>
 
-                            <div class="w-full sm:w-1/4">
+                            <div class="w-full sm:w-1/2">
                                 <jet-label for="sa" value="SA" />
                                 <jet-input id="sa" type="text" class="mt-1 block w-full" v-model="form.sa" autocomplete="off" />
                                 <jet-input-error :message="form.errors.sa" class="mt-2" />
@@ -84,10 +91,32 @@
                         <jet-button>
                             Mentés
                         </jet-button>
+                        <jet-danger-button @click="confirmModalShow = true">
+                            Törlés
+                        </jet-danger-button>
                     </div>
                 </form>
             </div>
         </div>
+        <jet-confirmation-modal :show="confirmModalShow" @close="confirmModalShow = false">
+            <template #title>
+                Egyesület törlése
+            </template>
+
+            <template #content>
+                Biztosan törölni szeretnéd az Egyesületet ?
+            </template>
+
+            <template #footer>
+                <jet-secondary-button @click.native="confirmModalShow = false">
+                    Mégse
+                </jet-secondary-button>
+
+                <jet-danger-button class="ml-2" @click.native="deleteTeam">
+                    Törlés
+                </jet-danger-button>
+            </template>
+        </jet-confirmation-modal>
     </admin-layout>
 </template>
 
@@ -97,6 +126,9 @@ import JetButton from "@/Jetstream/Button";
 import JetInput from "@/Jetstream/Input";
 import JetInputError from "@/Jetstream/InputError";
 import JetLabel from "@/Jetstream/Label";
+import JetDangerButton from '@/Jetstream/DangerButton';
+import JetConfirmationModal from '@/Jetstream/ConfirmationModal';
+import JetSecondaryButton from '@/Jetstream/SecondaryButton';
 
 export default {
     components: {
@@ -105,15 +137,20 @@ export default {
         JetInput,
         JetInputError,
         JetLabel,
+        JetDangerButton,
+        JetConfirmationModal,
+        JetSecondaryButton,
     },
     props: {
         team: Object,
     },
     data() {
         return {
+            confirmModalShow: false,
             form: this.$inertia.form({
                 _method: 'PUT',
                 name: this.team.name,
+                original_name: this.team.original_name,
                 short: this.team.short,
                 sa: this.team.SA,
                 address: this.team.address,
@@ -130,6 +167,16 @@ export default {
         update() {
             this.form.put(this.route('admin:teams.update', this.team.id))
         },
-    }
+        deleteTeam() {
+            this.$inertia.delete(this.route('admin:teams.destroy', this.team.id))
+        },
+    },
+    watch: {
+        '$page.props.flash': {
+            handler() {
+                this.confirmModalShow = false;
+            },
+        },
+    },
 }
 </script>

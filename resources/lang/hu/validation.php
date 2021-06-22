@@ -152,6 +152,7 @@ return [
 
     'attributes' => [
         'name' => 'Név',
+        'original_name' => 'Eredeti név',
         'email' => 'Email',
         'role' => 'Jogosultság',
         'short' => 'Rövidítés',

@@ -25,6 +25,7 @@ class TeamRequest extends FormRequest
     {
         return [
             'name' => ['required'],
+            'original_name' => ['nullable'],
             'short' => ['nullable'],
             'sa' => ['required'],
             'address' => ['required'],

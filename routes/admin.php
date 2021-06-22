@@ -28,7 +28,9 @@ Route::resource('events', EventController::class);
 Route::resource('locations', LocationController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
 
 //teams
-Route::resource('teams', TeamController::class)->only('index', 'create', 'store', 'edit', 'update');
+Route::get('teams/import', [TeamController::class, 'import'])->name('teams.import');
+Route::post('teams/upload', [TeamController::class, 'upload'])->name('teams.upload');
+Route::resource('teams', TeamController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
 
 //files
 Route::resource('documents', DocumentController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
