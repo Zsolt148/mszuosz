@@ -51,4 +51,25 @@ class PageController extends Controller
             'content' => \App\Models\Page::query()->where('slug', 'association')->latest()->first()
         ]);
     }
+
+    public function policy()
+    {
+        return Inertia::render('Site/Page', [
+            'content' => \App\Models\Page::query()->where('slug', 'policy')->latest()->first()
+        ]);
+    }
+
+    public function impresszum()
+    {
+        return Inertia::render('Site/Page', [
+            'content' => \App\Models\Page::query()->where('slug', 'impresszum')->latest()->first()
+        ]);
+    }
+
+    public function contact()
+    {
+        return Inertia::render('Site/Page', [
+            'content' => \App\Models\Page::query()->where('slug', 'contact')->latest()->first()
+        ]);
+    }
 }

@@ -1,6 +1,6 @@
 <template>
     <app-layout>
-        <section class="text-gray-800 bg-white h-screen">
+        <div class="text-gray-800">
             <div class="container flex flex-col items-center px-5 py-8 sm:py-16 mx-auto md:flex-row lg:px-28">
                 <div class="flex flex-col items-start mb-16 text-left lg:flex-grow md:w-1/2 md:pr-16 md:mb-0">
                     <div class="items-center w-64 mb-4 font-medium title-font md:mb-0 lg:mt-16">
@@ -31,7 +31,7 @@
                     <img :src="route('home') + '/images/mszuosz_logo.jpg'" class="object-cover object-center rounded-lg " alt="" />
                 </div>
             </div>
-        </section>
+        </div>
     </app-layout>
 </template>
 

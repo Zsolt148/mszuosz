@@ -2,25 +2,27 @@
 
 use App\Http\Controllers\Site\PageController as SitePageController;
 use App\Http\Controllers\UploadController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 //pages
 Route::get('/', [SitePageController::class, 'home'])->name('home');
-Route::get('/documents', [SitePageController::class, 'documents'])->name('documents');
-Route::get('/ranks', [SitePageController::class, 'ranks'])->name('ranks');
-Route::get('/welcome', [SitePageController::class, 'welcome'])->name('welcome');
-Route::get('/history', [SitePageController::class, 'history'])->name('history');
-Route::get('/association', [SitePageController::class, 'association'])->name('association');
+Route::get('/dokumentumok', [SitePageController::class, 'documents'])->name('documents');
+Route::get('/ranglistak', [SitePageController::class, 'ranks'])->name('ranks');
+Route::get('/bemutatkozas', [SitePageController::class, 'welcome'])->name('welcome');
+Route::get('/tortenet', [SitePageController::class, 'history'])->name('history');
+Route::get('/szervezeti-mukodes', [SitePageController::class, 'association'])->name('association');
+Route::get('/impresszum', [SitePageController::class, 'impresszum'])->name('impresszum');
+Route::get('/adatvedelmi-iranyelvek', [SitePageController::class, 'policy'])->name('policy');
+Route::get('/kapcsolat', [SitePageController::class, 'contact'])->name('contact');
 
-Route::get('/news', [\App\Http\Controllers\Site\NewsController::class, 'index'])->name('news.index');
-Route::get('/news/{news:slug}', [\App\Http\Controllers\Site\NewsController::class, 'show'])->name('news.show');
+Route::get('/hirek', [\App\Http\Controllers\Site\NewsController::class, 'index'])->name('news.index');
+Route::get('/hirek/{news:slug}', [\App\Http\Controllers\Site\NewsController::class, 'show'])->name('news.show');
 
-Route::get('/events', [\App\Http\Controllers\Site\EventController::class, 'index'])->name('events.index');
-Route::get('/events/{event:slug}', [\App\Http\Controllers\Site\EventController::class, 'show'])->name('events.show');
-Route::get('/teams', [\App\Http\Controllers\Site\TeamController::class, 'index'])->name('teams.index');
-Route::get('/teams/{team}', [\App\Http\Controllers\Site\TeamController::class, 'show'])->name('teams.show');
+Route::get('/versenyek', [\App\Http\Controllers\Site\EventController::class, 'index'])->name('events.index');
+Route::get('/versenyek/{event:slug}', [\App\Http\Controllers\Site\EventController::class, 'show'])->name('events.show');
+Route::get('/egyesuletek', [\App\Http\Controllers\Site\TeamController::class, 'index'])->name('teams.index');
+Route::get('/egyesuletek/{team}', [\App\Http\Controllers\Site\TeamController::class, 'show'])->name('teams.show');
 
 //Filepond
 Route::post('process/{name}', [UploadController::class, 'store']);

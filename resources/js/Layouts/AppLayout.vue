@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="min-h-screen bg-gray-100">
+        <div class="flex flex-col min-h-screen" :class="route().current('home') ? 'bg-white' : 'bg-gray-100'">
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -66,7 +66,9 @@
                                     <jet-dropdown-link :href="route('association')">
                                         Szervezeti működés
                                     </jet-dropdown-link>
-
+                                    <jet-dropdown-link :href="route('contact')">
+                                        Elérhetőség
+                                    </jet-dropdown-link>
                                 </template>
                             </jet-dropdown>
                         </div>
@@ -113,6 +115,9 @@
                         <jet-responsive-nav-link :href="route('association')" :active="route().current('association')">
                             Szervezeti működés
                         </jet-responsive-nav-link>
+                        <jet-responsive-nav-link :href="route('contact')" :active="route().current('contact')">
+                            Elérhetőség
+                        </jet-responsive-nav-link>
                     </div>
                 </div>
             </nav>
@@ -124,9 +129,34 @@
             </header>
 
             <!-- Page Content -->
-            <main>
+            <main class="flex-grow">
                 <slot></slot>
             </main>
+
+            <section class="bg-gray-100 border-t border-gray-200">
+                <div class="max-w-screen-xl px-4 py-12 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8">
+                    <nav class="flex flex-wrap justify-center -mx-5 -my-2">
+                        <div class="px-5 py-2">
+                            <a :href="route('impresszum')" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                Impresszum
+                            </a>
+                        </div>
+                        <div class="px-5 py-2">
+                            <a :href="route('policy')" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                Adatvédelmi Irányelvek
+                            </a>
+                        </div>
+                        <div class="px-5 py-2">
+                            <a :href="route('contact')" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                Elérhetőség
+                            </a>
+                        </div>
+                    </nav>
+                    <p class="mt-8 text-base leading-6 text-center text-gray-400">
+                        © 2021 MSZUOSZ. All rights reserved.
+                    </p>
+                </div>
+            </section>
         </div>
     </div>
 </template>
