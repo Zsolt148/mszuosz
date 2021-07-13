@@ -158,6 +158,19 @@
                 </div>
             </section>
         </div>
+        <div class="fixed bottom-5 right-0 lg:right-4 p-4 bg-white border-t-4 border-gray-300 shadow-lg rounded w-full sm:w-1/2 md:w-1/3 lg:w-1/4" v-if="!cookieAccepted">
+            <h2 class="text-lg lg:text-xl mb-4 block font-bold leading-tight text-gray-600">Sütik használata</h2>
+            <div class="flex flex-col">
+                <p class="mb-5 font-medium text-gray-600">
+                    A weboldal sütiket (cookie-kat) használ, hogy biztonságos böngészés mellett a legjobb felhasználói élményt nyújtsa.
+                </p>
+                <button class="w-full px-3 py-1 bg-gray-300 hover:bg-blue-500 hover:underline hover:text-white rounded text-gray-700 uppercase tracking-widest text-xs font-bold"
+                        @click.prevent="acceptCookie"
+                >
+                    Elfogadom
+                </button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -179,9 +192,14 @@
             JetResponsiveNavLink,
         },
 
+        mounted() {
+            this.cookieAccepted = localStorage.getItem('cookie_accepted') == 'true' ? true : false;
+        },
+
         data() {
             return {
                 showingNavigationDropdown: false,
+                cookieAccepted: false,
             }
         },
 
@@ -189,6 +207,10 @@
             logout() {
                 this.$inertia.post(route('logout'));
             },
+            acceptCookie() {
+                localStorage.setItem('cookie_accepted', true);
+                this.cookieAccepted = true;
+            }
         }
     }
 </script>
