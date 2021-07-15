@@ -46,7 +46,7 @@
                         </th>
                         <th class="px-6 pt-6 pb-4">
                             <span class="inline-flex w-full justify-between cursor-pointer" @click="sort('webpage')">
-                                Oldal
+                                Weboldal
                                 <icon v-if="params.field === 'webpage' && params.direction === 'asc'" name="cheveron-up"
                                       class="w-4 h-4"></icon>
                                 <icon v-if="params.field === 'webpage' && params.direction === 'desc'"
