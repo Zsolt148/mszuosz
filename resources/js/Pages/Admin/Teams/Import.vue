@@ -14,7 +14,7 @@
             <form @submit.prevent="submit">
                 <div class="p-8">
                     <jet-label for="name" value="Excel" />
-                    <jet-input id="file" name="file" type="file" class="mt-1 block w-full" @input="form.file = $event.target.files[0]" autocomplete="off" />
+                    <jet-input id="file" name="file" type="file" @input="form.file = $event.target.files[0]" autocomplete="off" />
                     <jet-input-error :message="form.errors.file" class="mt-2" />
                 </div>
                 <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">

@@ -15,26 +15,26 @@
                         <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                             <div class="w-full sm:w-1/2">
                                 <jet-label for="name" value="Engedélyrendszer név" />
-                                <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="off" />
+                                <jet-input id="name" type="text" v-model="form.name" autocomplete="off" />
                                 <jet-input-error :message="form.errors.name" class="mt-2" />
                             </div>
 
                             <div class="w-full sm:w-1/2">
                                 <jet-label for="original_name" value="Eredeti név" />
-                                <jet-input id="original_name" type="text" class="mt-1 block w-full" v-model="form.original_name" autocomplete="off" />
+                                <jet-input id="original_name" type="text" v-model="form.original_name" autocomplete="off" />
                                 <jet-input-error :message="form.errors.original_name" class="mt-2" />
                             </div>
                         </div>
                         <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                             <div class="w-full sm:w-1/2">
                                 <jet-label for="short" value="Rövidítés" />
-                                <jet-input id="short" type="text" class="mt-1 block w-full" v-model="form.short" autocomplete="off" />
+                                <jet-input id="short" type="text" v-model="form.short" autocomplete="off" />
                                 <jet-input-error :message="form.errors.short" class="mt-2" />
                             </div>
 
                             <div class="w-full sm:w-1/2">
                                 <jet-label for="sa" value="SA" />
-                                <jet-input id="sa" type="text" class="mt-1 block w-full" v-model="form.sa" autocomplete="off" />
+                                <jet-input id="sa" type="text" v-model="form.sa" autocomplete="off" />
                                 <jet-input-error :message="form.errors.sa" class="mt-2" />
                             </div>
                         </div>
@@ -42,13 +42,13 @@
                         <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                             <div class="w-full sm:w-1/2">
                                 <jet-label for="address" value="Cím" />
-                                <jet-input id="address" type="text" class="mt-1 block w-full" v-model="form.address" autocomplete="off" />
+                                <jet-input id="address" type="text" v-model="form.address" autocomplete="off" />
                                 <jet-input-error :message="form.errors.address" class="mt-2" />
                             </div>
 
                             <div class="w-full sm:w-1/2">
                                 <jet-label for="webpage" value="Weboldal" />
-                                <jet-input id="webpage" type="text" class="mt-1 block w-full" v-model="form.webpage" autocomplete="off" />
+                                <jet-input id="webpage" type="text" v-model="form.webpage" autocomplete="off" />
                                 <jet-input-error :message="form.errors.webpage" class="mt-2" />
                             </div>
                         </div>
@@ -56,19 +56,19 @@
                         <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                             <div class="w-full sm:w-1/3">
                                 <jet-label for="president" value="Elnök" />
-                                <jet-input id="president" type="text" class="mt-1 block w-full" v-model="form.president" autocomplete="off" />
+                                <jet-input id="president" type="text" v-model="form.president" autocomplete="off" />
                                 <jet-input-error :message="form.errors.president" class="mt-2" />
                             </div>
 
                             <div class="w-full sm:w-1/3">
                                 <jet-label for="email" value="Email" />
-                                <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" autocomplete="off" />
+                                <jet-input id="email" type="email" v-model="form.email" autocomplete="off" />
                                 <jet-input-error :message="form.errors.email" class="mt-2" />
                             </div>
 
                             <div class="w-full sm:w-1/3">
                                 <jet-label for="phone" value="Telefon" />
-                                <jet-input id="phone" type="text" class="mt-1 block w-full" v-model="form.phone" autocomplete="off" />
+                                <jet-input id="phone" type="text" v-model="form.phone" autocomplete="off" />
                                 <jet-input-error :message="form.errors.phone" class="mt-2" />
                             </div>
                         </div>
@@ -76,13 +76,13 @@
                         <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                             <div class="w-full sm:w-1/2">
                                 <jet-label for="contact_name" value="Kapcsolattartó neve" />
-                                <jet-input id="contact_name" type="text" class="mt-1 block w-full" v-model="form.contact_name" autocomplete="off" />
+                                <jet-input id="contact_name" type="text" v-model="form.contact_name" autocomplete="off" />
                                 <jet-input-error :message="form.errors.contact_name" class="mt-2" />
                             </div>
 
                             <div class="w-full sm:w-1/2">
                                 <jet-label for="contact_email" value="Kapcsolattartó email" />
-                                <jet-input id="contact_email" type="email" class="mt-1 block w-full" v-model="form.contact_email" autocomplete="off" />
+                                <jet-input id="contact_email" type="email" v-model="form.contact_email" autocomplete="off" />
                                 <jet-input-error :message="form.errors.contact_email" class="mt-2" />
                             </div>
                         </div>

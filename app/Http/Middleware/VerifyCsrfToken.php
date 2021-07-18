@@ -12,6 +12,9 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        '/process/documents',
+        '/process/race_info',
+        '/process/report',
+        '/process/files',
     ];
 }

@@ -28,7 +28,7 @@
                     <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
                         <div class="w-1/2">
                             <jet-label for="name" value="Név" />
-                            <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="off" />
+                            <jet-input id="name" type="text" v-model="form.name" autocomplete="off" />
                             <jet-input-error :message="form.errors.name" class="mt-2" />
                         </div>
 
@@ -42,19 +42,19 @@
                     <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
                         <div class="w-full sm:w-1/3">
                             <jet-label for="start_at" value="Kezdőnap" />
-                            <jet-input id="start_at" type="date" class="mt-1 block w-full" v-model="form.start_at" autocomplete="off" />
+                            <jet-input id="start_at" type="date" v-model="form.start_at" autocomplete="off" />
                             <jet-input-error :message="form.errors.start_at" class="mt-2" />
                         </div>
 
                         <div class="w-full sm:w-1/3">
                             <jet-label for="end_at" value="Végnap" />
-                            <jet-input id="end_at" type="date" class="mt-1 block w-full" v-model="form.end_at" autocomplete="off"/>
+                            <jet-input id="end_at" type="date" v-model="form.end_at" autocomplete="off"/>
                             <jet-input-error :message="form.errors.end_at" class="mt-2" />
                         </div>
 
                         <div class="w-full sm:w-1/3">
                             <jet-label for="location_id" value="Helyszín"/>
-                            <select name="location_id" id="location_id" v-model="form.location_id" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                            <select name="location_id" id="location_id" v-model="form.location_id">
                                 <option value="null" selected>Válassz</option>
                                 <option v-for="location in locations" :key="location.id" :value="location.id">{{location.country}} - {{location.name}}</option>
                             </select>
@@ -65,7 +65,7 @@
                     <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
                         <div class="w-full sm:w-1/5">
                             <jet-label for="category" value="Kategória"/>
-                            <select name="category" id="category" v-model="form.category" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                            <select name="category" id="category" v-model="form.category">
                                 <option value="null" selected>Válassz</option>
                                 <option v-for="(category, key) in constants.cats" :key="key" :value="key">{{key}} - {{category}}</option>
                             </select>
@@ -73,7 +73,7 @@
                         </div>
                         <div class="w-full sm:w-1/5">
                             <jet-label for="pool" value="Medence"/>
-                            <select name="pool" id="pool" v-model="form.pool" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                            <select name="pool" id="pool" v-model="form.pool">
                                 <option value="null" selected>Válassz</option>
                                 <option v-for="pool in constants.pools" :key="pool" :value="pool">{{pool}}</option>
                             </select>
@@ -81,7 +81,7 @@
                         </div>
                         <div class="w-full sm:w-1/5">
                             <jet-label for="timing" value="Időmérés"/>
-                            <select name="timing" id="timing" v-model="form.timing" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                            <select name="timing" id="timing" v-model="form.timing">
                                 <option value="null" selected>Válassz</option>
                                 <option v-for="timing in constants.timings" :key="timing" :value="timing">{{timing}}</option>
                             </select>
@@ -89,12 +89,12 @@
                         </div>
                         <div class="w-full sm:w-1/5">
                             <jet-label for="email" value="Email" />
-                            <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" autocomplete="off" />
+                            <jet-input id="email" type="email" v-model="form.email" autocomplete="off" />
                             <jet-input-error :message="form.errors.email" class="mt-2" />
                         </div>
                         <div class="w-full sm:w-1/5">
                             <jet-label for="site" value="Weboldal" />
-                            <jet-input id="site" type="text" class="mt-1 block w-full" v-model="form.site" autocomplete="off" />
+                            <jet-input id="site" type="text" v-model="form.site" autocomplete="off" />
                             <jet-input-error :message="form.errors.site" class="mt-2" />
                         </div>
                     </div>

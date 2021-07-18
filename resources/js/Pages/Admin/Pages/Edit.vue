@@ -16,13 +16,13 @@
                     <div class="my-5 w-full flex flex-row space-x-4">
                         <div class="w-1/2">
                             <jet-label for="name" value="Cím" />
-                            <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="off" />
+                            <jet-input id="name" type="text" v-model="form.name" autocomplete="off" />
                             <jet-input-error :message="form.errors.name" class="mt-2" />
                         </div>
 
                         <div class="w-1/2">
                             <jet-label for="slug" value="URL" />
-                            <jet-input id="slug" type="text" class="mt-1 block w-full bg-gray-200" v-model="form.slug" autocomplete="off" aria-readonly="true" disabled="disabled" />
+                            <jet-input id="slug" type="text" class="bg-gray-200" v-model="form.slug" autocomplete="off" aria-readonly="true" disabled="disabled" />
                             <jet-input-error :message="form.errors.slug" class="mt-2" />
                         </div>
                     </div>

@@ -26,20 +26,20 @@
 
                     <div class="mb-5 w-full">
                         <jet-label for="name" value="Név" />
-                        <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="off" />
+                        <jet-input id="name" type="text" v-model="form.name" autocomplete="off" />
                         <jet-input-error :message="form.errors.name" class="mt-2" />
                     </div>
 
                     <div class="mb-5 space-x-4 flex flex-row">
                         <div class="w-1/2">
                             <jet-label for="date" value="Dátum" />
-                            <jet-input id="date" type="date" class="mt-1 block w-full" v-model="form.date" autocomplete="off" />
+                            <jet-input id="date" type="date" v-model="form.date" autocomplete="off" />
                             <jet-input-error :message="form.errors.date" class="mt-2" />
                         </div>
 
                         <div class="w-1/2">
                             <jet-label for="type" value="Típus"/>
-                            <select name="type" id="location_id" v-model="form.type" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                            <select name="type" id="location_id" v-model="form.type">
                                 <option v-for="(type, key) in types" :key="key" :value="key">{{type}}</option>
                             </select>
                             <jet-input-error :message="form.errors.type" class="mt-2" />

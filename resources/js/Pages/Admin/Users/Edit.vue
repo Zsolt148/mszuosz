@@ -15,19 +15,19 @@
                         <div class="space-x-4 flex flex-row">
                             <div class="w-1/3">
                                 <jet-label for="name" value="Név" />
-                                <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="off" />
+                                <jet-input id="name" type="text" v-model="form.name" autocomplete="off" />
                                 <jet-input-error :message="form.errors.name" class="mt-2" />
                             </div>
 
                             <div class="w-1/3">
                                 <jet-label for="email" value="Email" />
-                                <jet-input id="email" type="text" class="mt-1 block w-full" v-model="form.email" autocomplete="off" />
+                                <jet-input id="email" type="text" v-model="form.email" autocomplete="off" />
                                 <jet-input-error :message="form.errors.email" class="mt-2" />
                             </div>
 
                             <div class="w-1/3">
                                 <jet-label for="role" value="Típus"/>
-                                <select name="role" id="role" v-model="form.role" class="block mt-1 w-full rounded-md shadow-md border-gray-300 focus:outline-none">
+                                <select name="role" id="role" v-model="form.role">
                                     <option v-for="(role, key) in roles" :key="key" :value="key">{{role}}</option>
                                 </select>
                                 <jet-input-error :message="form.errors.role" class="mt-2" />
