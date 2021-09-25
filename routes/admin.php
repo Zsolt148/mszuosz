@@ -10,7 +10,6 @@ use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\TeamController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 

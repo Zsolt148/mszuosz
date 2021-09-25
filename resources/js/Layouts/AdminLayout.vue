@@ -3,7 +3,7 @@
         <div class="md:flex md:flex-col">
             <div class="md:h-screen md:flex md:flex-col">
                 <div class="md:flex md:flex-shrink-0">
-                    <div class="md:flex-shrink-0 md:w-56 px-6 py-4 flex items-center justify-between md:justify-center">
+                    <div class="md:flex-shrink-0 md:w-56 px-6 py-4 flex items-center justify-between md:justify-center border-r">
                         <inertia-link class="text-xl text-blue-600 font-bold" href="/">
                             MSZUOSZ Admin
                         </inertia-link>
@@ -50,9 +50,9 @@
                     </div>
                 </div>
                 <div class="md:flex md:flex-grow md:overflow-hidden">
-                    <admin-menu class="hidden md:block flex-shrink-0 w-56 overflow-y-auto border-r border-t" />
+                    <admin-menu class="hidden md:block flex-shrink-0 w-56 overflow-y-auto border-r" />
                     <div class="md:flex-1 sm:px-4 py-8 md:p-4 md:overflow-y-auto bg-gray-100" scroll-region><!-- Page Heading -->
-                        <div class="mx-auto py-5 sm:px-6 lg:px-8">
+                        <div class="max-w-7xl mx-auto py-5 sm:px-6 lg:px-8">
                             <flash-messages />
                             <slot />
                         </div>
