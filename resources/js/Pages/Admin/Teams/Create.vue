@@ -13,19 +13,26 @@
                 <form @submit.prevent="store">
                     <div class="p-8">
                         <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                            <div class="w-full sm:w-2/4">
-                                <jet-label for="name" value="Név" />
+                            <div class="w-full sm:w-1/2">
+                                <jet-label for="name" value="Engedélyrendszer név" />
                                 <jet-input id="name" type="text" v-model="form.name" autocomplete="off" />
                                 <jet-input-error :message="form.errors.name" class="mt-2" />
                             </div>
 
-                            <div class="w-full sm:w-1/4">
+                            <div class="w-full sm:w-1/2">
+                                <jet-label for="original_name" value="Eredeti név" />
+                                <jet-input id="original_name" type="text" v-model="form.original_name" autocomplete="off" />
+                                <jet-input-error :message="form.errors.original_name" class="mt-2" />
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
+                            <div class="w-full sm:w-1/2">
                                 <jet-label for="short" value="Rövidítés" />
                                 <jet-input id="short" type="text" v-model="form.short" autocomplete="off" />
                                 <jet-input-error :message="form.errors.short" class="mt-2" />
                             </div>
 
-                            <div class="w-full sm:w-1/4">
+                            <div class="w-full sm:w-1/2">
                                 <jet-label for="sa" value="SA" />
                                 <jet-input id="sa" type="text" v-model="form.sa" autocomplete="off" />
                                 <jet-input-error :message="form.errors.sa" class="mt-2" />

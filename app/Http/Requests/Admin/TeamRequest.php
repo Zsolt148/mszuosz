@@ -28,7 +28,7 @@ class TeamRequest extends FormRequest
             'name' => ['required'],
             'original_name' => ['nullable'],
             'short' => ['nullable'],
-            'sa' => ['required', 'integer', Rule::unique('teams', 'sa')->ignore($this->team['id'])],
+            'sa' => ['required', 'integer', Rule::unique('teams', 'sa')->ignore($this->team['id'] ?? null)],
             'address' => ['required'],
             'webpage' => ['nullable'],
             'contact_name' => ['nullable'],
