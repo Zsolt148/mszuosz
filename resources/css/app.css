@@ -26,3 +26,14 @@
         @apply rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50;
     }
 }
+
+@layer components {
+    .dashboard-link {
+        @apply flex items-center px-6 py-2 text-gray-700 hover:text-blue-600;
+    }
+
+    .dashboard-link-active {
+        /*@apply flex items-center px-6 py-2 text-gray-700 dark:text-gray-200 bg-gradient-to-r from-white to-green-light border-r-4 border-green dark:bg-gradient-to-r dark:from-gray-700 dark:to-gray-900 text-green dark:text-blue-500;*/
+        @apply flex items-center px-6 py-2 bg-blue-300 bg-opacity-30 rounded-xl shadow text-blue-600;
+    }
+}

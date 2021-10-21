@@ -62,6 +62,7 @@ class User extends Authenticatable
 
     const ROLES = [
       'user' => 'Felhasználó',
+      'uploader' => 'Feltöltő',
       'admin' => 'Admin',
     ];
 
