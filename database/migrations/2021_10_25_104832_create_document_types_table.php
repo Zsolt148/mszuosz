@@ -35,19 +35,19 @@ class CreateDocumentTypesTable extends Migration
            $table->foreignId('document_type_id')->nullable()->after('date')->constrained()->nullOnDelete();
         });
 
-        Artisan::call('db:seed', ['--class' => DocumentTypeSeeder::class]);
-
-        DB::query()
-            ->select('*')
-            ->from('documents')
-            ->get()
-            ->each(function ($document) {
-                $doc = \App\Models\Document::findOrFail($document->id);
-
-                $doc->update([
-                    'document_type_id' => DocumentType::query()->firstWhere('name', self::DOCUMENT_TYPES[$document->type])->id
-                ]);
-            });
+//        Artisan::call('db:seed', ['--class' => DocumentTypeSeeder::class]);
+//
+//        DB::query()
+//            ->select('*')
+//            ->from('documents')
+//            ->get()
+//            ->each(function ($document) {
+//                $doc = \App\Models\Document::findOrFail($document->id);
+//
+//                $doc->update([
+//                    'document_type_id' => DocumentType::query()->firstWhere('name', self::DOCUMENT_TYPES[$document->type])->id
+//                ]);
+//            });
 
         Schema::table('documents', function (Blueprint $table) {
             $table->dropColumn('type');

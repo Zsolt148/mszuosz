@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->call(UserSeeder::class);
+        $this->call(DocumentTypeSeeder::class);
         //$this->call(PageSeeder::class);
         //$this->call(TeamSeeder::class);
     }
