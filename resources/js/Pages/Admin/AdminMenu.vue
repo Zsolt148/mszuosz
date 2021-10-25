@@ -16,7 +16,7 @@
                 <div>Versenyek</div>
             </inertia-link>
 
-            <inertia-link :class="getDashboardClass('admin/locations*')" :href="route('admin:locations.index')" v-if="isAdmin()">
+            <inertia-link :class="getDashboardClass('admin/locations*')" :href="route('admin:locations.index')">
                 <icon name="location-arrow" class="w-5 h-5 mr-4" />
                 <div>Helyszínek</div>
             </inertia-link>
