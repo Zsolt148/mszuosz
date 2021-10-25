@@ -26,9 +26,14 @@
                 <div>Egyesületek</div>
             </inertia-link>
 
-            <inertia-link :class="getDashboardClass('admin/documents*')" :href="route('admin:documents.index')">
+            <inertia-link :class="getDashboardClass('admin/documents.*')" :href="route('admin:documents.index')">
                 <icon name="folder" class="w-5 h-5 mr-4" />
                 <div>Dokumentumok</div>
+            </inertia-link>
+
+            <inertia-link :class="getDashboardClass('admin/documentTypes*')" :href="route('admin:documentTypes.index')">
+                <icon name="folder" class="w-5 h-5 mr-4" />
+                <div>Típusok</div>
             </inertia-link>
 
             <inertia-link :class="getDashboardClass('admin/pages*')" :href="route('admin:pages.index')" v-if="isAdmin()">

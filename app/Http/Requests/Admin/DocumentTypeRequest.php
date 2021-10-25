@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DocumentRequest extends FormRequest
+class DocumentTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,7 @@ class DocumentRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'date' => ['required', 'date'],
-            'document_type_id' => ['nullable'],
             'is_visible' => ['nullable'],
-            'files' => ['required'],
         ];
     }
 }

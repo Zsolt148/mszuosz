@@ -47,7 +47,7 @@ Route::get('/events/{event}/{name}', function ($event = '', $name = '') {
 Route::group([], base_path('routes/jetstream.php'));
 
 //admin
-Route::middleware(['auth:sanctum', 'verified'])
+Route::middleware(['auth:sanctum', 'verified', 'role'])
     ->prefix('admin')
     ->name('admin:')
     ->group(base_path('routes/admin.php'));

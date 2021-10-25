@@ -1,7 +1,7 @@
 <template>
     <admin-layout>
         <template #header>
-            Versenyek  - <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('admin:events.create')">Új verseny</inertia-link>
+            Versenyek  - <inertia-link class="text-blue-400 hover:text-blue-600" :href="route('admin:events.create')">Új verseny</inertia-link>
         </template>
 
         <div>
@@ -64,7 +64,7 @@
                     </tr>
                     <tr v-for="event in events.data" :key="event.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
-                            <inertia-link class="px-6 py-2 flex items-center focus:text-indigo-500" :href="route('admin:events.edit', event.id)">
+                            <inertia-link class="px-6 py-2 flex items-center focus:text-blue-500" :href="route('admin:events.edit', event.id)">
                                 <span v-if="event.name.length >= 60">{{ event.name.substring(0, 60)+'..' }}</span><span v-else>{{ event.name }}</span>
                             </inertia-link>
                         </td>

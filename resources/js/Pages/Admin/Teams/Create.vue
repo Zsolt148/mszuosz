@@ -5,8 +5,8 @@
         </template>
         <div>
             <h1 class="mb-8 font-bold text-3xl">
-                <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('admin:teams.index')">Egyesületek</inertia-link>
-                <span class="text-indigo-400 font-medium">/</span>
+                <inertia-link class="text-blue-400 hover:text-blue-600" :href="route('admin:teams.index')">Egyesületek</inertia-link>
+                <span class="text-blue-400 font-medium">/</span>
                 Új egyesület
             </h1>
             <div class="bg-white rounded-md shadow overflow-hidden">

@@ -19,8 +19,8 @@ class PageController extends Controller
     public function documents()
     {
         return Inertia::render('Site/Documents', [
-            'documents' => \App\Models\Document::query()->visible()->orderBy('type')->get()->groupBy('type'),
-            'types' => \App\Models\Document::TYPES,
+            'documents' => \App\Models\Document::query()->visible()->get()->groupBy('document_type_id'),
+            'types' => \App\Models\DocumentType::query()->visible()->get()->groupBy('id'),
         ]);
     }
 
