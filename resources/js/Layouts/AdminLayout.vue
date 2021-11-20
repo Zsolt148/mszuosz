@@ -52,7 +52,7 @@
                 <div class="md:flex md:flex-grow md:overflow-hidden">
                     <admin-menu class="hidden md:block flex-shrink-0 w-56 overflow-y-auto border-r px-2" />
                     <div class="md:flex-1 sm:px-4 py-8 md:p-4 md:overflow-y-auto bg-gray-100" scroll-region><!-- Page Heading -->
-                        <div class="max-w-7xl mx-auto py-5 sm:px-6 lg:px-8">
+                        <div class="max-w-none mx-auto py-5 sm:px-6 lg:px-8">
                             <flash-messages />
                             <slot />
                         </div>

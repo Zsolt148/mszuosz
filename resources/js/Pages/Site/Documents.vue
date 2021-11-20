@@ -4,9 +4,9 @@
             Dokumentumok
         </template>
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <div class="mb-6" v-for="(document, key) in documents" :key="document.id">
-                <div v-if="types[key]">
-                    <div class="text-2xl mb-2">{{types[key][0].name }}</div>
+            <div v-for="(type, key) in types" :key="type.id">
+                <div class="mb-6" v-if="documents[type.id]">
+                    <div class="text-2xl mb-2">{{ type.name }}</div>
                     <div class="bg-white rounded-md shadow overflow-x-auto">
                         <table class="table-auto whitespace-nowrap w-full">
                             <tr class="rounded-lg font-bold border-b text-center">
@@ -14,7 +14,7 @@
                                 <th class="px-6 pt-6 pb-4">Cím</th>
                                 <th class="px-6 pt-6 pb-4">Csatolmány</th>
                             </tr>
-                            <tr v-for="doc in document" :key="doc.id" class="hover:bg-gray-100 border-b border-gray-200 py-10 text-center">
+                            <tr v-for="doc in documents[type.id]" :key="doc.id" class="hover:bg-gray-100 border-b border-gray-200 py-10 text-center">
                                 <td class="px-6 py-4">{{doc.date_val}}</td>
                                 <td class="px-6 py-4">{{doc.name}}</td>
                                 <td class="px-6 py-4 flex justify-center items-center hover:text-blue-600 underline">

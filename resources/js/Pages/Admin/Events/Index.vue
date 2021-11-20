@@ -75,7 +75,7 @@
                         </td>
                         <td class="border-t">
                             <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:events.edit', event.id)" tabindex="-1">
-                                <img class="mr-2" :src="'https://www.countryflags.io/' + event.location.code + '/flat/24.png'"> {{ event.location.city }}
+                                <img class="mr-2" :src="getFlag(event.location.code)" width="24" height="24"> {{ event.location.city }}
                             </inertia-link>
                         </td>
                         <td class="border-t">
