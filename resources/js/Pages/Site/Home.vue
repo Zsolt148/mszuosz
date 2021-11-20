@@ -9,7 +9,7 @@
                         </h2>
                     </div>
                     <h1 class="my-8 text-2xl font-black tracking-tighter text-black md:text-5xl title-font one">Magyar Szenior Úszók Országos Szövetsége</h1>
-                    <p v-html="content.body" class="mb-8 text-base leading-relaxed text-left"/>
+                    <p v-if="content" v-html="content.body" class="mb-8 text-base leading-relaxed text-left"/>
                     <div class="flex justify-center">
                         <inertia-link :href="route('news.index')">
                             <button class="flex items-center px-6 py-2 mt-auto font-semibold text-white transition duration-500 ease-in-out transform bg-blue-500 rounded-lg hover:bg-gray-800 hover:to-black focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2">

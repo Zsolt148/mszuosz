@@ -2,8 +2,8 @@
     <admin-layout>
         <template #header>
             Egyesületek
-            - <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('admin:teams.create')">Új egyesület</inertia-link>
-            - <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('admin:teams.import')">Importálás</inertia-link>
+            - <inertia-link class="text-blue-400 hover:text-blue-600" :href="route('admin:teams.create')">Új egyesület</inertia-link>
+            - <inertia-link class="text-blue-400 hover:text-blue-600" :href="route('admin:teams.import')">Importálás</inertia-link>
         </template>
 
         <div>
@@ -64,7 +64,7 @@
                     </tr>
                     <tr v-for="team in teams.data" :key="team.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
-                            <inertia-link class="px-6 py-2 flex items-center focus:text-indigo-500" :href="route('admin:teams.edit', team.id)">
+                            <inertia-link class="px-6 py-2 flex items-center focus:text-blue-500" :href="route('admin:teams.edit', team.id)">
                                 {{ team.name }}
                             </inertia-link>
                         </td>
@@ -100,7 +100,7 @@
                         </td>
                     </tr>
                     <tr v-if="teams.data.length === 0">
-                        <td class="border-t px-6 py-2" colspan="4">No teams found.</td>
+                        <td class="border-t px-6 py-2" colspan="4">Nem található egyesület</td>
                     </tr>
                 </table>
             </div>

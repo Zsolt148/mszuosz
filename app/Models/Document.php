@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Document extends Model
@@ -17,14 +16,12 @@ class Document extends Model
         'is_visible' => 'boolean'
     ];
 
-    protected $appends = ['filename', 'type_val', 'date_val'];
+    protected $appends = ['filename', 'date_val'];
 
-    const TYPES = [
-        'default'   => 'Általános',
-        'template'  => 'Sablon',
-        'rule'      => 'Szabályzat',
-        'report'    => 'Jegyzőkönyv',
-    ];
+    public function type()
+    {
+        return $this->belongsTo(DocumentType::class, 'document_type_id');
+    }
 
     public function getCreatedAtAttribute($date)
     {
@@ -37,11 +34,6 @@ class Document extends Model
 
     public function scopeNotVisible(Builder $query) {
         return $query->where('is_visible', false);
-    }
-
-    public function getTypeValAttribute()
-    {
-        return self::TYPES[$this->type];
     }
 
     public function getDateValAttribute()

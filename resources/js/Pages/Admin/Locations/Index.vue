@@ -1,7 +1,7 @@
 <template>
     <admin-layout>
         <template #header>
-            Helyszínek  - <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('admin:locations.create')">Új helyszín</inertia-link>
+            Helyszínek  - <inertia-link class="text-blue-400 hover:text-blue-600" :href="route('admin:locations.create')">Új helyszín</inertia-link>
         </template>
 
         <div>
@@ -55,13 +55,13 @@
                     </tr>
                     <tr v-for="location in locations.data" :key="location.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
-                            <inertia-link class="px-6 py-2 flex items-center focus:text-indigo-500" :href="route('admin:locations.edit', location.id)">
+                            <inertia-link class="px-6 py-2 flex items-center focus:text-blue-500" :href="route('admin:locations.edit', location.id)">
                                 {{ location.name }}
                             </inertia-link>
                         </td>
                         <td class="border-t">
                             <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:locations.edit', location.id)" tabindex="-1">
-                                <img class="mr-2" :src="'https://www.countryflags.io/' + location.code + '/flat/24.png'"> {{ location.country }}
+                                <img class="mr-2" :src="getFlag(location.code)" width="24" height="24"> {{ location.country }}
                             </inertia-link>
                         </td>
                         <td class="border-t">

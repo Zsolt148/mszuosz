@@ -5,8 +5,8 @@
         </template>
 
         <h1 class="mb-8 font-bold text-3xl">
-            <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('admin:documents.index')">Dokumentumok</inertia-link>
-            <span class="text-indigo-400 font-medium">/</span>
+            <inertia-link class="text-blue-400 hover:text-blue-600" :href="route('admin:documents.index')">Dokumentumok</inertia-link>
+            <span class="text-blue-400 font-medium">/</span>
             Új dokumentum
         </h1>
 
@@ -40,9 +40,9 @@
 
                         <div class="w-1/2">
                             <jet-label for="type" value="Típus"/>
-                            <select name="type" id="location_id" v-model="form.type">
+                            <select name="type" id="type_id" v-model="form.document_type_id">
                                 <option value="null" selected>Válassz</option>
-                                <option v-for="(type, key) in types" :key="key" :value="key">{{type}}</option>
+                                <option v-for="(type, key) in types" :key="type.id" :value="type.id">{{type.name}}</option>
                             </select>
                             <jet-input-error :message="form.errors.type" class="mt-2" />
                         </div>
@@ -118,7 +118,7 @@ export default {
                 _method: 'POST',
                 name: null,
                 date: null,
-                type: null,
+                document_type_id: null,
                 is_visible: false,
                 files: null,
             }),

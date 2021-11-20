@@ -1,22 +1,23 @@
 <template>
     <admin-layout>
         <template #header>
-            Dokumentum szerkesztése
+            Dokumentum típus szerkesztése
         </template>
 
         <h1 class="mb-8 font-bold text-3xl">
-            <inertia-link class="text-blue-400 hover:text-blue-600" :href="route('admin:documents.index')">Dokumentumok</inertia-link>
+            <inertia-link class="text-blue-400 hover:text-blue-600" :href="route('admin:documentTypes.index')">Dokumentum típusok</inertia-link>
             <span class="text-blue-400 font-medium">/</span>
-            {{form.name}}
+            {{ form.name }}
         </h1>
 
         <div class="bg-white rounded-md shadow overflow-hidden">
             <form @submit.prevent="update">
-                <div class="p-8 flex flex-col">
+                <div class="p-8 w-full flex flex-col">
                     <div class="mb-5">
                         <jet-label for="is_visible">
                             <div class="flex items-center text-xl">
                                 <jet-checkbox name="is_visible" id="is_visible" v-model:checked="form.is_visible" />
+
                                 <div class="ml-2">
                                     Látható
                                 </div>
@@ -24,35 +25,10 @@
                         </jet-label>
                     </div>
 
-                    <div class="mb-5 w-full">
-                        <jet-label for="name" value="Név" />
+                    <div class="w-1/2">
+                        <jet-label for="name" value="Típus neve" />
                         <jet-input id="name" type="text" v-model="form.name" autocomplete="off" />
                         <jet-input-error :message="form.errors.name" class="mt-2" />
-                    </div>
-
-                    <div class="mb-5 space-x-4 flex flex-row">
-                        <div class="w-1/2">
-                            <jet-label for="date" value="Dátum" />
-                            <jet-input id="date" type="date" v-model="form.date" autocomplete="off" />
-                            <jet-input-error :message="form.errors.date" class="mt-2" />
-                        </div>
-
-                        <div class="w-1/2">
-                            <jet-label for="type" value="Típus"/>
-                            <select name="type" id="location_id" v-model="form.document_type_id">
-                                <option v-for="(type, key) in types" :key="type.id" :value="type.id">{{type.name}}</option>
-                            </select>
-                            <jet-input-error :message="form.errors.type" class="mt-2" />
-                        </div>
-                    </div>
-
-                    <div class="w-full mt-5">
-                        <jet-label for="file" value="Fájlok" />
-                        <input type="hidden" v-model="form.files">
-                        <a class="text-blue-600 underline mr-3" v-for="(file, key) in form.files" :key="key" target="_blank" :href="route('home') + '/documents/' + file">
-                            {{form.name}}<span v-if="form.files.length != 1">&nbsp;{{key+1}}.</span>
-                        </a>
-                        <jet-input-error :message="form.errors.file" class="mt-2" />
                     </div>
                 </div>
                 <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
@@ -67,11 +43,11 @@
         </div>
         <jet-confirmation-modal :show="confirmModalShow" @close="confirmModalShow = false">
             <template #title>
-                Dokumentum törlése
+                Dokumentum típus törlése
             </template>
 
             <template #content>
-                Biztosan törölni szeretnéd a dokumentumot ?
+                Biztosan törölni szeretnéd a dokumentum típust ?
             </template>
 
             <template #footer>
@@ -93,11 +69,10 @@ import JetButton from "@/Jetstream/Button";
 import JetInput from "@/Jetstream/Input";
 import JetInputError from "@/Jetstream/InputError";
 import JetLabel from "@/Jetstream/Label";
-import Editor from '@tinymce/tinymce-vue';
-import JetDangerButton from '@/Jetstream/DangerButton'
+import JetCheckbox from "@/Jetstream/Checkbox";
+import JetDangerButton from "@/Jetstream/DangerButton";
 import JetConfirmationModal from "@/Jetstream/ConfirmationModal";
 import JetSecondaryButton from "@/Jetstream/SecondaryButton";
-import JetCheckbox from "@/Jetstream/Checkbox";
 
 export default {
     components: {
@@ -106,35 +81,30 @@ export default {
         JetInput,
         JetInputError,
         JetLabel,
-        Editor,
         JetDangerButton,
         JetCheckbox,
         JetConfirmationModal,
         JetSecondaryButton,
     },
     props: {
-        document: Object,
-        types: Object,
+        documentType: Object,
     },
     data() {
         return {
             confirmModalShow: false,
             form: this.$inertia.form({
                 _method: 'POST',
-                name: this.document.name,
-                date: this.document.date,
-                document_type_id: this.document.document_type_id,
-                is_visible: this.document.is_visible ? true : false,
-                files: this.document.files,
+                name: this.documentType.name,
+                is_visible: this.documentType.is_visible ? true : false,
             }),
         };
     },
     methods: {
         update() {
-            this.form.put(this.route('admin:documents.update', this.document.id))
+            this.form.put(this.route('admin:documentTypes.update', this.documentType.id))
         },
         deleteDocument() {
-            this.$inertia.delete(this.route('admin:documents.destroy', this.document.id))
+            this.$inertia.delete(this.route('admin:documentTypes.destroy', this.documentType.id))
         },
     },
 }

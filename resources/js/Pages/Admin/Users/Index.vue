@@ -48,7 +48,7 @@
                     </tr>
                     <tr v-for="user in users.data" :key="user.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
-                            <inertia-link class="px-6 py-2 flex items-center focus:text-indigo-500" :href="route('admin:users.edit', user.id)">
+                            <inertia-link class="px-6 py-2 flex items-center focus:text-blue-500" :href="route('admin:users.edit', user.id)">
                                 {{ user.name }}
                             </inertia-link>
                         </td>

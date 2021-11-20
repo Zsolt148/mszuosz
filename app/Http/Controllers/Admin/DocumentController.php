@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DocumentRequest;
 use App\Models\Document;
+use App\Models\DocumentType;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -22,10 +23,11 @@ class DocumentController extends Controller
     {
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:name,type,date,created_at'],
+            'field' => ['in:name,date,created_at'],
         ]);
 
-        $query = Document::query();
+        $query = Document::query()
+            ->with('type');
 
         if($search = request('search')) {
             $query->where('name', 'LIKE', '%'.$search.'%');
@@ -51,7 +53,7 @@ class DocumentController extends Controller
     public function create()
     {
         return Inertia::render('Admin/Documents/Create', [
-            'types' => Document::TYPES
+            'types' => DocumentType::query()->get()
         ]);
     }
 
@@ -65,6 +67,7 @@ class DocumentController extends Controller
     {
         $files = array();
         $name = $request->input('name');
+
         foreach($request->input('files') as $tmp) {
             $arr = explode('/', $tmp);
             $uid = array_pop($arr);
@@ -74,7 +77,7 @@ class DocumentController extends Controller
         }
 
         $doc = new Document();
-        $doc->fill($request->all('name', 'date', 'type', 'is_visible'));
+        $doc->fill($request->all('name', 'date', 'document_type_id', 'is_visible'));
         $doc->files = $files;
         $doc->save();
 
@@ -92,7 +95,7 @@ class DocumentController extends Controller
     {
         return Inertia::render('Admin/Documents/Edit', [
             'document' => $document,
-            'types' => Document::TYPES
+            'types' => DocumentType::query()->get()
         ]);
     }
 
@@ -124,7 +127,7 @@ class DocumentController extends Controller
             $document->files = $files;
         }
 
-        $document->fill($request->all('name', 'date', 'type', 'is_visible'));
+        $document->fill($request->all('name', 'date', 'document_type_id', 'is_visible'));
         $document->save();
 
         return redirect()->route('admin:documents.index')->with('success', 'Dokumentum sikeresen módosítva');
