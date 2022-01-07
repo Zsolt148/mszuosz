@@ -16,7 +16,7 @@ return [
     'reset' => 'Jelszavát sikeres beállította!',
     'sent' => 'Elküldtük a megerősítő email-t a megadott címre!',
     'throttled' => 'Kérjük várjon kicsit mielőtt újra próbálná.',
-    'token' => 'A megadott vissza állírtási kód érvénytelen.',
+    'token' => 'A megadott vissza állítási kód érvénytelen.',
     'user' => "Hoppá! Ez számunkra egy ismeretlen email cím.",
 
 ];
