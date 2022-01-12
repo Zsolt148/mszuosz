@@ -29,8 +29,11 @@ class EventController extends Controller
             ->with('location');
 
         if($search = request('search')) {
-            $query->where('name', 'LIKE', '%'.$search.'%')
-                ->orWhereDate('start_at', $search);
+            $query->where(function ($query) use ($search) {
+               $query
+                    ->where('name', 'LIKE', '%'.$search.'%')
+                    ->orWhereDate('start_at', $search);
+            });
         }
 
         $year = request('year');
@@ -52,10 +55,11 @@ class EventController extends Controller
 
         $years = Event::all()
             ->pluck('start_at')
-            ->map(function ($date) {
-                return $date->format('Y');
+            ->mapWithKeys(function ($date) {
+                return [$date->format('Y') => $date->format('Y')];
             })
             ->unique()
+            ->sortDesc()
             ->toArray();
 
         return Inertia::render('Site/Events/Index', [

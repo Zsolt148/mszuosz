@@ -31,9 +31,12 @@ class EventController extends Controller
             ->with('location');
 
         if($search = request('search')) {
-            $query->where('name', 'LIKE', '%'.$search.'%')
-                ->orWhere('slug', 'LIKE', '%'.$search.'%')
-                ->orWhere('category', 'LIKE', '%'.$search.'%');
+            $query->where(function ($query) use ($search) {
+                $query
+                    ->where('name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('slug', 'LIKE', '%' . $search . '%')
+                    ->orWhere('category', 'LIKE', '%' . $search . '%');
+            });
         }
 
         if($year = request('year')) {
@@ -52,9 +55,14 @@ class EventController extends Controller
             $query->orderByDesc('start_at');
         }
 
-        $years = Event::all()->pluck('start_at')->map(function ($date) {
-           return $date->format('Y');
-        })->unique()->toArray();
+        $years = Event::all()
+            ->pluck('start_at')
+            ->mapWithKeys(function ($date) {
+                return [$date->format('Y') => $date->format('Y')];
+            })
+            ->unique()
+            ->sortDesc()
+            ->toArray();
 
         return Inertia::render('Admin/Events/Index', [
             'filters' => request()->all(['search', 'field', 'direction', 'year']),
