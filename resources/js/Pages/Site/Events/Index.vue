@@ -9,14 +9,14 @@
                        name="search" placeholder="Keresés…" v-model="params.search"/>
                 <select name="year" id="year" v-model="params.year" class="block rounded-md border-gray-300 py-1 w-1/5 focus:outline-none mr-2">
                     <option value="null" selected>Év</option>
-                    <option v-for="year in years" :key="year" :value="year">{{year}}</option>
+                    <option v-for="year in sortArrays(years)" :key="year" :value="year">{{year}}</option>
                 </select>
                 <jet-secondary-button @click="reset">
                     Törlés
                 </jet-secondary-button>
             </div>
 
-            <pagination class="my-5" :links="events.links"/>
+            <pagination class="my-5" v-if="events.links" :links="events.links"/>
 
             <div class="bg-white rounded-md shadow overflow-x-auto">
                 <table class="w-full whitespace-nowrap">
@@ -68,7 +68,7 @@
                             </span>
                         </th>
                     </tr>
-                    <tr v-for="event in events.data" :key="event.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
+                    <tr v-for="event in (events.data ? events.data : events)" :key="event.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
                             <inertia-link class="px-6 py-4 flex items-center focus:text-blue-500" :href="route('events.show', event.slug)">
                                 <span v-if="event.name.length >= 50">{{ event.name.substring(0, 50)+'..' }}</span><span v-else>{{ event.name }}</span>
@@ -81,7 +81,7 @@
                         </td>
                         <td class="border-t">
                             <inertia-link class="px-6 py-4 flex items-center focus:text-blue-500" :href="route('events.show', event.slug)" tabindex="-1">
-                                <img class="mr-2" :src="'https://www.countryflags.io/' + event.location.code + '/flat/24.png'"> {{ event.location.city }}
+                                <img class="mr-2" :src="getFlag(event.location.code)" width="24" height="24"> {{ event.location.city }}
                             </inertia-link>
                         </td>
                         <td class="border-t">
@@ -100,14 +100,14 @@
                             </div>
                         </td>
                     </tr>
-                    <tr v-if="events.data.length === 0">
+                    <tr v-if="events.data && events.data.length === 0">
                         <td class="border-t px-6 py-4" colspan="7">
                             Nincs egyetlen verseny sem
                         </td>
                     </tr>
                 </table>
             </div>
-            <pagination class="my-5" :links="events.links"/>
+            <pagination class="my-5" v-if="events.links" :links="events.links"/>
         </div>
     </app-layout>
 </template>
@@ -151,6 +151,9 @@ export default {
         },
         reset() {
             this.$inertia.get(this.route('events.index'));
+        },
+        sortArrays(arrays) {
+            return _.orderBy(arrays, [arrays.key], 'desc');
         }
     },
     watch: {

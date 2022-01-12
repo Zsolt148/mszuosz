@@ -1,7 +1,7 @@
 <template>
     <admin-layout>
         <template #header>
-            Hírek  - <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('admin:news.create')">Új hír</inertia-link>
+            Hírek  - <inertia-link class="text-blue-400 hover:text-blue-600" :href="route('admin:news.create')">Új hír</inertia-link>
         </template>
 
         <div>
@@ -55,7 +55,7 @@
                     </tr>
                     <tr v-for="n in news.data" :key="n.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
-                            <inertia-link class="px-6 py-2 flex items-center focus:text-indigo-500" :href="route('admin:news.edit', n.id)">
+                            <inertia-link class="px-6 py-2 flex items-center focus:text-blue-500" :href="route('admin:news.edit', n.id)">
                                 <span v-if="n.name.length >= 60">{{ n.name.substring(0, 60)+'..' }}</span><span v-else>{{ n.name }}</span>
                             </inertia-link>
                         </td>

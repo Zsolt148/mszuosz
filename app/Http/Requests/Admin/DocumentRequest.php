@@ -26,7 +26,7 @@ class DocumentRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'date' => ['required', 'date'],
-            'type' => ['required'],
+            'document_type_id' => ['nullable'],
             'is_visible' => ['nullable'],
             'files' => ['required'],
         ];

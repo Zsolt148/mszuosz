@@ -60,9 +60,14 @@ class User extends Authenticatable
         'role_val'
     ];
 
+    const ROLE_USER = 'user';
+    const ROLE_UPLOADER = 'uploader';
+    const ROLE_ADMIN = 'admin';
+
     const ROLES = [
-      'user' => 'Felhasználó',
-      'admin' => 'Admin',
+        self::ROLE_USER      => 'Felhasználó',
+        self::ROLE_UPLOADER  => 'Feltöltő',
+        self::ROLE_ADMIN     => 'Admin',
     ];
 
     public function getCreatedAtAttribute($date)

@@ -39,7 +39,7 @@
                     </tr>
                     <tr v-for="page in pages.data" :key="page.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
-                            <inertia-link class="px-6 py-4 flex items-center focus:text-indigo-500" :href="route('admin:pages.edit', page.id)">
+                            <inertia-link class="px-6 py-4 flex items-center focus:text-blue-500" :href="route('admin:pages.edit', page.id)">
                                 {{ page.name }}
                             </inertia-link>
                         </td>

@@ -29,14 +29,16 @@ class EventController extends Controller
             ->with('location');
 
         if($search = request('search')) {
-            $query->where('name', 'LIKE', '%'.$search.'%')
-                ->orWhereDate('start_at', $search);
+            $query->where(function ($query) use ($search) {
+               $query
+                    ->where('name', 'LIKE', '%'.$search.'%')
+                    ->orWhereDate('start_at', $search);
+            });
         }
 
-        if($year = request('year')) {
-            if($year != 'null') {
-                $query->whereYear('start_at', $year);
-            }
+        $year = request('year');
+        if($year && $year != 'null') {
+            $query->whereYear('start_at', $year);
         }
 
         if(request()->has(['field', 'direction'])) {
@@ -51,13 +53,18 @@ class EventController extends Controller
             $query->orderByDesc('start_at');
         }
 
-        $years = Event::all()->pluck('start_at')->map(function ($date) {
-            return $date->format('Y');
-        })->unique()->toArray();
+        $years = Event::all()
+            ->pluck('start_at')
+            ->mapWithKeys(function ($date) {
+                return [$date->format('Y') => $date->format('Y')];
+            })
+            ->unique()
+            ->sortDesc()
+            ->toArray();
 
         return Inertia::render('Site/Events/Index', [
             'filters' => request()->all(['search', 'field', 'direction', 'year']),
-            'events' => $query->paginate(10)->withQueryString(),
+            'events' => $year ? $query->get() : $query->paginate(10)->withQueryString(),
             'years' => $years,
         ]);
     }

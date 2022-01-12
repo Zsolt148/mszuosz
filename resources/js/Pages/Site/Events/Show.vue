@@ -16,7 +16,7 @@
                 </div>
                 <div class="flex flex-col md:flex-row md:space-x-6 text-gray-600 w-full mb-5">
                     <div class="flex">
-                        <img class="mr-2" :src="'https://www.countryflags.io/' + content.location.code + '/flat/24.png'">
+                        <img class="mr-2" :src="getFlag(content.location.code)" width="24" height="24">
                         <span>{{ content.location.country }}</span>
                     </div>
                     <div class="flex">

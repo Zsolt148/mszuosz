@@ -17,11 +17,12 @@ class DatabaseSeeder extends Seeder
     {
         if (App::environment('local')) {
             // The environment is local
-            User::factory(10)->create();
+            //User::factory(10)->create();
         }
 
         $this->call(UserSeeder::class);
-        $this->call(PageSeeder::class);
-        $this->call(TeamSeeder::class);
+        $this->call(DocumentTypeSeeder::class);
+        //$this->call(PageSeeder::class);
+        //$this->call(TeamSeeder::class);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class TeamRequest extends FormRequest
 {
@@ -27,7 +28,7 @@ class TeamRequest extends FormRequest
             'name' => ['required'],
             'original_name' => ['nullable'],
             'short' => ['nullable'],
-            'sa' => ['required'],
+            'sa' => ['required', 'integer', Rule::unique('teams', 'sa')->ignore($this->team['id'] ?? null)],
             'address' => ['required'],
             'webpage' => ['nullable'],
             'contact_name' => ['nullable'],

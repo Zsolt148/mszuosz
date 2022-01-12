@@ -1,7 +1,8 @@
 <template>
     <admin-layout>
         <template #header>
-            Dokumentumok  - <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('admin:documents.create')">Új dokumentum</inertia-link>
+            Dokumentumok
+            - <inertia-link class="text-blue-400 hover:text-blue-600" :href="route('admin:documents.create')">Új dokumentum</inertia-link>
         </template>
 
         <div>
@@ -55,13 +56,13 @@
                     </tr>
                     <tr v-for="doc in documents.data" :key="doc.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
-                            <inertia-link class="px-6 py-2 flex items-center focus:text-indigo-500" :href="route('admin:documents.edit', doc.id)">
+                            <inertia-link class="px-6 py-2 flex items-center focus:text-blue-500" :href="route('admin:documents.edit', doc.id)">
                                 {{ doc.name }}
                             </inertia-link>
                         </td>
                         <td class="border-t">
                             <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:documents.edit', doc.id)" tabindex="-1">
-                                {{ doc.type_val }}
+                                <span v-if="doc.type">{{ doc.type.name }}</span>
                             </inertia-link>
                         </td>
                         <td class="border-t">

@@ -1,7 +1,7 @@
 <template>
     <admin-layout>
         <template #header>
-            Versenyek  - <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('admin:events.create')">Új verseny</inertia-link>
+            Versenyek  - <inertia-link class="text-blue-400 hover:text-blue-600" :href="route('admin:events.create')">Új verseny</inertia-link>
         </template>
 
         <div>
@@ -9,7 +9,7 @@
                 <input class="relative w-4/5 px-4 py-1 rounded-md border-gray-300 mr-2" autocomplete="off" type="text" name="search" placeholder="Keresés…" v-model="params.search"/>
                 <select name="year" id="year" v-model="params.year" class="block rounded-md border-gray-300 py-1 w-1/5 focus:outline-none mr-2">
                     <option value="null" selected>Év</option>
-                    <option v-for="year in years" :key="year" :value="year">{{year}}</option>
+                    <option v-for="year in sortArrays(years)" :key="year" :value="year">{{year}}</option>
                 </select>
                 <jet-button @click="reset">
                     Visszaállítás
@@ -64,7 +64,7 @@
                     </tr>
                     <tr v-for="event in events.data" :key="event.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
-                            <inertia-link class="px-6 py-2 flex items-center focus:text-indigo-500" :href="route('admin:events.edit', event.id)">
+                            <inertia-link class="px-6 py-2 flex items-center focus:text-blue-500" :href="route('admin:events.edit', event.id)">
                                 <span v-if="event.name.length >= 60">{{ event.name.substring(0, 60)+'..' }}</span><span v-else>{{ event.name }}</span>
                             </inertia-link>
                         </td>
@@ -75,7 +75,7 @@
                         </td>
                         <td class="border-t">
                             <inertia-link class="px-6 py-2 flex items-center" :href="route('admin:events.edit', event.id)" tabindex="-1">
-                                <img class="mr-2" :src="'https://www.countryflags.io/' + event.location.code + '/flat/24.png'"> {{ event.location.city }}
+                                <img class="mr-2" :src="getFlag(event.location.code)" width="24" height="24"> {{ event.location.city }}
                             </inertia-link>
                         </td>
                         <td class="border-t">
@@ -146,6 +146,9 @@ export default {
         },
         reset() {
             this.$inertia.get(this.route('admin:events.index'));
+        },
+        sortArrays(arrays) {
+            return _.orderBy(arrays, [arrays.key], 'desc');
         }
     },
     watch: {

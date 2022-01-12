@@ -14,8 +14,8 @@ createApp({
             resolveComponent: (name) => require(`./Pages/${name}`).default,
         }),
 })
-    .mixin({ methods: { route } })
+    .mixin(require('./Use/baseMixin'))
     .use(InertiaPlugin)
     .mount(el);
 
-InertiaProgress.init({delay: 100, color: '#4B5563' });
+InertiaProgress.init({ delay: 200, color: '#4B5563' });

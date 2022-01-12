@@ -22,6 +22,12 @@ class AppServiceProvider extends ServiceProvider
                 'success' => Session::get('success'),
             ];
         });
+
+        // Lazily
+        Inertia::share('user', fn (Request $request) => $request->user()
+            ? $request->user()->only('id', 'name', 'email', 'role')
+            : null
+        );
     }
 
     /**
