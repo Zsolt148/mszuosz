@@ -9,7 +9,7 @@
                        name="search" placeholder="Keresés…" v-model="params.search"/>
                 <select name="year" id="year" v-model="params.year" class="block rounded-md border-gray-300 py-1 w-1/5 focus:outline-none mr-2">
                     <option value="null" selected>Év</option>
-                    <option v-for="year in years" :key="year" :value="year">{{year}}</option>
+                    <option v-for="year in sortArrays(years)" :key="year" :value="year">{{year}}</option>
                 </select>
                 <jet-secondary-button @click="reset">
                     Törlés
@@ -151,6 +151,9 @@ export default {
         },
         reset() {
             this.$inertia.get(this.route('events.index'));
+        },
+        sortArrays(arrays) {
+            return _.orderBy(arrays, [arrays.key], 'desc');
         }
     },
     watch: {
