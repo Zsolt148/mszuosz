@@ -25,14 +25,14 @@ class TeamRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required'],
-            'original_name' => ['nullable'],
-            'short' => ['nullable'],
+            'name' => ['required', 'string', 'max:191'],
+            'original_name' => ['nullable', 'string', 'max:191'],
+            'short' => ['nullable', 'string', 'max:5'],
             'sa' => ['required', 'integer', Rule::unique('teams', 'sa')->ignore($this->team['id'] ?? null)],
-            'address' => ['required'],
-            'webpage' => ['nullable'],
-            'contact_name' => ['nullable'],
-            'contact_email' => ['nullable', 'email'],
+            'address' => ['required', 'max:191'],
+            'webpage' => ['nullable', 'max:191'],
+            'contact_name' => ['nullable', 'max:191'],
+            'contact_email' => ['nullable', 'email', 'max:191'],
         ];
     }
 }
