@@ -26,16 +26,22 @@
                             </div>
                         </div>
                         <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
-                            <div class="w-full sm:w-1/2">
-                                <jet-label for="short" value="Rövidítés" />
+                            <div class="w-full sm:w-1/3">
+                                <jet-label for="sa" value="SA" />
+                                <jet-input id="sa" type="text" v-model="form.sa" autocomplete="off" />
+                                <jet-input-error :message="form.errors.sa" class="mt-2" />
+                            </div>
+
+                            <div class="w-full sm:w-1/3">
+                                <jet-label for="short" value="Rövidítés (max 20 karakter)" />
                                 <jet-input id="short" type="text" v-model="form.short" autocomplete="off" />
                                 <jet-input-error :message="form.errors.short" class="mt-2" />
                             </div>
 
-                            <div class="w-full sm:w-1/2">
-                                <jet-label for="sa" value="SA" />
-                                <jet-input id="sa" type="text" v-model="form.sa" autocomplete="off" />
-                                <jet-input-error :message="form.errors.sa" class="mt-2" />
+                            <div class="w-full sm:w-1/3">
+                                <jet-label for="meet_abbr" value="Meet abbr (max 5 karakter)" />
+                                <jet-input id="meet_abbr" type="text" v-model="form.meet_abbr" autocomplete="off" />
+                                <jet-input-error :message="form.errors.meet_abbr" class="mt-2" />
                             </div>
                         </div>
 
@@ -152,6 +158,7 @@ export default {
                 name: this.team.name,
                 original_name: this.team.original_name,
                 short: this.team.short,
+                meet_abbr: this.team.meet_abbr,
                 sa: this.team.SA,
                 address: this.team.address,
                 webpage: this.team.webpage,

@@ -27,7 +27,8 @@ class TeamRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:191'],
             'original_name' => ['nullable', 'string', 'max:191'],
-            'short' => ['nullable', 'string', 'max:5'],
+            'short' => ['nullable', 'string', 'max:20'],
+            'meet_abbr' => ['nullable', 'string', 'max:5'],
             'sa' => ['required', 'integer', Rule::unique('teams', 'sa')->ignore($this->team['id'] ?? null)],
             'address' => ['required', 'max:191'],
             'webpage' => ['nullable', 'max:191'],
