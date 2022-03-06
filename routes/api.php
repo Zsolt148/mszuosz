@@ -19,6 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('teams', function () {
-   return Team::all(['name', 'SA', 'short', 'meet_abbr', 'address', 'webpage', 'contact_name', 'contact_email'])->toArray(); //TODO teams api
-});
+Route::get('teams', \App\Http\Controllers\Api\TeamController::class)->name('teams');
