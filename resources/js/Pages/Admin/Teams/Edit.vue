@@ -34,13 +34,13 @@
 
                             <div class="w-full sm:w-1/3">
                                 <jet-label for="short" value="Rövidítés (max 20 karakter)" />
-                                <jet-input id="short" type="text" v-model="form.short" autocomplete="off" />
+                                <jet-input id="short" type="text" v-model="form.short" autocomplete="off" :maxlength="20" />
                                 <jet-input-error :message="form.errors.short" class="mt-2" />
                             </div>
 
                             <div class="w-full sm:w-1/3">
                                 <jet-label for="meet_abbr" value="Meet abbr (max 5 karakter)" />
-                                <jet-input id="meet_abbr" type="text" v-model="form.meet_abbr" autocomplete="off" />
+                                <jet-input id="meet_abbr" type="text" v-model="form.meet_abbr" autocomplete="off" :maxlength="5" />
                                 <jet-input-error :message="form.errors.meet_abbr" class="mt-2" />
                             </div>
                         </div>
