@@ -32,11 +32,15 @@ class EventController extends Controller
             $query->where(function ($query) use ($search) {
                $query
                     ->where('name', 'LIKE', '%'.$search.'%')
-                    ->orWhereDate('start_at', $search);
+                    ->orWhereDate('start_at', $search)
+                    ->orWhereHas('location', function ($q) use ($search) {
+                        $q->where('name', 'LIKE', '%'.$search.'%');
+                    });
             });
         }
 
         $year = request('year');
+
         if($year && $year != 'null') {
             $query->whereYear('start_at', $year);
         }
@@ -45,12 +49,14 @@ class EventController extends Controller
             if(request('field') == 'period') {
                 $query->orderBy('start_at', request('direction'));
             }else if(request('field') == 'location') { //TODO with id
-
+                $query->whereHas('location', function ($query) {
+                    $query->orderBy('name', request('direction'));
+                });
             }else {
                 $query->orderBy(request('field'), request('direction'));
             }
         }else {
-            $query->orderByDesc('start_at');
+            $query->orderBy('start_at');
         }
 
         $years = Event::all()
@@ -64,7 +70,7 @@ class EventController extends Controller
 
         return Inertia::render('Site/Events/Index', [
             'filters' => request()->all(['search', 'field', 'direction', 'year']),
-            'events' => $year ? $query->get() : $query->paginate(10)->withQueryString(),
+            'events' => $query->get(),
             'years' => $years,
         ]);
     }

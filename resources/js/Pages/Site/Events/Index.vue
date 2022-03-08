@@ -8,15 +8,13 @@
                 <input class="relative w-4/5 px-4 py-1 border-gray-300 rounded-md mr-2" autocomplete="off" type="text"
                        name="search" placeholder="Keresés…" v-model="params.search"/>
                 <select name="year" id="year" v-model="params.year" class="block rounded-md border-gray-300 py-1 w-1/5 focus:outline-none mr-2">
-                    <option value="null" selected>Év</option>
+                    <option value="" selected>Mind</option>
                     <option v-for="year in sortArrays(years)" :key="year" :value="year">{{year}}</option>
                 </select>
                 <jet-secondary-button @click="reset">
                     Törlés
                 </jet-secondary-button>
             </div>
-
-            <pagination class="my-5" v-if="events.links" :links="events.links"/>
 
             <div class="bg-white rounded-md shadow overflow-x-auto">
                 <table class="w-full whitespace-nowrap">
@@ -68,7 +66,7 @@
                             </span>
                         </th>
                     </tr>
-                    <tr v-for="event in (events.data ? events.data : events)" :key="event.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
+                    <tr v-for="event in events" :key="event.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
                             <inertia-link class="px-6 py-4 flex items-center focus:text-blue-500" :href="route('events.show', event.slug)">
                                 <span v-if="event.name.length >= 50">{{ event.name.substring(0, 50)+'..' }}</span><span v-else>{{ event.name }}</span>
@@ -102,12 +100,11 @@
                     </tr>
                     <tr v-if="events.data && events.data.length === 0">
                         <td class="border-t px-6 py-4" colspan="7">
-                            Nincs egyetlen verseny sem
+                            Nem található verseny
                         </td>
                     </tr>
                 </table>
             </div>
-            <pagination class="my-5" v-if="events.links" :links="events.links"/>
         </div>
     </app-layout>
 </template>

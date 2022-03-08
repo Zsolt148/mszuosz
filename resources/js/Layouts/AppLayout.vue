@@ -21,7 +21,7 @@
                                 <jet-nav-link :href="route('news.index')" :active="route().current('news*')">
                                     Hírek
                                 </jet-nav-link>
-                                <jet-nav-link :href="route('events.index')" :active="route().current('events*')">
+                                <jet-nav-link :href="route('events.index') + '?year=' + currentYear" :active="route().current('events*')">
                                     Versenyek
                                 </jet-nav-link>
                                 <jet-nav-link :href="route('documents')" :active="route().current('documents')">
@@ -94,7 +94,7 @@
                         <jet-responsive-nav-link :href="route('news.index')" :active="route().current('news*')">
                             Hírek
                         </jet-responsive-nav-link>
-                        <jet-responsive-nav-link :href="route('events.index')" :active="route().current('events*')">
+                        <jet-responsive-nav-link :href="route('events.index') + '?year=' + currentYear" :active="route().current('events*')">
                             Versenyek
                         </jet-responsive-nav-link>
                         <jet-responsive-nav-link :href="route('documents')" :active="route().current('documents')">
@@ -153,7 +153,7 @@
                         </div>
                     </nav>
                     <p class="mt-8 text-base leading-6 text-center text-gray-400">
-                        © 2021 MSZUOSZ. All rights reserved.
+                        © {{currentYear}} MSZUOSZ. All rights reserved.
                     </p>
                 </div>
             </section>
@@ -198,6 +198,7 @@
 
         data() {
             return {
+                currentYear: new Date().getFullYear(),
                 showingNavigationDropdown: false,
                 cookieAccepted: false,
             }
