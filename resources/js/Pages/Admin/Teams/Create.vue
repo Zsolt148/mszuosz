@@ -14,13 +14,13 @@
                     <div class="p-8">
                         <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                             <div class="w-full sm:w-1/2">
-                                <jet-label for="name" value="Engedélyrendszer név" />
+                                <jet-label for="name" value="Név - meet.kvsc.info-hoz" />
                                 <jet-input id="name" type="text" v-model="form.name" autocomplete="off" />
                                 <jet-input-error :message="form.errors.name" class="mt-2" />
                             </div>
 
                             <div class="w-full sm:w-1/2">
-                                <jet-label for="original_name" value="Eredeti név" />
+                                <jet-label for="original_name" value="Eredeti név - engedélyrendszer név az importhoz" />
                                 <jet-input id="original_name" type="text" v-model="form.original_name" autocomplete="off" />
                                 <jet-input-error :message="form.errors.original_name" class="mt-2" />
                             </div>
