@@ -9,6 +9,16 @@
         <div>
             <div class="mb-6 flex w-full justify-between items-center">
                 <input class="relative w-full px-4 py-1 rounded-md border-gray-300 mr-2" autocomplete="off" type="text" name="search" placeholder="Keresés…" v-model="params.search"/>
+                <div class="mx-2">
+                    <jet-label for="trashed">
+                        <div class="flex items-center text-xl">
+                            <jet-checkbox name="trashed" id="trashed" v-model:checked="params.trashed" />
+                            <div class="ml-2">
+                                Törölt
+                            </div>
+                        </div>
+                    </jet-label>
+                </div>
                 <jet-button @click="reset">
                     Visszaállítás
                 </jet-button>
@@ -59,6 +69,7 @@
                         <td class="border-t">
                             <inertia-link class="px-6 py-2 flex items-center focus:text-blue-500" :href="route('admin:teams.edit', team.id)">
                                 {{ team.name }}
+                                <span v-if="team.trashed">&nbsp;(törölve)</span>
                             </inertia-link>
                         </td>
                         <td class="border-t">
@@ -104,9 +115,12 @@ import JetButton from "@/Jetstream/Button";
 import Icon from '@/Shared/Icon'
 import {throttle} from "lodash";
 import Pagination from '@/Shared/Pagination'
+import JetLabel from "@/Jetstream/Label.vue";
+import JetCheckbox from "@/Jetstream/Checkbox.vue";
 
 export default {
     components: {
+        JetCheckbox, JetLabel,
         Icon,
         JetButton,
         AdminLayout,
@@ -122,6 +136,7 @@ export default {
                 search: this.filters.search,
                 field: this.filters.field,
                 direction: this.filters.direction,
+                trashed: false,
             },
         };
     },
@@ -132,6 +147,7 @@ export default {
         },
         reset() {
             this.params.search = '';
+            this.params.trashed = false;
         }
     },
     watch: {

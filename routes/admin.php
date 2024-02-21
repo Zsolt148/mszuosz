@@ -50,8 +50,12 @@ Route::middleware('role:admin')
         Route::post('teams/upload', [TeamController::class, 'upload'])
             ->name('teams.upload');
 
+        Route::get('teams/{team}/edit', [TeamController::class, 'edit'])->withTrashed()->name('teams.edit');
+        Route::put('teams/{team}/update', [TeamController::class, 'update'])->withTrashed()->name('teams.update');
+        Route::post('teams/{team}/restore', [TeamController::class, 'restore'])->withTrashed()->name('teams.restore');
+        Route::delete('teams/{team}/force-delete', [TeamController::class, 'forceDelete'])->withTrashed()->name('teams.force-delete');
         Route::resource('teams', TeamController::class)
-            ->only('index', 'create', 'store', 'edit', 'update', 'destroy');
+            ->only('index', 'create', 'store', 'destroy');
 
         //pages
         Route::resource('pages', PageController::class)

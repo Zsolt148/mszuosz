@@ -6,7 +6,7 @@
         <div>
             <h1 class="mb-8 font-bold text-3xl">
                 <inertia-link class="text-blue-400 hover:text-blue-600" :href="route('admin:teams.index')">Egyesületek</inertia-link>
-                <span class="text-blue-400 font-medium">/</span>
+                <span class="text-blue-400 font-medium"> /</span>
                 {{ form.name }}
             </h1>
             <div class="bg-white rounded-md shadow overflow-hidden">
@@ -97,9 +97,17 @@
                         <jet-button>
                             Mentés
                         </jet-button>
-                        <jet-danger-button @click="confirmModalShow = true">
+                        <jet-danger-button v-if="!team.trashed" @click="confirmModalShow = true">
                             Törlés
                         </jet-danger-button>
+                        <div v-if="team.trashed" class="space-x-2">
+                            <jet-secondary-button @click="confirmRestoreShow = true">
+                                Visszaállítás
+                            </jet-secondary-button>
+                            <jet-danger-button @click="confirmForceDeleteShow = true">
+                                Végleges törlés
+                            </jet-danger-button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -120,6 +128,44 @@
 
                 <jet-danger-button class="ml-2" @click.native="deleteTeam">
                     Törlés
+                </jet-danger-button>
+            </template>
+        </jet-confirmation-modal>
+        <jet-confirmation-modal :show="confirmRestoreShow" @close="confirmRestoreShow = false">
+            <template #title>
+                Egyesület visszaállíátsa
+            </template>
+
+            <template #content>
+                Biztosan vissza szeretnéd állítani az Egyesületet ?
+            </template>
+
+            <template #footer>
+                <jet-secondary-button @click.native="confirmRestoreShow = false">
+                    Mégse
+                </jet-secondary-button>
+
+                <jet-danger-button class="ml-2" @click.native="restoreTeam">
+                    Visszaállítás
+                </jet-danger-button>
+            </template>
+        </jet-confirmation-modal>
+        <jet-confirmation-modal :show="confirmForceDeleteShow" @close="confirmForceDeleteShow = false">
+            <template #title>
+                Egyesület végleges törlése
+            </template>
+
+            <template #content>
+                Biztosan végleg törölni szeretnéd az Egyesületet ? A művelet nem visszavonható!
+            </template>
+
+            <template #footer>
+                <jet-secondary-button @click.native="confirmForceDeleteShow = false">
+                    Mégse
+                </jet-secondary-button>
+
+                <jet-danger-button class="ml-2" @click.native="forceDeleteTeam">
+                    Végleges törlés
                 </jet-danger-button>
             </template>
         </jet-confirmation-modal>
@@ -153,6 +199,8 @@ export default {
     data() {
         return {
             confirmModalShow: false,
+            confirmRestoreShow: false,
+            confirmForceDeleteShow: false,
             form: this.$inertia.form({
                 _method: 'PUT',
                 name: this.team.name,
@@ -168,6 +216,7 @@ export default {
                 contact_name: this.team.contact_name,
                 contact_email: this.team.contact_email,
             }),
+            restoreOrDeleteForm: this.$inertia.form({})
         };
     },
     methods: {
@@ -176,6 +225,12 @@ export default {
         },
         deleteTeam() {
             this.$inertia.delete(this.route('admin:teams.destroy', this.team.id))
+        },
+        restoreTeam() {
+            this.restoreOrDeleteForm.post(this.route('admin:teams.restore', this.team.id))
+        },
+        forceDeleteTeam() {
+            this.restoreOrDeleteForm.delete(this.route('admin:teams.force-delete', this.team.id))
         },
     },
     watch: {

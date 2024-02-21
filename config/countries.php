@@ -29,7 +29,8 @@ return [
         "SI" => "Slovenia",
         "ES" => "Spain",
         "SE" => "Sweden",
-        "JP" => "Japán"
+        "JP" => "Japán",
+        "QA" => "Katar"
     ],
 
 
