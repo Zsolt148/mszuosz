@@ -27,7 +27,7 @@ class LocationRequest extends FormRequest
             'name' => ['required', 'string'],
             'country' => ['required', 'string'],
             'city' => ['required', 'string'],
-            'code' => ['required', 'string'],
+            'code' => ['required', 'string', 'max:2'],
             'address' => ['nullable', 'string'],
         ];
     }

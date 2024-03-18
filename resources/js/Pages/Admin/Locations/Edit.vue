@@ -28,9 +28,7 @@
 
                         <div class="w-full sm:w-1/3">
                             <jet-label for="code" value="Ország kód"/>
-                            <select name="code" id="code" v-model="form.code">
-                                <option v-for="(name, key) in countries" :key="key" :value="key">{{key}} - {{name}}</option>
-                            </select>
+                            <jet-input id="code" type="text" v-model="form.code" autocomplete="off" />
                             <jet-input-error :message="form.errors.code" class="mt-2" />
                         </div>
                     </div>
