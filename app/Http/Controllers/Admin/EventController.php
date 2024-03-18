@@ -126,7 +126,7 @@ class EventController extends Controller
     {
         return Inertia::render('Admin/Events/Edit', [
             'constants' => ['cats' => Event::CATS, 'pools' => Event::POOLS, 'timings' => Event::TIMINGS],
-            'locations' => Location::all(),
+            'locations' => Location::query()->orderBy('Country')->orderBy('city')->orderBy('name')->get(),
             'event' => $event,
         ]);
     }
